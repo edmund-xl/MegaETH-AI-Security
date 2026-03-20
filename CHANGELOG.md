@@ -2,6 +2,18 @@
 
 ## 中文版
 
+### 0.3.24 - 2026-03-20
+
+- 将新版 UI 和 APPA 工作台正式收成当前唯一主线，旧版 UI 已下线
+- APPA 不再只是展示壳，已经补成独立的控制面：
+  - 独立 `appa_state.json`
+  - 独立 `/appa/*` 接口
+  - 独立 engagement / run / finding / report 数据模型
+- APPA `Dashboard / Analytics / Reports` 现在都是真实视图，不再只是高亮假切换
+- APPA 左侧 `Overview / Attack Paths / Pentest AI / Vulnerabilities / Targets / Evidence` 现在会驱动当前工作台聚焦，不再只是按钮高亮
+- `Launch New Scan` 会真实创建 run，`Audit Report` 会真实下载最新 APPA 审计报告
+- `8011` 现在是唯一活动运行端口，后续迭代全部基于新版继续推进
+
 ### 0.3.23 - 2026-03-19
 
 - 上传文件后，`统一输入` 不再留空，而是显示待分析清单，避免误以为文件没有进入当前会话
@@ -200,6 +212,14 @@
 - replayed the real JumpServer sample set and verified the aggregate layer now restores the expected counts for login, command, transfer, and operation data
 - tightened intake interaction so uploaded files stay staged until the manual analyze action runs, and prevented stale raw JSON from leaking into a new file-based analysis
 - added a document-safe fallback so product docs and PRD-style markdown files no longer get misclassified as JumpServer or endpoint evidence just because they contain overlapping keywords
+
+### 0.3.24 - 2026-03-20
+
+- promoted the redesigned UI and APPA workbench to the only active mainline experience
+- rebuilt the APPA pentest page into a dedicated mission dashboard instead of reusing the log-analysis shell
+- added an independent APPA control-plane slice with engagements, runs, findings, reports, and latest report download
+- wired the APPA workbench buttons to real backend actions, including launching a Green run and downloading the latest audit report
+- kept security log analysis, JumpServer handling, and the Gemini-backed agent path separate from APPA product logic
 
 ### 0.3.3 - 2026-03-15
 

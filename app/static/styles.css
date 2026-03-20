@@ -17,6 +17,8 @@
   --tertiary: #a68cff;
   --error: #ff716c;
   --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  --shell-space: clamp(18px, 1.2vw, 28px);
+  --panel-gap: clamp(14px, 1vw, 18px);
 }
 
 * { box-sizing: border-box; }
@@ -62,8 +64,8 @@ textarea {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  padding: 24px 18px;
+  gap: clamp(14px, 1vw, 18px);
+  padding: clamp(18px, 1.2vw, 24px) clamp(14px, 1vw, 18px);
   background: rgba(12, 14, 18, 0.78);
   backdrop-filter: blur(18px);
   border-right: 1px solid rgba(70, 72, 77, 0.2);
@@ -81,8 +83,8 @@ textarea {
 }
 
 .brand-icon {
-  width: 46px;
-  height: 46px;
+  width: clamp(40px, 2.6vw, 46px);
+  height: clamp(40px, 2.6vw, 46px);
   border-radius: 14px;
   display: inline-flex;
   align-items: center;
@@ -130,7 +132,7 @@ textarea {
 .menu-group-title {
   padding: 0 4px;
   color: rgba(227, 231, 239, 0.44);
-  font-size: 0.72rem;
+  font-size: clamp(0.64rem, 0.58rem + 0.18vw, 0.72rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-weight: 700;
@@ -157,15 +159,15 @@ button,
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 44px;
-  padding: 0 14px 0 40px;
+  min-height: clamp(40px, 2.8vw, 44px);
+  padding: 0 14px 0 38px;
   border-radius: 12px;
   background: transparent;
   color: rgba(246, 246, 252, 0.54);
   text-align: left;
   font-family: "Space Grotesk", sans-serif;
   font-weight: 600;
-  font-size: 0.92rem;
+  font-size: clamp(0.84rem, 0.75rem + 0.22vw, 0.92rem);
 }
 
 .menu-item::before {
@@ -255,7 +257,7 @@ button,
 }
 
 .main-shell {
-  padding: 22px 28px 28px;
+  padding: clamp(16px, 1.2vw, 22px) var(--shell-space) var(--shell-space);
 }
 
 .topbar {
@@ -992,22 +994,735 @@ pre {
   font-size: 1rem;
 }
 
-.pentest-layout {
-  grid-template-columns: minmax(270px, 0.78fr) minmax(0, 1.5fr) minmax(280px, 0.82fr);
+body.view-pentest-active .hero {
+  display: none;
+}
+
+body.view-pentest-active .main-shell {
+  padding-top: 10px;
+}
+
+.appa-shell {
+  display: grid;
+  gap: 18px;
+  padding: 8px 4px 16px;
+}
+
+.appa-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(14px, 1vw, 20px);
+  padding: clamp(12px, 0.95vw, 16px) clamp(14px, 1.1vw, 20px);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(13, 16, 23, 0.96), rgba(8, 10, 15, 0.98)),
+    radial-gradient(circle at top left, rgba(129, 236, 255, 0.08), transparent 32%);
+  box-shadow:
+    inset 0 0 0 1px rgba(117, 125, 148, 0.18),
+    0 20px 40px rgba(0, 0, 0, 0.24);
+}
+
+.appa-topbar-left,
+.appa-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 0.9vw, 18px);
+}
+
+.appa-wordmark {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.35rem, 1.05rem + 0.95vw, 1.9rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: rgba(129, 236, 255, 0.96);
+}
+
+.appa-product-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.appa-tab {
+  border: 0;
+  background: transparent;
+  color: rgba(197, 205, 226, 0.64);
+  font-size: clamp(0.88rem, 0.78rem + 0.25vw, 1rem);
+  font-weight: 500;
+  padding: 8px 4px 10px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+}
+
+.appa-tab.active {
+  color: rgba(129, 236, 255, 0.98);
+  border-bottom-color: rgba(129, 236, 255, 0.98);
+}
+
+.appa-icon-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(26, 31, 40, 0.92);
+  color: rgba(231, 237, 250, 0.8);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+}
+
+.appa-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #041017;
+  background: linear-gradient(135deg, rgba(129, 236, 255, 0.96), rgba(92, 253, 128, 0.94));
+}
+
+.appa-body {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: var(--panel-gap);
+}
+
+.appa-rail {
+  display: grid;
+  gap: var(--panel-gap);
+  align-content: start;
+  padding: clamp(14px, 1vw, 18px);
+  border-radius: 26px;
+  background: linear-gradient(180deg, rgba(12, 15, 23, 0.96), rgba(8, 10, 14, 0.98));
+  box-shadow: inset 0 0 0 1px rgba(115, 126, 156, 0.14);
+}
+
+.appa-operator-card {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: clamp(12px, 0.9vw, 16px);
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(38, 43, 56, 0.82), rgba(23, 27, 36, 0.84));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.appa-operator-icon {
+  width: clamp(44px, 3vw, 52px);
+  height: clamp(44px, 3vw, 52px);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.1rem, 0.95rem + 0.45vw, 1.4rem);
+  background: linear-gradient(180deg, rgba(129, 236, 255, 0.22), rgba(75, 184, 215, 0.16));
+  color: rgba(129, 236, 255, 0.98);
+}
+
+.appa-operator-card strong {
+  display: block;
+  font-size: clamp(0.94rem, 0.84rem + 0.28vw, 1.08rem);
+  color: rgba(244, 247, 255, 0.96);
+}
+
+.appa-operator-card p {
+  margin: 4px 0 0;
+  color: rgba(166, 176, 198, 0.72);
+  font-size: 0.84rem;
+  letter-spacing: 0.08em;
+}
+
+.appa-side-nav {
+  display: grid;
+  gap: 8px;
+}
+
+.appa-side-link {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: clamp(13px, 0.9vw, 16px) clamp(14px, 1vw, 18px);
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: rgba(174, 187, 214, 0.72);
+  font-size: clamp(0.88rem, 0.78rem + 0.26vw, 1rem);
+  text-align: left;
+  cursor: pointer;
+}
+
+.appa-side-link.active {
+  color: rgba(129, 236, 255, 0.98);
+  background:
+    linear-gradient(90deg, rgba(129, 236, 255, 0.2), rgba(129, 236, 255, 0.06)),
+    linear-gradient(180deg, rgba(30, 34, 44, 0.92), rgba(18, 21, 28, 0.95));
+  box-shadow:
+    inset 3px 0 0 rgba(129, 236, 255, 0.94),
+    0 0 34px rgba(129, 236, 255, 0.12);
+}
+
+.appa-launch-button,
+.appa-logout-button {
+  width: 100%;
+  min-height: clamp(48px, 3.2vw, 56px);
+  border-radius: 18px;
+  border: 0;
+  font-size: clamp(0.9rem, 0.8rem + 0.22vw, 1rem);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.appa-launch-button {
+  margin-top: 6px;
+  color: #031017;
+  background: linear-gradient(90deg, rgba(129, 236, 255, 0.96), rgba(0, 213, 255, 0.92));
+  box-shadow: 0 12px 30px rgba(0, 212, 236, 0.24);
+}
+
+.appa-logout-button {
+  background: transparent;
+  color: rgba(168, 179, 204, 0.72);
+  border: 1px solid rgba(117, 126, 148, 0.18);
+}
+
+.appa-workbench {
+  display: grid;
+  gap: var(--panel-gap);
+  padding: clamp(14px, 1vw, 18px) clamp(16px, 1.2vw, 22px) clamp(16px, 1.2vw, 22px);
+  border-radius: 30px;
+  background:
+    linear-gradient(180deg, rgba(12, 14, 19, 0.98), rgba(9, 10, 14, 0.98)),
+    radial-gradient(circle at top right, rgba(102, 58, 255, 0.08), transparent 34%);
+  box-shadow:
+    inset 0 0 0 1px rgba(117, 126, 148, 0.16),
+    0 24px 48px rgba(0, 0, 0, 0.22);
+}
+
+.appa-nav-context {
+  display: grid;
+  gap: 8px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(16, 18, 26, 0.9), rgba(10, 12, 18, 0.96));
+  box-shadow: inset 0 0 0 1px rgba(129, 236, 255, 0.08);
+}
+
+.appa-nav-context strong {
+  color: rgba(242, 246, 255, 0.96);
+  font-size: clamp(0.88rem, 0.8rem + 0.2vw, 1rem);
+}
+
+.appa-nav-context p {
+  margin: 0;
+  color: rgba(163, 175, 202, 0.82);
+  font-size: clamp(0.78rem, 0.7rem + 0.22vw, 0.9rem);
+}
+
+.appa-panel-view {
+  display: none;
+}
+
+.appa-panel-view.active {
+  display: block;
+}
+
+.appa-mission-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: clamp(14px, 1vw, 20px);
+}
+
+.appa-run-status {
+  margin-bottom: 8px;
+  color: rgba(129, 236, 255, 0.9);
+  font-size: clamp(0.78rem, 0.66rem + 0.28vw, 0.94rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.appa-mission-header h3 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2rem, 1.3rem + 2.2vw, 3.15rem);
+  line-height: 1.02;
+  color: rgba(248, 249, 255, 0.98);
+}
+
+.appa-mission-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 0.9vw, 18px);
+}
+
+.appa-mode-card {
+  display: grid;
+  gap: 10px;
+  min-width: min(420px, 42vw);
+  padding: clamp(12px, 0.9vw, 16px) clamp(14px, 1vw, 18px);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(22, 25, 33, 0.96), rgba(14, 17, 24, 0.98));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.appa-mode-card span {
+  color: rgba(144, 156, 182, 0.78);
+  font-size: clamp(0.76rem, 0.66rem + 0.24vw, 0.9rem);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.appa-mode-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.46);
+}
+
+.appa-mode-chip {
+  padding: clamp(8px, 0.7vw, 10px) clamp(14px, 1vw, 18px);
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: rgba(174, 187, 214, 0.74);
+  font-size: clamp(0.8rem, 0.7rem + 0.24vw, 0.94rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.appa-mode-chip.is-active {
+  color: #042710;
+  background: linear-gradient(180deg, rgba(92, 253, 128, 0.98), rgba(69, 221, 117, 0.94));
+  box-shadow: 0 8px 20px rgba(92, 253, 128, 0.18);
+}
+
+.appa-mode-chip.is-gated {
+  color: rgba(255, 214, 120, 0.88);
+}
+
+.appa-mode-chip.is-manual {
+  color: rgba(255, 112, 112, 0.86);
+}
+
+.appa-audit-button {
+  min-width: 190px;
+  min-height: clamp(56px, 4vw, 72px);
+  border-radius: 18px;
+  border: 1px solid rgba(129, 236, 255, 0.2);
+  background: linear-gradient(180deg, rgba(25, 34, 43, 0.96), rgba(15, 19, 26, 0.98));
+  color: rgba(129, 236, 255, 0.94);
+  font-size: clamp(0.94rem, 0.82rem + 0.32vw, 1.1rem);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.appa-dashboard-grid {
+  display: grid;
+  grid-template-columns: 340px minmax(0, 1fr) 280px;
+  gap: var(--panel-gap);
   align-items: start;
 }
 
-.pentest-panel {
-  overflow: visible;
+.appa-card.is-dimmed {
+  opacity: 0.48;
+  filter: saturate(0.72);
 }
 
-.pentest-stat-card,
-.pentest-progress-card,
-.pentest-orchestration-card,
-.pentest-mission-card,
-.pentest-surface-card,
-.pentest-ai-card {
-  background: linear-gradient(180deg, rgba(16, 19, 25, 0.82), rgba(10, 12, 17, 0.88));
+.appa-card.is-spotlight {
+  box-shadow:
+    inset 0 0 0 1px rgba(129, 236, 255, 0.12),
+    0 18px 34px rgba(0, 0, 0, 0.24),
+    0 0 0 1px rgba(129, 236, 255, 0.08);
+}
+
+.appa-left-stack,
+.appa-center-stack,
+.appa-right-stack {
+  display: grid;
+  gap: var(--panel-gap);
+}
+
+.appa-card {
+  display: grid;
+  gap: clamp(12px, 0.9vw, 16px);
+  padding: clamp(16px, 1.05vw, 22px);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(19, 22, 30, 0.96), rgba(11, 13, 19, 0.98));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.appa-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appa-card-head h4 {
+  margin: 0;
+  font-size: clamp(0.9rem, 0.8rem + 0.25vw, 1.02rem);
+  color: rgba(245, 247, 255, 0.96);
+}
+
+.appa-card-head-wide {
+  align-items: flex-start;
+}
+
+.appa-card-head-wide .card-copy {
+  margin: 8px 0 0;
+  color: rgba(166, 176, 198, 0.74);
+}
+
+.appa-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 clamp(10px, 0.8vw, 14px);
+  min-height: clamp(28px, 2vw, 34px);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(214, 221, 238, 0.82);
+  font-size: clamp(0.68rem, 0.6rem + 0.2vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.appa-scope-list {
+  display: grid;
+  gap: 14px;
+}
+
+.appa-scope-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: clamp(14px, 1vw, 18px);
+  border-radius: 18px;
+  background: rgba(37, 42, 54, 0.72);
+}
+
+.appa-scope-row span {
+  color: rgba(232, 238, 252, 0.88);
+  font-size: clamp(0.9rem, 0.8rem + 0.25vw, 1.02rem);
+}
+
+.appa-scope-row strong {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.35rem, 1.05rem + 0.95vw, 2rem);
+  color: rgba(129, 236, 255, 0.96);
+}
+
+.appa-discovery-status {
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.appa-subhead {
+  margin-bottom: 12px;
+  color: rgba(143, 155, 181, 0.72);
+  font-size: clamp(0.72rem, 0.64rem + 0.2vw, 0.84rem);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.appa-discovery-chip {
+  display: grid;
+  gap: 10px;
+}
+
+.appa-discovery-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: clamp(0.74rem, 0.66rem + 0.22vw, 0.86rem);
+  color: rgba(173, 184, 207, 0.78);
+}
+
+.appa-orchestration-row {
+  display: grid;
+  gap: 10px;
+}
+
+.appa-orchestration-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appa-orchestration-head span:first-child {
+  color: rgba(233, 239, 252, 0.92);
+}
+
+.appa-orchestration-head span:last-child {
+  color: rgba(129, 236, 255, 0.92);
+}
+
+.appa-paths-card {
+  min-height: clamp(420px, 52vw, 540px);
+}
+
+.appa-path-card {
+  display: grid;
+  gap: 12px;
+  padding: clamp(16px, 1vw, 20px) clamp(16px, 1vw, 20px) clamp(14px, 0.9vw, 18px);
+  border-radius: 22px;
+  background: rgba(3, 5, 10, 0.96);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.appa-path-card.is-cyan {
+  box-shadow: inset 2px 0 0 rgba(129, 236, 255, 0.94), inset 0 0 0 1px rgba(129, 236, 255, 0.14);
+}
+
+.appa-path-card.is-green {
+  box-shadow: inset 2px 0 0 rgba(92, 253, 128, 0.92), inset 0 0 0 1px rgba(92, 253, 128, 0.14);
+}
+
+.appa-path-card.is-violet {
+  box-shadow: inset 2px 0 0 rgba(166, 140, 255, 0.92), inset 0 0 0 1px rgba(166, 140, 255, 0.14);
+}
+
+.appa-path-card.is-amber {
+  box-shadow: inset 2px 0 0 rgba(255, 193, 92, 0.92), inset 0 0 0 1px rgba(255, 193, 92, 0.14);
+}
+
+.appa-path-top,
+.appa-path-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.appa-path-code {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(240, 244, 255, 0.96);
+  font-weight: 700;
+}
+
+.appa-path-code .chip {
+  min-height: 26px;
+}
+
+.appa-path-card h5 {
+  margin: 0;
+  font-size: clamp(0.96rem, 0.86rem + 0.32vw, 1.12rem);
+  color: rgba(247, 248, 255, 0.98);
+}
+
+.appa-path-card .card-copy {
+  color: rgba(169, 181, 207, 0.8);
+}
+
+.appa-path-status {
+  color: rgba(129, 236, 255, 0.96);
+  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.8rem);
+  font-weight: 700;
+}
+
+.appa-path-action {
+  color: rgba(129, 236, 255, 0.96);
+  font-weight: 700;
+}
+
+.appa-ai-card .card-copy {
+  color: rgba(180, 189, 209, 0.82);
+}
+
+.appa-findings-card {
+  min-height: clamp(340px, 40vw, 420px);
+}
+
+.appa-analytics-grid,
+.appa-reports-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: var(--panel-gap);
+  align-items: start;
+}
+
+.appa-analytics-grid .appa-card:first-child,
+.appa-report-hero-card {
+  grid-column: 1 / -1;
+}
+
+.appa-analytics-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.appa-analytics-tile {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(33, 38, 50, 0.72);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.appa-analytics-tile span {
+  color: rgba(162, 173, 198, 0.76);
+  font-size: clamp(0.72rem, 0.64rem + 0.18vw, 0.82rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.appa-analytics-tile strong {
+  color: rgba(247, 249, 255, 0.98);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.28rem, 1rem + 0.84vw, 1.9rem);
+}
+
+.appa-engagement-card,
+.appa-run-card,
+.appa-target-card,
+.appa-report-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: rgba(20, 23, 32, 0.9);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.appa-engagement-head,
+.appa-run-head,
+.appa-report-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appa-engagement-card strong,
+.appa-run-card strong,
+.appa-report-card strong,
+.appa-target-card strong {
+  color: rgba(244, 247, 255, 0.98);
+  font-size: clamp(0.9rem, 0.82rem + 0.24vw, 1.02rem);
+}
+
+.appa-engagement-meta,
+.appa-target-meta,
+.appa-report-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.appa-target-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.appa-report-summary,
+.appa-empty-copy {
+  color: rgba(173, 183, 206, 0.82);
+}
+
+.appa-findings-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.appa-findings-table {
+  display: grid;
+  gap: 12px;
+}
+
+.appa-findings-header,
+.appa-finding-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 180px;
+  gap: 18px;
+  align-items: center;
+}
+
+.appa-findings-header {
+  color: rgba(132, 145, 171, 0.72);
+  font-size: clamp(0.66rem, 0.58rem + 0.18vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0 6px;
+}
+
+.appa-finding-row {
+  padding: 16px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.appa-finding-key {
+  display: grid;
+  gap: 4px;
+}
+
+.appa-finding-key strong {
+  font-size: clamp(0.9rem, 0.8rem + 0.25vw, 1.02rem);
+  color: rgba(245, 248, 255, 0.98);
+}
+
+.appa-finding-key span {
+  color: rgba(141, 153, 178, 0.74);
+  font-size: clamp(0.74rem, 0.66rem + 0.22vw, 0.86rem);
+}
+
+.appa-risk-bars {
+  display: flex;
+  gap: 8px;
+}
+
+.appa-risk-bars i {
+  width: 40px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(58, 63, 78, 0.72);
+  display: block;
+}
+
+.appa-risk-bars i.is-on.is-cyan {
+  background: linear-gradient(90deg, rgba(129, 236, 255, 0.98), rgba(0, 212, 236, 0.88));
+}
+
+.appa-risk-bars i.is-on.is-green {
+  background: linear-gradient(90deg, rgba(92, 253, 128, 0.98), rgba(69, 221, 117, 0.88));
+}
+
+.appa-risk-bars i.is-on.is-violet {
+  background: linear-gradient(90deg, rgba(166, 140, 255, 0.98), rgba(126, 101, 244, 0.88));
+}
+
+.appa-risk-bars i.is-on.is-amber {
+  background: linear-gradient(90deg, rgba(255, 193, 92, 0.98), rgba(255, 150, 79, 0.88));
+}
+
+.appa-preview-pill {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  min-height: clamp(32px, 2.2vw, 38px);
+  padding: 0 clamp(12px, 0.9vw, 16px);
+  border-radius: 14px;
+  background: rgba(50, 56, 70, 0.84);
+  color: rgba(233, 238, 249, 0.88);
+  font-weight: 600;
+  font-size: clamp(0.78rem, 0.7rem + 0.2vw, 0.9rem);
 }
 
 .pentest-stat-row {
@@ -1075,39 +1790,9 @@ pre {
   font-size: 0.88rem;
 }
 
-.pentest-mission-panel::after {
-  content: "";
-  position: absolute;
-  top: -20px;
-  right: -30px;
-  width: 220px;
-  height: 220px;
-  border-radius: 999px;
-  background: radial-gradient(circle, rgba(129, 236, 255, 0.13), transparent 72%);
-  pointer-events: none;
-}
-
-.pentest-mission-head {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.pentest-mission-head h4 {
-  margin-top: 8px;
-  font-size: 1.45rem;
-}
-
+.pentest-layout,
 .pentest-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.pentest-column-right .summary-card,
-.pentest-column-left .summary-card {
-  overflow: visible;
+  display: block;
 }
 
 .intake-runs-panel .run-card .meta-grid,
@@ -1592,9 +2277,98 @@ pre {
 #pentest-role-list,
 #pentest-roadmap-list,
 #pentest-evidence-list,
-#pentest-report-list {
+#pentest-report-list,
+#appa-engagements-list,
+#appa-runs-list,
+#appa-targets-list,
+#appa-reports-list,
+#appa-report-types-list,
+#appa-latest-report-hero {
   display: grid;
   gap: 12px;
+}
+
+@media (max-width: 1480px) {
+  .appa-dashboard-grid {
+    grid-template-columns: 320px minmax(0, 1fr);
+  }
+
+  .appa-analytics-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .appa-right-stack {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1220px) {
+  .appa-body {
+    grid-template-columns: 1fr;
+  }
+
+  .appa-rail {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  .appa-side-nav {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .appa-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appa-analytics-grid,
+  .appa-reports-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .appa-right-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .appa-mission-header {
+    grid-template-columns: 1fr;
+    display: grid;
+  }
+
+  .appa-mission-actions {
+    flex-wrap: wrap;
+  }
+
+  .appa-mode-card {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 860px) {
+  .appa-topbar,
+  .appa-topbar-left,
+  .appa-topbar-right {
+    flex-wrap: wrap;
+  }
+
+  .appa-side-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .appa-analytics-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .appa-findings-header,
+  .appa-finding-row {
+    grid-template-columns: 1fr;
+  }
+
+  .appa-findings-header {
+    display: none;
+  }
 }
 
 .memory-visual-card .memory-bar-list {

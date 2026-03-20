@@ -37,6 +37,46 @@ def test_appa_overview_exposes_independent_pentest_product() -> None:
     assert any(item["key"] == "full_audit" for item in body["report_types"])
 
 
+def test_appa_dashboard_exposes_independent_control_plane_state() -> None:
+    body = client.get("/appa/dashboard").json()
+    assert body["operator_name"] == "Sentinel-01"
+    assert body["engagements"]
+    assert body["runs"]
+    assert body["findings"]
+    assert body["reports"]
+    assert body["overview"]["product_key"] == "appa"
+
+
+def test_appa_create_engagement_keeps_product_domain_independent() -> None:
+    before = client.get("/appa/engagements").json()
+    created = client.post(
+        "/appa/engagements",
+        json={
+            "name": "yellow-host-review",
+            "mode": "yellow",
+            "targets": [{"kind": "vm", "value": "rpc-sync-01"}],
+        },
+    ).json()
+    after = client.get("/appa/engagements").json()
+    assert created["name"] == "yellow-host-review"
+    assert created["mode"] == "yellow"
+    assert len(after) == len(before) + 1
+
+
+def test_appa_launch_run_updates_dashboard_and_report_download() -> None:
+    before = client.get("/appa/runs").json()
+    launched = client.post("/appa/runs", json={"mode": "green", "triggered_by": "manual"}).json()
+    after = client.get("/appa/runs").json()
+    assert launched["launched"] is True
+    assert len(after) == len(before) + 1
+    assert launched["run"]["mode"] == "green"
+    assert launched["dashboard"]["reports"]
+    report = client.get("/appa/reports/latest/download")
+    assert report.status_code == 200
+    assert "Evidence-First Findings" in report.text
+    assert launched["report"]["title"] in report.text
+
+
 def test_skills_expose_execution_modes() -> None:
     body = client.get("/skills").json()
     jumpserver = next(item for item in body if item["skill_id"] == "megaeth.identity.jumpserver_multi_source_review")

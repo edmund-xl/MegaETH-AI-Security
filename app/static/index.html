@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css?v=20260320-1655" />
+  <link rel="stylesheet" href="/static/styles.css?v=20260320-1916" />
 </head>
 <body>
   <div id="app">
@@ -260,105 +260,208 @@
       </section>
 
       <section class="view" data-section="pentest">
-        <div class="pentest-layout">
-          <div class="pentest-column pentest-column-left">
-            <section class="panel pentest-panel">
-              <div class="panel-head">
-                <h3 id="section-pentest-scope-title">运行模式</h3>
-              </div>
-              <div class="stack-list">
-                <article id="pentest-modes-card" class="summary-card pentest-stat-card">
-                  <div id="pentest-modes-list" class="stack-list"></div>
-                </article>
-                <article class="summary-card pentest-progress-card">
-                  <h4 id="section-pentest-discovery-title">方法论框架</h4>
-                  <div id="pentest-methodology-list" class="stack-list"></div>
-                </article>
-              </div>
-            </section>
+        <div class="appa-shell">
+          <header class="appa-topbar">
+            <div class="appa-topbar-left">
+              <div class="appa-wordmark" id="appa-wordmark">APPA</div>
+              <nav class="appa-product-tabs" aria-label="appa tabs">
+                <button id="appa-tab-dashboard" class="appa-tab active" type="button">Dashboard</button>
+                <button id="appa-tab-analytics" class="appa-tab" type="button">Analytics</button>
+                <button id="appa-tab-reports" class="appa-tab" type="button">Reports</button>
+              </nav>
+            </div>
+            <div class="appa-topbar-right">
+              <button class="appa-icon-button" type="button" aria-label="notifications">◉</button>
+              <button class="appa-icon-button" type="button" aria-label="settings">◌</button>
+              <div class="appa-avatar">A</div>
+            </div>
+          </header>
 
-            <section class="panel pentest-panel">
-              <div class="panel-head">
-                <h3 id="section-pentest-orchestration-title">执行编排</h3>
-              </div>
-              <div class="stack-list">
-                <article class="summary-card pentest-orchestration-card">
-                  <div id="pentest-skill-pack-list" class="stack-list"></div>
-                </article>
-              </div>
-            </section>
-          </div>
-
-          <div class="pentest-column pentest-column-main">
-            <section class="panel panel-highlight pentest-panel pentest-mission-panel">
-              <div class="panel-head">
+          <div class="appa-body">
+            <aside class="appa-rail">
+              <div class="appa-operator-card">
+                <div class="appa-operator-icon">🛡</div>
                 <div>
-                  <h3 id="section-pentest-title">渗透测试工作台</h3>
-                  <p id="pentest-mission-copy" class="section-note">这里后面会承接渗透测试任务、目标、证据和 AI 协同输出。当前先把结构和视觉语言搭起来。</p>
-                </div>
-                <div class="chip-row">
-                  <span class="chip latest">Weekly Green Run</span>
-                  <span class="chip good">In Progress</span>
+                  <strong>Sentinel-01</strong>
+                  <p id="appa-operator-status">ACTIVE · 4H 12M</p>
                 </div>
               </div>
 
-              <div id="pentest-output" class="stack-list">
-                <article class="summary-card pentest-mission-card">
-                  <div class="pentest-mission-head">
-                    <div>
-                      <div class="eyebrow">APPA</div>
-                      <h4 id="pentest-card-title">Attack-Path Pentest AI</h4>
-                    </div>
-                    <div class="chip-row">
-                      <span class="chip note">GREEN</span>
-                      <span class="chip note">Attack Path</span>
-                      <span class="chip note">Audit Style</span>
-                    </div>
+              <nav class="appa-side-nav" aria-label="appa workbench">
+                <button id="appa-nav-overview" class="appa-side-link active" type="button"><span>▣</span><span>Overview</span></button>
+                <button id="appa-nav-attack-paths" class="appa-side-link" type="button"><span>◫</span><span>Attack Paths</span></button>
+                <button id="appa-nav-pentest-ai" class="appa-side-link" type="button"><span>◎</span><span>Pentest AI</span></button>
+                <button id="appa-nav-vulnerabilities" class="appa-side-link" type="button"><span>◈</span><span>Vulnerabilities</span></button>
+                <button id="appa-nav-targets" class="appa-side-link" type="button"><span>◉</span><span>Targets</span></button>
+                <button id="appa-nav-evidence" class="appa-side-link" type="button"><span>▤</span><span>Evidence</span></button>
+              </nav>
+
+              <button id="appa-launch-scan" class="appa-launch-button" type="button">Launch New Scan</button>
+              <button id="appa-logout" class="appa-logout-button" type="button">Logout</button>
+            </aside>
+
+            <section class="appa-workbench">
+              <header class="appa-mission-header">
+                <div class="appa-mission-copy">
+                  <div id="pentest-mission-copy" class="appa-run-status">WEEKLY GREEN RUN • IN PROGRESS</div>
+                  <h3 id="section-pentest-title">Mission Dashboard</h3>
+                </div>
+
+                <div class="appa-mission-actions">
+                  <div class="appa-mode-card">
+                    <span id="appa-mode-label">Execution Mode</span>
+                    <div id="pentest-modes-list" class="appa-mode-switch"></div>
                   </div>
-                  <p id="pentest-card-copy" class="card-copy">APPA 不是自动 exploit 机器人，而是以攻击路径为中心、由 AI 负责规划与综合、由受控开源工具负责执行、最后按审计风格报告交付结果的持续渗透测试编排器。</p>
-                  <div id="pentest-metric-strip" class="hero-kpi-grid pentest-metric-strip"></div>
-                </article>
+                  <button id="appa-audit-report" class="appa-audit-button" type="button">Audit Report</button>
+                </div>
+              </header>
 
-                <div class="pentest-grid">
-                  <article class="summary-card pentest-surface-card">
-                    <h4 id="section-pentest-surface-title">攻击路径与目标面</h4>
-                    <div id="pentest-attack-path-list" class="stack-list"></div>
+              <div id="appa-nav-context" class="appa-nav-context"></div>
+
+              <section id="appa-panel-dashboard" class="appa-panel-view active">
+                <div class="appa-dashboard-grid">
+                  <div class="appa-left-stack">
+                    <article id="appa-card-scope" class="appa-card appa-scope-card">
+                      <div class="appa-card-head">
+                        <h4 id="section-pentest-scope-title">Asset Scope</h4>
+                      </div>
+                      <div id="pentest-metric-strip" class="appa-scope-list"></div>
+                      <div class="appa-discovery-status">
+                        <div class="appa-subhead">
+                          <span id="section-pentest-discovery-title">Discovery Status</span>
+                        </div>
+                        <div id="pentest-methodology-list" class="stack-list"></div>
+                      </div>
+                    </article>
+
+                    <article id="appa-card-orchestration" class="appa-card appa-orchestration-card">
+                      <div class="appa-card-head">
+                        <h4 id="section-pentest-orchestration-title">Active Orchestration</h4>
+                      </div>
+                      <div id="pentest-skill-pack-list" class="stack-list"></div>
+                    </article>
+                  </div>
+
+                  <div class="appa-center-stack">
+                    <article id="appa-card-paths" class="appa-card appa-paths-card">
+                      <div class="appa-card-head appa-card-head-wide">
+                        <div>
+                          <h4 id="section-pentest-surface-title">Attack Path Modeling</h4>
+                          <p id="appa-attack-path-copy" class="card-copy">Modeled logical traversals through discovered infrastructure.</p>
+                        </div>
+                        <span id="appa-path-count" class="appa-badge">0 PATHS MODELED</span>
+                      </div>
+                      <div id="pentest-attack-path-list" class="stack-list"></div>
+                    </article>
+
+                    <article id="appa-card-findings" class="appa-card appa-findings-card">
+                      <div class="appa-card-head appa-card-head-wide">
+                        <div>
+                          <h4 id="section-pentest-evidence-title">Evidence-First Findings</h4>
+                          <p id="appa-findings-copy" class="card-copy">Canonical security events identified during active pentesting.</p>
+                        </div>
+                        <div id="pentest-role-list" class="appa-findings-legend"></div>
+                      </div>
+                      <div class="appa-findings-table">
+                        <div class="appa-findings-header">
+                          <span id="appa-findings-col-key">Canonical Key</span>
+                          <span id="appa-findings-col-impact">Likelihood / Impact</span>
+                          <span id="appa-findings-col-target">Target Node</span>
+                          <span id="appa-findings-col-preview">Evidence Preview</span>
+                        </div>
+                        <div id="pentest-evidence-list" class="stack-list"></div>
+                      </div>
+                    </article>
+                  </div>
+
+                  <div class="appa-right-stack">
+                    <article id="appa-card-ai" class="appa-card appa-ai-card">
+                      <div class="appa-card-head">
+                        <h4 id="section-pentest-ai-title">Pentest AI</h4>
+                      </div>
+                      <p id="pentest-card-copy" class="card-copy">APPA 不是自动 exploit 机器人，而是以攻击路径为中心、由 AI 负责规划与综合、由受控开源工具负责执行、最后按审计风格报告交付结果的持续渗透测试编排器。</p>
+                      <div id="pentest-roadmap-list" class="stack-list"></div>
+                    </article>
+
+                    <article id="appa-card-reports" class="appa-card appa-reports-card">
+                      <div class="appa-card-head">
+                        <h4 id="section-pentest-targets-title">Report Outputs</h4>
+                      </div>
+                      <div id="pentest-report-list" class="stack-list"></div>
+                    </article>
+                  </div>
+                </div>
+              </section>
+
+              <section id="appa-panel-analytics" class="appa-panel-view">
+                <div class="appa-analytics-grid">
+                  <article class="appa-card">
+                    <div class="appa-card-head">
+                      <h4 id="appa-analytics-metrics-title">Analytics Snapshot</h4>
+                    </div>
+                    <div id="appa-analytics-metrics" class="appa-analytics-metrics"></div>
                   </article>
 
-                  <article class="summary-card pentest-ai-card">
-                    <h4 id="section-pentest-ai-title">Pentest AI</h4>
-                    <div id="pentest-role-list" class="stack-list"></div>
+                  <article class="appa-card">
+                    <div class="appa-card-head appa-card-head-wide">
+                      <div>
+                        <h4 id="appa-engagements-title">Live Engagements</h4>
+                        <p id="appa-engagements-copy" class="card-copy">Active scopes, cadence, and target boundaries currently inside APPA control.</p>
+                      </div>
+                    </div>
+                    <div id="appa-engagements-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="appa-card">
+                    <div class="appa-card-head">
+                      <h4 id="appa-runs-title">Run Timeline</h4>
+                    </div>
+                    <div id="appa-runs-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="appa-card">
+                    <div class="appa-card-head">
+                      <h4 id="appa-targets-title">Target Coverage</h4>
+                    </div>
+                    <div id="appa-targets-list" class="stack-list"></div>
                   </article>
                 </div>
-              </div>
-            </section>
-          </div>
+              </section>
 
-          <div class="pentest-column pentest-column-right">
-            <section class="panel pentest-panel">
-              <div class="panel-head">
-                <h3 id="section-pentest-roadmap-title">后续接入方向</h3>
-              </div>
-              <div class="stack-list">
-                <article class="summary-card">
-                  <h4 id="pentest-roadmap-card-title">建议从三条线开始</h4>
-                  <div id="pentest-roadmap-list" class="stack-list"></div>
-                </article>
-                <article class="summary-card">
-                  <h4 id="section-pentest-evidence-title">证据视图</h4>
-                  <div id="pentest-evidence-list" class="stack-list"></div>
-                </article>
-                <article class="summary-card">
-                  <h4 id="section-pentest-targets-title">目标优先级</h4>
-                  <div id="pentest-report-list" class="stack-list"></div>
-                </article>
-              </div>
+              <section id="appa-panel-reports" class="appa-panel-view">
+                <div class="appa-reports-grid">
+                  <article class="appa-card appa-report-hero-card">
+                    <div class="appa-card-head appa-card-head-wide">
+                      <div>
+                        <h4 id="appa-latest-report-title">Latest Audit Output</h4>
+                        <p id="appa-latest-report-copy" class="card-copy">The newest APPA audit package ready for review or download.</p>
+                      </div>
+                      <button id="appa-report-download-inline" class="appa-audit-button" type="button">Download Latest Report</button>
+                    </div>
+                    <div id="appa-latest-report-hero" class="stack-list"></div>
+                  </article>
+
+                  <article class="appa-card">
+                    <div class="appa-card-head">
+                      <h4 id="appa-report-history-title">Report History</h4>
+                    </div>
+                    <div id="appa-reports-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="appa-card">
+                    <div class="appa-card-head">
+                      <h4 id="appa-report-types-title">Report Types</h4>
+                    </div>
+                    <div id="appa-report-types-list" class="stack-list"></div>
+                  </article>
+                </div>
+              </section>
             </section>
           </div>
         </div>
       </section>
     </main>
   </div>
-  <script src="/static/app.js?v=20260320-1655"></script>
+  <script src="/static/app.js?v=20260320-1916"></script>
 </body>
 </html>

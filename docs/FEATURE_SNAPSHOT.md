@@ -34,6 +34,10 @@
 - `Skill`
 - `MCP`
 - `Agent Learning`
+- `APPA Pentest Workbench`
+  - `Dashboard`
+  - `Analytics`
+  - `Reports`
 - 中英文切换
 - 刷新后保留当前页面
 
@@ -61,6 +65,18 @@
 - Whitebox AppSec
   - 已有骨架
   - 已有三段式训练落点
+
+#### APPA 渗透测试工作台
+
+- 和安全日志分析产品分离，不共用同一套语义和工作流
+- 已有独立控制面：
+  - engagement
+  - run
+  - finding
+  - report
+- `Launch New Scan` 会真实生成新的运行批次
+- `Audit Report` 会下载当前最新 APPA 审计报告
+- `Dashboard / Analytics / Reports` 已经是可切换的真实工作台视图，不再只是占位标签
 
 #### 学习
 
@@ -162,6 +178,10 @@ If I were onboarding into the project, I would read this before diving into impl
 - `Skill`
 - `MCP`
 - `Agent Learning`
+- `APPA Pentest Workbench`
+  - `Dashboard`
+  - `Analytics`
+  - `Reports`
 - bilingual switch
 - active page preserved after refresh
 
@@ -189,6 +209,18 @@ If I were onboarding into the project, I would read this before diving into impl
 - Whitebox AppSec
   - scaffold exists
   - three-stage training path exists
+
+#### APPA Pentest Workbench
+
+- independent from the security log analysis product and does not reuse the same workflow semantics
+- ships with its own control-plane objects:
+  - engagement
+  - run
+  - finding
+  - report
+- `Launch New Scan` now creates a real run
+- `Audit Report` now downloads the latest APPA audit report
+- `Dashboard / Analytics / Reports` are now real switchable workbench views rather than placeholder tabs
 
 #### Learning
 
