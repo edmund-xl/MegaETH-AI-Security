@@ -4,237 +4,361 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MegaETH AI Security</title>
-  <link rel="stylesheet" href="/static/styles.css?v=20260314-1828" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css?v=20260320-1655" />
 </head>
 <body>
   <div id="app">
     <aside class="sidebar">
       <div class="brand">
-        <div class="brand-icon">[ ]</div>
-        <div class="eyebrow">MegaETH</div>
-        <h1>AI Security Platform</h1>
-        <p id="brand-copy">统一接收安全材料，自动完成归一化、技能分配、风险判断和记忆学习。</p>
-        <div class="lang-switch" aria-label="language switch">
-          <button id="lang-zh" class="lang-btn active" type="button">中文</button>
-          <button id="lang-en" class="lang-btn" type="button">EN</button>
+        <div class="brand-mark">
+          <div class="brand-icon">&lt;/&gt;</div>
+          <div>
+            <div class="eyebrow">MegaETH</div>
+            <h1 id="brand-title">AI 安全平台</h1>
+          </div>
         </div>
+        <p id="brand-copy">统一接收安全材料，由系统自动完成归一化、能力决策、风险判断和持续学习。</p>
       </div>
-      <nav class="menu">
-        <button class="menu-item active" data-view="overview" type="button">概览</button>
-        <button class="menu-item" data-view="intake" type="button">输入</button>
-        <button class="menu-item" data-view="skills" type="button">能力</button>
-        <button class="menu-item" data-view="integrations" type="button">集成</button>
-        <button class="menu-item" data-view="memory" type="button">学习</button>
+
+      <nav class="menu menu-tree">
+        <section class="menu-group">
+          <div id="menu-group-security" class="menu-group-title">安全日志分析</div>
+          <div class="menu-sublist">
+            <button class="menu-item active" data-view="overview" type="button">概览</button>
+            <button class="menu-item" data-view="intake" type="button">输入</button>
+            <button class="menu-item" data-view="skills" type="button">技能</button>
+            <button class="menu-item" data-view="integrations" type="button">连接</button>
+            <button class="menu-item" data-view="memory" type="button">学习</button>
+          </div>
+        </section>
+
+        <section class="menu-group">
+          <div id="menu-group-pentest" class="menu-group-title">渗透测试</div>
+          <div class="menu-sublist">
+            <button class="menu-item menu-item-pentest" data-view="pentest" type="button">工作台</button>
+          </div>
+        </section>
       </nav>
+
       <div class="rail-card">
-        <div id="system-status-label" class="rail-label">System Status</div>
-        <div id="health-badge" class="health-badge idle">Checking...</div>
-        <p id="sidebar-copy">当前会优先恢复你最关心的分析链路、报告和记忆纠偏能力。</p>
+        <div id="system-status-label" class="rail-label">系统状态</div>
+        <div id="health-badge" class="health-badge idle">检查中...</div>
+        <p id="sidebar-copy">当前会优先恢复你最关心的分析链路、报告和学习纠偏能力。</p>
       </div>
     </aside>
 
-    <main class="main">
-      <section class="hero panel">
+    <main class="main-shell">
+      <header class="topbar">
+        <div class="topbar-search">
+          <input type="text" placeholder="Global node search..." />
+        </div>
+        <div class="topbar-actions topbar-actions-compact">
+          <div class="lang-switch" aria-label="language switch">
+            <button id="lang-zh" class="lang-btn active" type="button">中文</button>
+            <button id="lang-en" class="lang-btn" type="button">EN</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="hero">
         <div>
-          <div id="hero-eyebrow" class="eyebrow">MegaETH Security Platform</div>
-          <h2 id="view-title">Overview</h2>
+          <div id="hero-eyebrow" class="eyebrow">MegaETH 安全平台</div>
+          <h2 id="view-title">概览</h2>
           <p id="view-copy">查看当前平台状态、近期输出和分析工作流。</p>
         </div>
       </section>
 
       <section class="view active" data-section="overview">
-        <section class="overview-shell">
-          <div class="stack-panels">
-            <section class="panel">
+        <div class="dashboard-grid">
+          <div class="dashboard-main">
+            <section class="panel panel-highlight">
               <div class="panel-head">
                 <h3 id="section-overview-title">平台概览</h3>
-                <button id="refresh-overview" class="ghost" type="button">Refresh</button>
+                <button id="refresh-overview" class="ghost" type="button">刷新</button>
               </div>
-              <div id="overview-output" class="stack-list loading-copy">Loading...</div>
+              <div id="overview-output" class="stack-list loading-copy">加载中...</div>
             </section>
+
             <section class="panel">
-            <div class="panel-head">
-              <h3 id="section-history-title">历史记录</h3>
-              <button id="refresh-history" class="ghost" type="button">Refresh</button>
-            </div>
-            <div id="history-output" class="stack-list loading-copy">Loading...</div>
+              <div class="panel-head">
+                <h3 id="section-history-title">历史记录</h3>
+                <button id="refresh-history" class="ghost" type="button">刷新</button>
+              </div>
+              <div id="history-output" class="stack-list loading-copy">加载中...</div>
             </section>
           </div>
-          <div class="stack-panels">
+
+          <div class="dashboard-side">
             <section class="panel">
               <div class="panel-head">
                 <h3 id="section-reports-title">近期报告</h3>
-                <button id="refresh-reports" class="ghost" type="button">Refresh</button>
+                <button id="refresh-reports" class="ghost" type="button">刷新</button>
               </div>
-              <div id="reports-output" class="stack-list loading-copy">Loading...</div>
+              <div id="reports-output" class="stack-list loading-copy">加载中...</div>
             </section>
+
             <section class="panel">
               <div class="panel-head">
                 <h3 id="section-investigations-title">调查会话</h3>
-                <button id="refresh-investigations" class="ghost" type="button">Refresh</button>
+                <button id="refresh-investigations" class="ghost" type="button">刷新</button>
               </div>
-              <div id="investigations-output" class="stack-list loading-copy">Loading...</div>
+              <div id="investigations-output" class="stack-list loading-copy">加载中...</div>
             </section>
           </div>
-        </section>
+        </div>
       </section>
 
       <section class="view" data-section="intake">
-        <section class="grid two-col">
-          <section class="panel">
-            <div class="panel-head">
-              <h3 id="section-intake-input-title">统一输入</h3>
-              <div class="toolbar-inline">
+        <div class="intake-grid intake-grid-redesign">
+          <div class="intake-main">
+            <section class="panel intake-upload intake-upload-panel">
+              <div class="panel-head panel-head-inline">
+                <div>
+                  <h3 id="section-intake-input-title">统一输入</h3>
+                  <p id="intake-upload-note" class="section-note">上传文件只会先放进当前会话。真正开始归一化、能力决策和报告生成，要点“归一化后分析”。像 JumpServer 这类多源材料，建议同批上传。</p>
+                </div>
                 <label class="upload-chip">
-                  <input id="file-upload" type="file" multiple accept=".txt,.log,.json,.csv,.yaml,.yml,.md,.pdf" />
-                  <span id="upload-files-label">Upload Files</span>
+                  <input id="file-upload" type="file" multiple accept=".txt,.log,.json,.csv,.yaml,.yml,.md,.pdf,.xlsx,.xls" />
+                  <span id="upload-files-label">上传文件</span>
                 </label>
-                <button id="load-sample" class="ghost" type="button">加载示例</button>
               </div>
-            </div>
-            <textarea id="raw-input" spellcheck="false"></textarea>
-            <div class="actions">
-              <button id="analyze" type="button">归一化后分析</button>
-              <button id="preview-plan" class="ghost" type="button">刷新预览</button>
-              <button id="preview-normalize" class="ghost" type="button">只看归一化结果</button>
-            </div>
-            <div id="intake-status" class="status-line">Ready</div>
-          </section>
-          <div class="stack-panels">
-            <section class="panel">
+              <div class="dropzone">
+                <div class="dropzone-icon">⇪</div>
+                <h4 id="intake-dropzone-title">Drag and drop security logs</h4>
+                <p id="intake-dropzone-copy">or browse files from your secure local storage</p>
+              </div>
+            </section>
+
+            <section class="panel intake-editor intake-editor-panel">
+              <div class="panel-head panel-head-inline">
+                <div>
+                  <h3 id="intake-editor-title">当前输入会话</h3>
+                  <p id="intake-editor-note" class="section-note">上传后的文件会先在这里生成待分析清单；如果你手动粘贴原始 JSON 或日志，也会从这里开始进入分析链。</p>
+                </div>
+                <span id="intake-editor-badge" class="micro-copy">Session Editor</span>
+              </div>
+              <textarea id="raw-input" spellcheck="false"></textarea>
+              <div class="actions">
+                <span id="intake-analyze-hint" class="action-hint">上传只是进入当前会话，真正开始处理要点这个按钮。</span>
+                <button id="analyze" type="button">归一化后分析</button>
+              </div>
+              <div id="intake-status" class="status-line">就绪</div>
+            </section>
+
+            <section class="panel intake-report-panel">
+              <div class="panel-head">
+                <h3 id="section-report-title">安全报告</h3>
+                <button id="download-report" class="ghost" type="button">下载报告</button>
+              </div>
+              <div id="report-output" class="stack-list loading-copy">等待执行</div>
+            </section>
+          </div>
+
+          <div class="intake-side">
+            <section class="panel intake-side-panel intake-planner-panel">
               <div class="panel-head">
                 <h3 id="section-planner-title">技能分配预览</h3>
               </div>
-              <div id="planner-output" class="stack-list loading-copy">Waiting for preview</div>
+              <div id="planner-output" class="stack-list loading-copy">等待预览</div>
             </section>
-            <section class="panel">
+
+            <section class="panel intake-side-panel intake-normalize-panel">
               <div class="panel-head">
                 <h3 id="section-normalize-title">归一化结果</h3>
               </div>
-              <pre id="normalize-output">Waiting for input</pre>
+              <pre id="normalize-output">等待输入</pre>
+            </section>
+
+            <section class="panel intake-side-panel intake-runs-panel">
+              <div class="panel-head">
+                <h3 id="section-file-runs-title">上传执行记录</h3>
+              </div>
+              <div id="file-runs-output" class="stack-list loading-copy">还没有上传记录</div>
             </section>
           </div>
-        </section>
-        <section class="grid two-col">
-          <section class="panel">
-            <div class="panel-head">
-              <h3 id="section-report-title">Security Report</h3>
-            </div>
-            <div class="toolbar-inline" style="margin-top:12px;">
-              <button id="learn-current-memory-intake" class="ghost" type="button">这次分类正确，记住它</button>
-              <button id="show-correction-form" class="ghost" type="button">这次分类不对，我来纠正</button>
-            </div>
-            <div id="intake-learn-status" class="status-line">分析完成后，你可以直接在这里让系统学习这次结果。</div>
-            <div id="correction-form" class="correction-form hidden">
-              <div class="toolbar-inline">
-                <select id="correction-source-type" class="filter-input"></select>
-                <select id="correction-event-type" class="filter-input"></select>
-              </div>
-              <div style="margin-top:10px;">
-                <label id="correction-skills-label" class="field-label" for="correction-skills">选择正确的分析能力</label>
-                <select id="correction-skills" class="multi-select" multiple></select>
-              </div>
-              <div class="toolbar-inline" style="margin-top:10px;">
-                <button id="save-correction" class="ghost" type="button">保存这次纠正</button>
-              </div>
-            </div>
-            <div id="report-output" class="stack-list loading-copy">Waiting to run</div>
-          </section>
-          <section class="panel">
-            <div class="panel-head">
-              <h3 id="section-file-runs-title">Uploaded File Runs</h3>
-            </div>
-            <div id="file-runs-output" class="stack-list loading-copy">No uploaded runs yet</div>
-          </section>
-        </section>
+        </div>
       </section>
 
       <section class="view" data-section="skills">
-        <section class="grid two-col">
-          <section class="panel">
+        <div class="skills-grid">
+          <section class="panel panel-wide">
             <div class="panel-head">
-              <h3 id="section-installed-skills-title">Installed Skills</h3>
-              <button id="refresh-skills" class="ghost" type="button">Refresh</button>
+              <h3 id="section-installed-skills-title">全部能力</h3>
+              <button id="refresh-skills" class="ghost" type="button">刷新</button>
             </div>
-            <div class="toolbar-inline" style="margin-top:12px;">
-              <input id="skills-search" class="search-input" type="text" placeholder="搜索能力 / 模块 / 引擎" />
+            <div class="toolbar-inline toolbar-spaced">
+              <input id="skills-search" class="search-input" type="text" placeholder="搜索技能 / 模块 / 引擎" />
               <select id="skills-filter" class="filter-input">
-                <option value="all">全部模块</option>
+                <option value="all">全部能力</option>
+                <option value="appsec">应用安全</option>
                 <option value="cicd">CI/CD</option>
-                <option value="endpoint">Endpoint</option>
-                <option value="host">Host</option>
-                <option value="cloud">Cloud</option>
-                <option value="easm">EASM</option>
-                <option value="key">Key</option>
-                <option value="identity">Identity</option>
+                <option value="endpoint">端点</option>
+                <option value="host">主机</option>
+                <option value="cloud">云环境</option>
+                <option value="easm">外部攻击面</option>
+                <option value="key">密钥材料</option>
+                <option value="identity">身份权限</option>
               </select>
             </div>
-            <div id="skills-output" class="stack-list loading-copy">Loading...</div>
+            <p id="skills-directory-note" class="section-note">默认展示当前平台全部能力；也可以按模块快速收窄。</p>
+            <div id="skills-output" class="stack-list loading-copy">加载中...</div>
           </section>
+
           <section class="panel">
             <div class="panel-head">
-              <h3 id="section-skill-matrix-title">Skill Matrix</h3>
-              <button id="refresh-matrix" class="ghost" type="button">Refresh</button>
+              <h3 id="section-skill-matrix-title">模块总览</h3>
+              <button id="refresh-matrix" class="ghost" type="button">刷新</button>
             </div>
-            <div id="matrix-output" class="stack-list loading-copy">Loading...</div>
+            <div id="matrix-output" class="stack-list loading-copy">加载中...</div>
           </section>
-        </section>
+        </div>
       </section>
 
       <section class="view" data-section="memory">
-        <section class="panel">
-          <div class="panel-head">
-            <h3 id="section-memory-learn-title">从当前结果学习</h3>
-            <button id="learn-current-memory" class="ghost" type="button">记住当前分类</button>
-          </div>
-          <p id="memory-learn-copy" class="card-copy">当你确认当前这份材料已经被正确归类后，可以把它保存成记忆规则，后续相似文件会优先走相同的 source type、event type 和 skills。</p>
-          <div id="memory-learn-status" class="status-line">等待你在 Intake 中完成一次正确分析。</div>
-        </section>
-        <section class="grid two-col">
+        <div class="memory-grid">
           <section class="panel">
             <div class="panel-head">
-              <h3 id="section-memory-rules-title">Memory Rules</h3>
-              <button id="refresh-memory-rules" class="ghost" type="button">Refresh</button>
+              <h3 id="section-memory-rules-title">学习规则</h3>
+              <button id="refresh-memory-rules" class="ghost" type="button">刷新</button>
             </div>
-            <div class="toolbar-inline" style="margin-top:12px;">
+            <div class="toolbar-inline toolbar-spaced">
               <input id="memory-search" class="search-input" type="text" placeholder="搜索学习记录 / 文件 / 事件" />
             </div>
-            <div id="memory-rules-output" class="stack-list loading-copy">Loading...</div>
+            <div id="memory-rules-output" class="stack-list loading-copy">加载中...</div>
           </section>
           <section class="panel">
             <div class="panel-head">
-              <h3 id="section-memory-feedback-title">Memory Feedback</h3>
-              <button id="refresh-memory-feedback" class="ghost" type="button">Refresh</button>
+              <h3 id="section-memory-feedback-title">学习反馈</h3>
+              <button id="refresh-memory-feedback" class="ghost" type="button">刷新</button>
             </div>
-            <div id="memory-feedback-output" class="stack-list loading-copy">Loading...</div>
+            <div id="memory-feedback-output" class="stack-list loading-copy">加载中...</div>
           </section>
-        </section>
+        </div>
       </section>
 
       <section class="view" data-section="integrations">
-        <section class="grid">
-          <section class="panel">
+        <div class="integrations-grid">
+          <section class="panel panel-wide">
             <div class="panel-head">
-              <h3 id="section-bitdefender-title">Bitdefender</h3>
+              <h3 id="section-bitdefender-title">Bitdefender 连接</h3>
               <button id="run-bitdefender-test" class="ghost" type="button">验证连接</button>
             </div>
-            <p id="bitdefender-copy" class="card-copy">这里接入的是 Bitdefender GravityZone。当前优先支持终端与资产清单、可用报表目录，以及最新报表的下载链接。</p>
-            <div class="toolbar-inline" style="margin-top:12px;">
+            <p id="bitdefender-copy" class="card-copy">这里接入的是 Bitdefender GravityZone 连接层。当前更适合直接查看终端与资产覆盖情况，并把最新安全报表导入平台分析。</p>
+            <div class="toolbar-inline">
               <button id="run-bitdefender-network" class="ghost" type="button">读取终端与资产清单</button>
               <button id="import-bitdefender-network" class="ghost" type="button">导入终端资产到平台</button>
-              <button id="run-bitdefender-reports" class="ghost" type="button">读取可用报表目录</button>
-              <button id="run-bitdefender-report-links" class="ghost" type="button">获取最新报表下载链接</button>
               <button id="import-bitdefender-latest-report" class="ghost" type="button">导入最新报表内容</button>
-              <button id="import-bitdefender-reports" class="ghost" type="button">导入报表目录元数据</button>
-              <button id="run-bitdefender-incidents" class="ghost" type="button">检查事件接口可用性</button>
             </div>
+            <p id="bitdefender-import-note" class="section-note">读取结果会留在当前页面；导入到平台的结果请到“输入”页面查看。</p>
             <div id="bitdefender-status" class="status-line">等待连接测试。</div>
             <div id="bitdefender-output" class="stack-list loading-copy">还没有 Bitdefender 返回结果。</div>
           </section>
-        </section>
+        </div>
+      </section>
+
+      <section class="view" data-section="pentest">
+        <div class="pentest-layout">
+          <div class="pentest-column pentest-column-left">
+            <section class="panel pentest-panel">
+              <div class="panel-head">
+                <h3 id="section-pentest-scope-title">运行模式</h3>
+              </div>
+              <div class="stack-list">
+                <article id="pentest-modes-card" class="summary-card pentest-stat-card">
+                  <div id="pentest-modes-list" class="stack-list"></div>
+                </article>
+                <article class="summary-card pentest-progress-card">
+                  <h4 id="section-pentest-discovery-title">方法论框架</h4>
+                  <div id="pentest-methodology-list" class="stack-list"></div>
+                </article>
+              </div>
+            </section>
+
+            <section class="panel pentest-panel">
+              <div class="panel-head">
+                <h3 id="section-pentest-orchestration-title">执行编排</h3>
+              </div>
+              <div class="stack-list">
+                <article class="summary-card pentest-orchestration-card">
+                  <div id="pentest-skill-pack-list" class="stack-list"></div>
+                </article>
+              </div>
+            </section>
+          </div>
+
+          <div class="pentest-column pentest-column-main">
+            <section class="panel panel-highlight pentest-panel pentest-mission-panel">
+              <div class="panel-head">
+                <div>
+                  <h3 id="section-pentest-title">渗透测试工作台</h3>
+                  <p id="pentest-mission-copy" class="section-note">这里后面会承接渗透测试任务、目标、证据和 AI 协同输出。当前先把结构和视觉语言搭起来。</p>
+                </div>
+                <div class="chip-row">
+                  <span class="chip latest">Weekly Green Run</span>
+                  <span class="chip good">In Progress</span>
+                </div>
+              </div>
+
+              <div id="pentest-output" class="stack-list">
+                <article class="summary-card pentest-mission-card">
+                  <div class="pentest-mission-head">
+                    <div>
+                      <div class="eyebrow">APPA</div>
+                      <h4 id="pentest-card-title">Attack-Path Pentest AI</h4>
+                    </div>
+                    <div class="chip-row">
+                      <span class="chip note">GREEN</span>
+                      <span class="chip note">Attack Path</span>
+                      <span class="chip note">Audit Style</span>
+                    </div>
+                  </div>
+                  <p id="pentest-card-copy" class="card-copy">APPA 不是自动 exploit 机器人，而是以攻击路径为中心、由 AI 负责规划与综合、由受控开源工具负责执行、最后按审计风格报告交付结果的持续渗透测试编排器。</p>
+                  <div id="pentest-metric-strip" class="hero-kpi-grid pentest-metric-strip"></div>
+                </article>
+
+                <div class="pentest-grid">
+                  <article class="summary-card pentest-surface-card">
+                    <h4 id="section-pentest-surface-title">攻击路径与目标面</h4>
+                    <div id="pentest-attack-path-list" class="stack-list"></div>
+                  </article>
+
+                  <article class="summary-card pentest-ai-card">
+                    <h4 id="section-pentest-ai-title">Pentest AI</h4>
+                    <div id="pentest-role-list" class="stack-list"></div>
+                  </article>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="pentest-column pentest-column-right">
+            <section class="panel pentest-panel">
+              <div class="panel-head">
+                <h3 id="section-pentest-roadmap-title">后续接入方向</h3>
+              </div>
+              <div class="stack-list">
+                <article class="summary-card">
+                  <h4 id="pentest-roadmap-card-title">建议从三条线开始</h4>
+                  <div id="pentest-roadmap-list" class="stack-list"></div>
+                </article>
+                <article class="summary-card">
+                  <h4 id="section-pentest-evidence-title">证据视图</h4>
+                  <div id="pentest-evidence-list" class="stack-list"></div>
+                </article>
+                <article class="summary-card">
+                  <h4 id="section-pentest-targets-title">目标优先级</h4>
+                  <div id="pentest-report-list" class="stack-list"></div>
+                </article>
+              </div>
+            </section>
+          </div>
+        </div>
       </section>
     </main>
   </div>
-  <script src="/static/app.js?v=20260314-1828"></script>
+  <script src="/static/app.js?v=20260320-1655"></script>
 </body>
 </html>

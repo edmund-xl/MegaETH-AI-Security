@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ARCHIVE_DIR="${HOME}/Desktop/megaeth-ai-security-rebuild-archives"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 NAME="megaeth-ai-security-rebuild-backup-${STAMP}.tar.gz"

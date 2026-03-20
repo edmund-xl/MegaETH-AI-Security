@@ -52,8 +52,14 @@ class MemoryService:
             "parser_profile": str(raw_event.payload.get("parser_profile") or ""),
         }
 
-    def _score(self, rule: dict[str, Any], sig: dict[str, Any]) -> int:
+    def _score(self, rule: dict[str, Any], sig: dict[str, Any], raw_event: RawEvent | None = None) -> int:
         score = 0
+        if raw_event is not None:
+            expected_source = str(rule.get("expected_source_type") or "")
+            if expected_source == raw_event.source_type:
+                score += 6
+            elif expected_source and raw_event.source_type and expected_source != raw_event.source_type:
+                score -= 4
         for token in rule.get("filename_tokens", []):
             if token in sig["filename_tokens"]:
                 score += 4
@@ -66,6 +72,36 @@ class MemoryService:
         if sig["parser_profile"] and sig["parser_profile"] in rule.get("parser_profiles", []):
             score += 2
         return score
+
+    def _is_host_risk_analytics_signature(self, sig: dict[str, Any]) -> bool:
+        filename_tokens = set(sig.get("filename_tokens", []))
+        header_tokens = set(sig.get("header_tokens", []))
+        content_tokens = set(sig.get("content_tokens", []))
+        return (
+            "riskanalytics" in filename_tokens
+            or "发现名称" in header_tokens
+            or "风险评分" in header_tokens
+            or "合规标准" in header_tokens
+            or "风险评分" in content_tokens
+        )
+
+    def _upgrade_match_for_signature(self, match: dict[str, Any], sig: dict[str, Any]) -> dict[str, Any]:
+        if self._is_host_risk_analytics_signature(sig) and match.get("expected_source_type") == "host" and match.get("expected_event_type") == "host_integrity":
+            upgraded = dict(match)
+            upgraded["expected_source_type"] = "host_risk_analytics"
+            upgraded["expected_event_type"] = "host_baseline_assessment"
+            upgraded["matched_rule_name"] = "host baseline memory"
+            preferred = upgraded.get("preferred_skills", [])
+            upgraded["preferred_skills"] = list(
+                dict.fromkeys(
+                    [
+                        "megaeth.host.baseline_compliance_analysis",
+                        *preferred,
+                    ]
+                )
+            )
+            return upgraded
+        return match
 
     def _rule_priority(self, rule: dict[str, Any]) -> int:
         notes = str(rule.get("notes") or "").lower()
@@ -88,6 +124,28 @@ class MemoryService:
             int(rule.get("usage_count", 0)),
             timestamp,
         )
+
+    def _source_match_rank(self, rule: dict[str, Any], raw_event: RawEvent) -> int:
+        expected_source = str(rule.get("expected_source_type") or "")
+        if not expected_source:
+            return 0
+        if expected_source == raw_event.source_type:
+            return 2
+        if self._is_host_risk_analytics_signature(self.build_signature(raw_event)) and expected_source == "host":
+            return 0
+        return -1
+
+    def _event_match_rank(self, rule: dict[str, Any], raw_event: RawEvent) -> int:
+        expected_event = str(rule.get("expected_event_type") or "")
+        if not expected_event:
+            return 0
+        if raw_event.event_hint and expected_event == raw_event.event_hint:
+            return 2
+        if raw_event.event_hint and expected_event != raw_event.event_hint:
+            return -1
+        if self._is_host_risk_analytics_signature(self.build_signature(raw_event)) and expected_event == "host_integrity":
+            return 0
+        return 0
 
     def _dedupe_rules(self, rules: list[dict[str, Any]]) -> list[dict[str, Any]]:
         merged: dict[tuple[str, str, str, str], dict[str, Any]] = {}
@@ -112,12 +170,24 @@ class MemoryService:
     def recall(self, raw_event: RawEvent) -> dict[str, Any] | None:
         sig = self.build_signature(raw_event)
         best = None
-        best_rank = (-1, -1)
+        best_rank = (-1, -1, -1, -1)
         best_score = 0
         for rule in self.list_rules():
-            score = self._score(rule, sig)
+            expected_source = str(rule.get("expected_source_type") or "")
+            expected_event = str(rule.get("expected_event_type") or "")
+            if raw_event.source_type and expected_source and expected_source != raw_event.source_type:
+                if not (self._is_host_risk_analytics_signature(sig) and expected_source == "host"):
+                    continue
+            if raw_event.event_hint and expected_event and expected_event != raw_event.event_hint:
+                continue
+            score = self._score(rule, sig, raw_event)
             priority = self._rule_priority(rule)
-            rank = (priority, score)
+            rank = (
+                self._source_match_rank(rule, raw_event),
+                self._event_match_rank(rule, raw_event),
+                priority,
+                score,
+            )
             if rank > best_rank:
                 best = rule
                 best_rank = rank
@@ -146,6 +216,8 @@ class MemoryService:
         match = self.recall(raw_event)
         if not match:
             return raw_event, None
+        sig = self.build_signature(raw_event)
+        match = self._upgrade_match_for_signature(match, sig)
         adjusted = raw_event.model_copy(
             update={
                 "source_type": match["expected_source_type"],
@@ -200,7 +272,7 @@ class MemoryService:
         matched_rule = None
         best_score = 0
         for rule in rules:
-            score = self._score(rule, sig)
+            score = self._score(rule, sig, raw_event)
             if (
                 rule.get("expected_source_type") == expected_source_type
                 and rule.get("expected_event_type") == expected_event_type
@@ -252,7 +324,7 @@ class MemoryService:
         best_rule = None
         best_score = 0
         for rule in rules:
-            score = self._score(rule, sig)
+            score = self._score(rule, sig, raw_event)
             if (
                 rule.get("expected_source_type") == normalized_event.source_type
                 and rule.get("expected_event_type") == normalized_event.event_type

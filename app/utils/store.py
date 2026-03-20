@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 from typing import Any
+from datetime import datetime, timedelta, timezone
 
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "data"
@@ -12,6 +13,16 @@ REPORTS_FILE = DATA_DIR / "reports.json"
 INVESTIGATIONS_FILE = DATA_DIR / "investigations.json"
 MEMORY_RULES_FILE = DATA_DIR / "memory_rules.json"
 MEMORY_FEEDBACK_FILE = DATA_DIR / "memory_feedback.json"
+HISTORY_RETENTION_DAYS = 2
+
+FILE_CONFIG: dict[Path, dict[str, Any]] = {
+    EVENTS_FILE: {"timestamp_paths": ["normalized_event.timestamp"], "limit": 100},
+    RAW_EVENTS_FILE: {"timestamp_paths": ["timestamp"], "limit": 100},
+    REPORTS_FILE: {"timestamp_paths": ["generated_at"], "limit": 100},
+    INVESTIGATIONS_FILE: {"timestamp_paths": ["created_at"], "limit": 100},
+    MEMORY_RULES_FILE: {"timestamp_paths": ["updated_at", "created_at"], "limit": 200},
+    MEMORY_FEEDBACK_FILE: {"timestamp_paths": ["created_at"], "limit": 200},
+}
 
 
 def ensure_dir() -> None:
@@ -33,11 +44,56 @@ def write_json(path: Path, payload: list[dict[str, Any]]) -> None:
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
+def _parse_datetime(value: str | None) -> datetime | None:
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def _get_nested(record: dict[str, Any], dotted_path: str) -> Any:
+    current: Any = record
+    for part in dotted_path.split("."):
+        if not isinstance(current, dict):
+            return None
+        current = current.get(part)
+    return current
+
+
+def _record_timestamp(record: dict[str, Any], path: Path) -> datetime | None:
+    config = FILE_CONFIG.get(path, {})
+    for ts_path in config.get("timestamp_paths", []):
+        parsed = _parse_datetime(_get_nested(record, ts_path))
+        if parsed:
+            return parsed.astimezone(timezone.utc)
+    return None
+
+
+def prune_records(path: Path, payload: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    config = FILE_CONFIG.get(path, {})
+    limit = int(config.get("limit", 200))
+    if path in {EVENTS_FILE, RAW_EVENTS_FILE, REPORTS_FILE, INVESTIGATIONS_FILE}:
+        cutoff = datetime.now(timezone.utc) - timedelta(days=HISTORY_RETENTION_DAYS)
+        payload = [
+            record
+            for record in payload
+            if (_record_timestamp(record, path) or datetime.now(timezone.utc)) >= cutoff
+        ]
+    return payload[:limit]
+
+
 class JsonFileStore:
     def append(self, path: Path, record: dict[str, Any], limit: int = 200) -> None:
         data = read_json(path)
         data.insert(0, record)
-        write_json(path, data[:limit])
+        config_limit = int(FILE_CONFIG.get(path, {}).get("limit", limit))
+        write_json(path, prune_records(path, data[:config_limit]))
 
     def list_records(self, path: Path, limit: int = 50) -> list[dict[str, Any]]:
-        return read_json(path)[:limit]
+        original = read_json(path)
+        data = prune_records(path, original)
+        if data != original:
+            write_json(path, data)
+        return data[:limit]

@@ -22,6 +22,8 @@ class SecurityReport(BaseModel):
     event_id: str
     event_type: str
     source_type: str
+    report_title: str = ""
+    report_template: str = ""
     planner_reason: str
     skills_selected: list[str]
     findings: list[Finding]
@@ -43,4 +45,7 @@ class SecurityReport(BaseModel):
     top_risk_label: str
     overall_risk_score: float
     generated_at: str
+    structured_sections: list[dict[str, Any]] = Field(default_factory=list)
+    execution_mode: str = "rule_only"
+    agent_context: dict[str, Any] = Field(default_factory=dict)
     observability: dict[str, Any] = Field(default_factory=dict)

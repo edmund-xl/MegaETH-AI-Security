@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ARCHIVE_DIR="${HOME}/Desktop/megaeth-ai-security-rebuild-archives"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 VERSION="$(cat "${ROOT_DIR}/VERSION")"
@@ -11,12 +11,12 @@ required_files=(
   "README.md"
   "CHANGELOG.md"
   "VERSION"
-  "SYSTEM_DESIGN.md"
-  "FEATURE_SNAPSHOT.md"
-  "REBUILD_GUIDE.md"
-  "TRAINING_WORKFLOW.md"
-  "PORTABLE_TRANSFER.md"
-  "backup.sh"
+  "docs/SYSTEM_DESIGN.md"
+  "docs/FEATURE_SNAPSHOT.md"
+  "docs/REBUILD_GUIDE.md"
+  "docs/TRAINING_WORKFLOW.md"
+  "docs/PORTABLE_TRANSFER.md"
+  "scripts/backup.sh"
   "start.sh"
   "stop.sh"
 )
@@ -32,7 +32,7 @@ mkdir -p "${ARCHIVE_DIR}"
 
 "${ROOT_DIR}/.venv/bin/python" -m pytest -q
 
-BACKUP_PATH="$("${ROOT_DIR}/backup.sh")"
+BACKUP_PATH="$("${ROOT_DIR}/scripts/backup.sh")"
 
 {
   echo "# Release Manifest"
