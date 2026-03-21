@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css?v=20260322-0435" />
+  <link rel="stylesheet" href="/static/styles.css?v=20260322-0448" />
 </head>
 <body>
   <div id="app">
@@ -20,6 +20,7 @@
             <h1 id="brand-title">AI 安全平台</h1>
           </div>
         </div>
+        <p id="brand-copy">统一接收安全材料，由系统自动完成归一化、能力决策、风险判断和持续学习。</p>
       </div>
 
       <nav class="menu menu-tree">
@@ -33,12 +34,12 @@
             <button class="menu-item" data-view="memory" type="button">学习</button>
           </div>
         </section>
-
       </nav>
 
       <div class="rail-card">
         <div id="system-status-label" class="rail-label">系统状态</div>
         <div id="health-badge" class="health-badge idle">检查中...</div>
+        <p id="sidebar-copy">当前会优先恢复你最关心的分析链路、报告和学习纠偏能力。</p>
       </div>
     </aside>
 
@@ -110,6 +111,7 @@
               <div class="panel-head panel-head-inline">
                 <div>
                   <h3 id="section-intake-input-title">统一输入</h3>
+                  <p id="intake-upload-note" class="section-note">上传文件只会先放进当前会话。真正开始归一化、能力决策和报告生成，要点“归一化后分析”。像 JumpServer 这类多源材料，建议同批上传。</p>
                 </div>
                 <label class="upload-chip">
                   <input id="file-upload" type="file" multiple accept=".txt,.log,.json,.csv,.yaml,.yml,.md,.pdf,.xlsx,.xls" />
@@ -127,10 +129,13 @@
               <div class="panel-head panel-head-inline">
                 <div>
                   <h3 id="intake-editor-title">当前输入会话</h3>
+                  <p id="intake-editor-note" class="section-note">上传后的文件会先在这里生成待分析清单；如果你手动粘贴原始 JSON 或日志，也会从这里开始进入分析链。</p>
                 </div>
+                <span id="intake-editor-badge" class="micro-copy">Session Editor</span>
               </div>
               <textarea id="raw-input" spellcheck="false"></textarea>
               <div class="actions">
+                <span id="intake-analyze-hint" class="action-hint">上传只是进入当前会话，真正开始处理要点这个按钮。</span>
                 <button id="analyze" type="button">归一化后分析</button>
               </div>
               <div id="intake-status" class="status-line">就绪</div>
@@ -191,6 +196,7 @@
                 <option value="identity">身份权限</option>
               </select>
             </div>
+            <p id="skills-directory-note" class="section-note">默认展示当前平台全部能力；也可以按模块快速收窄。</p>
             <div id="skills-output" class="stack-list loading-copy">加载中...</div>
           </section>
 
@@ -208,6 +214,16 @@
         <div class="memory-grid">
           <section class="panel">
             <div class="panel-head">
+              <h3 id="section-memory-rules-title">学习规则</h3>
+              <button id="refresh-memory-rules" class="ghost" type="button">刷新</button>
+            </div>
+            <div class="toolbar-inline toolbar-spaced">
+              <input id="memory-search" class="search-input" type="text" placeholder="搜索学习记录 / 文件 / 事件" />
+            </div>
+            <div id="memory-rules-output" class="stack-list loading-copy">加载中...</div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
               <h3 id="section-memory-feedback-title">学习反馈</h3>
               <button id="refresh-memory-feedback" class="ghost" type="button">刷新</button>
             </div>
@@ -223,11 +239,13 @@
               <h3 id="section-bitdefender-title">Bitdefender 连接</h3>
               <button id="run-bitdefender-test" class="ghost" type="button">验证连接</button>
             </div>
+            <p id="bitdefender-copy" class="card-copy">这里接入的是 Bitdefender GravityZone 连接层。当前更适合直接查看终端与资产覆盖情况，并把最新安全报表导入平台分析。</p>
             <div class="toolbar-inline">
               <button id="run-bitdefender-network" class="ghost" type="button">读取终端与资产清单</button>
               <button id="import-bitdefender-network" class="ghost" type="button">导入终端资产到平台</button>
               <button id="import-bitdefender-latest-report" class="ghost" type="button">导入最新报表内容</button>
             </div>
+            <p id="bitdefender-import-note" class="section-note">读取结果会留在当前页面；导入到平台的结果请到“输入”页面查看。</p>
             <div id="bitdefender-status" class="status-line">等待连接测试。</div>
             <div id="bitdefender-output" class="stack-list loading-copy">还没有 Bitdefender 返回结果。</div>
           </section>
@@ -236,6 +254,6 @@
 
     </main>
   </div>
-  <script src="/static/app.js?v=20260322-0435"></script>
+  <script src="/static/app.js?v=20260322-0448"></script>
 </body>
 </html>
