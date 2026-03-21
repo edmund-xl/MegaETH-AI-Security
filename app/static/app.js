@@ -802,40 +802,69 @@ function applyLanguage() {
   document.querySelectorAll("[data-view='skills']").forEach((node) => node.textContent = ui.menuSkills);
   document.querySelectorAll("[data-view='integrations']").forEach((node) => node.textContent = ui.menuIntegrations);
   document.querySelectorAll("[data-view='memory']").forEach((node) => node.textContent = ui.menuMemory);
-  document.getElementById("section-pentest-title").textContent = ui.pentestSectionTitle;
-  document.getElementById("section-pentest-scope-title").textContent = ui.pentestScopeTitle;
-  document.getElementById("section-pentest-discovery-title").textContent = ui.pentestDiscoveryTitle;
-  document.getElementById("section-pentest-orchestration-title").textContent = ui.pentestOrchestrationTitle;
-  document.getElementById("pentest-card-copy").textContent = ui.pentestCardCopy;
-  document.getElementById("pentest-mission-copy").textContent = ui.pentestMissionCopy;
-  document.getElementById("section-pentest-surface-title").textContent = ui.pentestSurfaceTitle;
-  document.getElementById("section-pentest-ai-title").textContent = ui.pentestAiTitle;
-  document.getElementById("section-pentest-evidence-title").textContent = ui.pentestEvidenceTitle;
-  document.getElementById("section-pentest-targets-title").textContent = ui.pentestTargetsTitle;
-  document.getElementById("appa-tab-dashboard").textContent = ui.pentestDashboardTab;
-  document.getElementById("appa-audit-report").textContent = ui.pentestAuditReport;
-  document.getElementById("appa-nav-overview").lastElementChild.textContent = ui.pentestNavOverview;
-  document.getElementById("appa-nav-attack-paths").lastElementChild.textContent = ui.pentestNavAttackPaths;
-  document.getElementById("appa-nav-pentest-ai").lastElementChild.textContent = ui.pentestNavPentestAi;
-  document.getElementById("appa-nav-vulnerabilities").lastElementChild.textContent = ui.pentestNavVulnerabilities;
-  document.getElementById("appa-nav-targets").lastElementChild.textContent = ui.pentestNavTargets;
-  document.getElementById("appa-nav-evidence").lastElementChild.textContent = ui.pentestNavEvidence;
-  document.getElementById("appa-nav-reports").lastElementChild.textContent = ui.pentestNavReports;
-  document.getElementById("appa-launch-scan").textContent = ui.pentestLaunchScan;
-  document.getElementById("appa-logout").textContent = ui.pentestLogout;
-  document.getElementById("appa-attack-path-copy").textContent = ui.pentestAttackPathCopy;
-  document.getElementById("appa-findings-copy").textContent = ui.pentestFindingsCopy;
-  document.getElementById("appa-findings-col-key").textContent = ui.pentestFindingsKey;
-  document.getElementById("appa-findings-col-impact").textContent = ui.pentestFindingsImpact;
-  document.getElementById("appa-findings-col-target").textContent = ui.pentestFindingsTarget;
-  document.getElementById("appa-findings-col-preview").textContent = ui.pentestFindingsPreview;
-  document.getElementById("appa-latest-report-title").textContent = uiState.language === "zh" ? "最新审计输出" : "Latest Audit Output";
-  document.getElementById("appa-latest-report-copy").textContent = uiState.language === "zh"
-    ? "这里看 APPA 最近一次已经产出的审计型交付物。"
-    : "Review the newest audit-style output currently produced by APPA.";
-  document.getElementById("appa-report-download-inline").textContent = uiState.language === "zh" ? "下载最新报告" : "Download Latest Report";
-  document.getElementById("appa-report-history-title").textContent = uiState.language === "zh" ? "报告历史" : "Report History";
-  document.getElementById("appa-report-types-title").textContent = uiState.language === "zh" ? "报告类型" : "Report Types";
+  const appaSectionTitle = document.getElementById("section-pentest-title");
+  if (appaSectionTitle) {
+    appaSectionTitle.textContent = ui.pentestSectionTitle;
+    const pentestScopeTitle = document.getElementById("section-pentest-scope-title");
+    const pentestDiscoveryTitle = document.getElementById("section-pentest-discovery-title");
+    const pentestOrchestrationTitle = document.getElementById("section-pentest-orchestration-title");
+    const pentestCardCopy = document.getElementById("pentest-card-copy");
+    const pentestMissionCopy = document.getElementById("pentest-mission-copy");
+    const pentestSurfaceTitle = document.getElementById("section-pentest-surface-title");
+    const pentestAiTitle = document.getElementById("section-pentest-ai-title");
+    const pentestEvidenceTitle = document.getElementById("section-pentest-evidence-title");
+    const pentestTargetsTitle = document.getElementById("section-pentest-targets-title");
+    const appaTabDashboard = document.getElementById("appa-tab-dashboard");
+    const appaAuditReport = document.getElementById("appa-audit-report");
+    if (pentestScopeTitle) pentestScopeTitle.textContent = ui.pentestScopeTitle;
+    if (pentestDiscoveryTitle) pentestDiscoveryTitle.textContent = ui.pentestDiscoveryTitle;
+    if (pentestOrchestrationTitle) pentestOrchestrationTitle.textContent = ui.pentestOrchestrationTitle;
+    if (pentestCardCopy) pentestCardCopy.textContent = ui.pentestCardCopy;
+    if (pentestMissionCopy) pentestMissionCopy.textContent = ui.pentestMissionCopy;
+    if (pentestSurfaceTitle) pentestSurfaceTitle.textContent = ui.pentestSurfaceTitle;
+    if (pentestAiTitle) pentestAiTitle.textContent = ui.pentestAiTitle;
+    if (pentestEvidenceTitle) pentestEvidenceTitle.textContent = ui.pentestEvidenceTitle;
+    if (pentestTargetsTitle) pentestTargetsTitle.textContent = ui.pentestTargetsTitle;
+    if (appaTabDashboard) appaTabDashboard.textContent = ui.pentestDashboardTab;
+    if (appaAuditReport) appaAuditReport.textContent = ui.pentestAuditReport;
+    if (document.getElementById("appa-nav-overview")?.lastElementChild) document.getElementById("appa-nav-overview").lastElementChild.textContent = ui.pentestNavOverview;
+    if (document.getElementById("appa-nav-attack-paths")?.lastElementChild) document.getElementById("appa-nav-attack-paths").lastElementChild.textContent = ui.pentestNavAttackPaths;
+    if (document.getElementById("appa-nav-pentest-ai")?.lastElementChild) document.getElementById("appa-nav-pentest-ai").lastElementChild.textContent = ui.pentestNavPentestAi;
+    if (document.getElementById("appa-nav-vulnerabilities")?.lastElementChild) document.getElementById("appa-nav-vulnerabilities").lastElementChild.textContent = ui.pentestNavVulnerabilities;
+    if (document.getElementById("appa-nav-targets")?.lastElementChild) document.getElementById("appa-nav-targets").lastElementChild.textContent = ui.pentestNavTargets;
+    if (document.getElementById("appa-nav-evidence")?.lastElementChild) document.getElementById("appa-nav-evidence").lastElementChild.textContent = ui.pentestNavEvidence;
+    if (document.getElementById("appa-nav-reports")?.lastElementChild) document.getElementById("appa-nav-reports").lastElementChild.textContent = ui.pentestNavReports;
+    const appaLaunchScan = document.getElementById("appa-launch-scan");
+    const appaLogout = document.getElementById("appa-logout");
+    const appaAttackPathCopy = document.getElementById("appa-attack-path-copy");
+    const appaFindingsCopy = document.getElementById("appa-findings-copy");
+    const appaFindingsColKey = document.getElementById("appa-findings-col-key");
+    const appaFindingsColImpact = document.getElementById("appa-findings-col-impact");
+    const appaFindingsColTarget = document.getElementById("appa-findings-col-target");
+    const appaFindingsColPreview = document.getElementById("appa-findings-col-preview");
+    const appaLatestReportTitle = document.getElementById("appa-latest-report-title");
+    const appaLatestReportCopy = document.getElementById("appa-latest-report-copy");
+    const appaReportDownloadInline = document.getElementById("appa-report-download-inline");
+    const appaReportHistoryTitle = document.getElementById("appa-report-history-title");
+    const appaReportTypesTitle = document.getElementById("appa-report-types-title");
+    if (appaLaunchScan) appaLaunchScan.textContent = ui.pentestLaunchScan;
+    if (appaLogout) appaLogout.textContent = ui.pentestLogout;
+    if (appaAttackPathCopy) appaAttackPathCopy.textContent = ui.pentestAttackPathCopy;
+    if (appaFindingsCopy) appaFindingsCopy.textContent = ui.pentestFindingsCopy;
+    if (appaFindingsColKey) appaFindingsColKey.textContent = ui.pentestFindingsKey;
+    if (appaFindingsColImpact) appaFindingsColImpact.textContent = ui.pentestFindingsImpact;
+    if (appaFindingsColTarget) appaFindingsColTarget.textContent = ui.pentestFindingsTarget;
+    if (appaFindingsColPreview) appaFindingsColPreview.textContent = ui.pentestFindingsPreview;
+    if (appaLatestReportTitle) appaLatestReportTitle.textContent = uiState.language === "zh" ? "最新审计输出" : "Latest Audit Output";
+    if (appaLatestReportCopy) {
+      appaLatestReportCopy.textContent = uiState.language === "zh"
+        ? "这里看 APPA 最近一次已经产出的审计型交付物。"
+        : "Review the newest audit-style output currently produced by APPA.";
+    }
+    if (appaReportDownloadInline) appaReportDownloadInline.textContent = uiState.language === "zh" ? "下载最新报告" : "Download Latest Report";
+    if (appaReportHistoryTitle) appaReportHistoryTitle.textContent = uiState.language === "zh" ? "报告历史" : "Report History";
+    if (appaReportTypesTitle) appaReportTypesTitle.textContent = uiState.language === "zh" ? "报告类型" : "Report Types";
+  }
   if (!intakeState.rawEvent && !intakeState.normalizedEvent && !intakeState.plannerPreview && !intakeState.report) {
     document.getElementById("intake-status").textContent = ui.ready;
   }
