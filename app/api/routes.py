@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from app.api.appa_routes import router as appa_router
 from app.api.core_routes import router as core_router
 from app.api.integration_routes import router as integration_router
 from app.api.ui_routes import router as ui_router
@@ -12,5 +11,4 @@ from app.integrations.bitdefender import BitdefenderClient, parse_report_zip_bun
 router = APIRouter()
 router.include_router(core_router)
 router.include_router(integration_router)
-router.include_router(appa_router)
 router.include_router(ui_router)

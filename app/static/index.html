@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/static/styles.css?v=20260321-0142" />
+  <link rel="stylesheet" href="/static/styles.css?v=20260322-0435" />
 </head>
 <body>
   <div id="app">
@@ -20,7 +20,6 @@
             <h1 id="brand-title">AI 安全平台</h1>
           </div>
         </div>
-        <p id="brand-copy">统一接收安全材料，由系统自动完成归一化、能力决策、风险判断和持续学习。</p>
       </div>
 
       <nav class="menu menu-tree">
@@ -35,18 +34,11 @@
           </div>
         </section>
 
-        <section class="menu-group">
-          <div id="menu-group-pentest" class="menu-group-title">渗透测试</div>
-          <div class="menu-sublist">
-            <button class="menu-item menu-item-pentest" data-view="pentest" type="button">工作台</button>
-          </div>
-        </section>
       </nav>
 
       <div class="rail-card">
         <div id="system-status-label" class="rail-label">系统状态</div>
         <div id="health-badge" class="health-badge idle">检查中...</div>
-        <p id="sidebar-copy">当前会优先恢复你最关心的分析链路、报告和学习纠偏能力。</p>
       </div>
     </aside>
 
@@ -118,7 +110,6 @@
               <div class="panel-head panel-head-inline">
                 <div>
                   <h3 id="section-intake-input-title">统一输入</h3>
-                  <p id="intake-upload-note" class="section-note">上传文件只会先放进当前会话。真正开始归一化、能力决策和报告生成，要点“归一化后分析”。像 JumpServer 这类多源材料，建议同批上传。</p>
                 </div>
                 <label class="upload-chip">
                   <input id="file-upload" type="file" multiple accept=".txt,.log,.json,.csv,.yaml,.yml,.md,.pdf,.xlsx,.xls" />
@@ -136,13 +127,10 @@
               <div class="panel-head panel-head-inline">
                 <div>
                   <h3 id="intake-editor-title">当前输入会话</h3>
-                  <p id="intake-editor-note" class="section-note">上传后的文件会先在这里生成待分析清单；如果你手动粘贴原始 JSON 或日志，也会从这里开始进入分析链。</p>
                 </div>
-                <span id="intake-editor-badge" class="micro-copy">Session Editor</span>
               </div>
               <textarea id="raw-input" spellcheck="false"></textarea>
               <div class="actions">
-                <span id="intake-analyze-hint" class="action-hint">上传只是进入当前会话，真正开始处理要点这个按钮。</span>
                 <button id="analyze" type="button">归一化后分析</button>
               </div>
               <div id="intake-status" class="status-line">就绪</div>
@@ -203,7 +191,6 @@
                 <option value="identity">身份权限</option>
               </select>
             </div>
-            <p id="skills-directory-note" class="section-note">默认展示当前平台全部能力；也可以按模块快速收窄。</p>
             <div id="skills-output" class="stack-list loading-copy">加载中...</div>
           </section>
 
@@ -221,16 +208,6 @@
         <div class="memory-grid">
           <section class="panel">
             <div class="panel-head">
-              <h3 id="section-memory-rules-title">学习规则</h3>
-              <button id="refresh-memory-rules" class="ghost" type="button">刷新</button>
-            </div>
-            <div class="toolbar-inline toolbar-spaced">
-              <input id="memory-search" class="search-input" type="text" placeholder="搜索学习记录 / 文件 / 事件" />
-            </div>
-            <div id="memory-rules-output" class="stack-list loading-copy">加载中...</div>
-          </section>
-          <section class="panel">
-            <div class="panel-head">
               <h3 id="section-memory-feedback-title">学习反馈</h3>
               <button id="refresh-memory-feedback" class="ghost" type="button">刷新</button>
             </div>
@@ -246,188 +223,19 @@
               <h3 id="section-bitdefender-title">Bitdefender 连接</h3>
               <button id="run-bitdefender-test" class="ghost" type="button">验证连接</button>
             </div>
-            <p id="bitdefender-copy" class="card-copy">这里接入的是 Bitdefender GravityZone 连接层。当前更适合直接查看终端与资产覆盖情况，并把最新安全报表导入平台分析。</p>
             <div class="toolbar-inline">
               <button id="run-bitdefender-network" class="ghost" type="button">读取终端与资产清单</button>
               <button id="import-bitdefender-network" class="ghost" type="button">导入终端资产到平台</button>
               <button id="import-bitdefender-latest-report" class="ghost" type="button">导入最新报表内容</button>
             </div>
-            <p id="bitdefender-import-note" class="section-note">读取结果会留在当前页面；导入到平台的结果请到“输入”页面查看。</p>
             <div id="bitdefender-status" class="status-line">等待连接测试。</div>
             <div id="bitdefender-output" class="stack-list loading-copy">还没有 Bitdefender 返回结果。</div>
           </section>
         </div>
       </section>
 
-      <section class="view" data-section="pentest">
-        <div class="appa-shell">
-          <header class="appa-topbar">
-            <div class="appa-topbar-left">
-              <div class="appa-wordmark" id="appa-wordmark">APPA</div>
-              <nav class="appa-product-tabs" aria-label="appa tabs">
-                <button id="appa-tab-dashboard" class="appa-tab active" type="button">工作台</button>
-              </nav>
-            </div>
-            <div class="appa-topbar-right">
-              <div class="appa-avatar">A</div>
-            </div>
-          </header>
-
-          <div class="appa-body">
-            <aside class="appa-rail">
-              <div class="appa-operator-card">
-                <div class="appa-operator-icon">🛡</div>
-                <div>
-                  <strong>Sentinel-01</strong>
-                  <p id="appa-operator-status">运行中 · 4H 12M</p>
-                </div>
-              </div>
-
-              <nav class="appa-side-nav" aria-label="appa workbench">
-                <button id="appa-nav-overview" class="appa-side-link active" type="button"><span>▣</span><span>总览</span></button>
-                <button id="appa-nav-targets" class="appa-side-link" type="button"><span>◉</span><span>范围定义</span></button>
-                <button id="appa-nav-attack-paths" class="appa-side-link" type="button"><span>◫</span><span>攻击路径</span></button>
-                <button id="appa-nav-pentest-ai" class="appa-side-link" type="button"><span>◎</span><span>验证编排 AI</span></button>
-                <button id="appa-nav-vulnerabilities" class="appa-side-link" type="button"><span>◈</span><span>发现归并</span></button>
-                <button id="appa-nav-evidence" class="appa-side-link" type="button"><span>▤</span><span>证据链</span></button>
-                <button id="appa-nav-reports" class="appa-side-link" type="button"><span>▥</span><span>报告</span></button>
-              </nav>
-
-              <button id="appa-launch-scan" class="appa-launch-button" type="button">发起新扫描</button>
-              <button id="appa-logout" class="appa-logout-button" type="button">退出</button>
-            </aside>
-
-            <section class="appa-workbench">
-              <header class="appa-mission-header">
-                <div class="appa-mission-copy">
-                  <div id="pentest-mission-copy" class="appa-run-status">绿色周期运行中</div>
-                  <h3 id="section-pentest-title">任务工作台</h3>
-                </div>
-
-                <div class="appa-mission-actions">
-                  <button id="appa-audit-report" class="appa-audit-button" type="button">审计报告</button>
-                </div>
-              </header>
-
-              <section class="appa-flow-strip">
-                <div class="appa-flow-head">
-                  <strong id="appa-flow-title">渗透测试流程</strong>
-                  <p id="appa-flow-copy">先确认范围，再建模路径、组织验证、归并发现、保留证据，最后进入报告。</p>
-                </div>
-                <div id="appa-flow-steps" class="appa-flow-steps"></div>
-              </section>
-
-              <div id="appa-nav-context" class="appa-nav-context"></div>
-
-              <section id="appa-panel-dashboard" class="appa-panel-view active">
-                <div class="appa-dashboard-grid">
-                  <div class="appa-left-stack">
-                    <article id="appa-card-scope" class="appa-card appa-scope-card">
-                      <div class="appa-card-head">
-                        <h4 id="section-pentest-scope-title">范围定义</h4>
-                      </div>
-                      <div id="pentest-metric-strip" class="appa-scope-list"></div>
-                      <div class="appa-discovery-status">
-                        <div class="appa-subhead">
-                          <span id="section-pentest-discovery-title">发现进度</span>
-                        </div>
-                        <div id="pentest-methodology-list" class="stack-list"></div>
-                      </div>
-                    </article>
-
-                    <article id="appa-card-orchestration" class="appa-card appa-orchestration-card">
-                      <div class="appa-card-head">
-                        <h4 id="section-pentest-orchestration-title">验证编排</h4>
-                      </div>
-                      <div id="pentest-skill-pack-list" class="stack-list"></div>
-                    </article>
-                  </div>
-
-                  <div class="appa-center-stack">
-                    <article id="appa-card-paths" class="appa-card appa-paths-card">
-                      <div class="appa-card-head appa-card-head-wide">
-                        <div>
-                          <h4 id="section-pentest-surface-title">攻击路径建模</h4>
-                          <p id="appa-attack-path-copy" class="card-copy">沿已发现基础设施建模逻辑攻击路径。</p>
-                        </div>
-                        <span id="appa-path-count" class="appa-badge">0 条已建模路径</span>
-                      </div>
-                      <div id="pentest-attack-path-list" class="stack-list"></div>
-                    </article>
-
-                    <article id="appa-card-findings" class="appa-card appa-findings-card">
-                      <div class="appa-card-head appa-card-head-wide">
-                        <div>
-                          <h4 id="section-pentest-evidence-title">证据优先发现</h4>
-                          <p id="appa-findings-copy" class="card-copy">当前任务期内沉淀下来的证据优先发现。</p>
-                        </div>
-                        <div id="pentest-role-list" class="appa-findings-legend"></div>
-                      </div>
-                      <div class="appa-findings-table">
-                        <div class="appa-findings-header">
-                          <span id="appa-findings-col-key">标准键</span>
-                          <span id="appa-findings-col-impact">可能性 / 影响</span>
-                          <span id="appa-findings-col-target">目标节点</span>
-                          <span id="appa-findings-col-preview">证据预览</span>
-                        </div>
-                        <div id="pentest-evidence-list" class="stack-list"></div>
-                      </div>
-                    </article>
-                  </div>
-
-                  <div class="appa-right-stack">
-                    <article id="appa-card-ai" class="appa-card appa-ai-card">
-                      <div class="appa-card-head">
-                        <h4 id="section-pentest-ai-title">渗透测试 AI</h4>
-                      </div>
-                      <p id="pentest-card-copy" class="card-copy">APPA 不是自动利用机器人，而是以攻击路径为中心、由 AI 负责规划与综合、由受控开源工具负责执行、最后按审计风格报告交付结果的持续渗透测试编排器。</p>
-                      <div id="pentest-roadmap-list" class="stack-list"></div>
-                    </article>
-
-                    <article id="appa-card-reports" class="appa-card appa-reports-card">
-                      <div class="appa-card-head">
-                        <h4 id="section-pentest-targets-title">报告输出</h4>
-                      </div>
-                      <div id="pentest-report-list" class="stack-list"></div>
-                    </article>
-                  </div>
-                </div>
-              </section>
-
-              <section id="appa-panel-reports" class="appa-panel-view">
-                <div class="appa-reports-grid">
-                  <article class="appa-card appa-report-hero-card">
-                    <div class="appa-card-head appa-card-head-wide">
-                      <div>
-                        <h4 id="appa-latest-report-title">最新审计输出</h4>
-                        <p id="appa-latest-report-copy" class="card-copy">这里看 APPA 最近一次已经产出的审计型交付物。</p>
-                      </div>
-                      <button id="appa-report-download-inline" class="appa-audit-button" type="button">下载最新报告</button>
-                    </div>
-                    <div id="appa-latest-report-hero" class="stack-list"></div>
-                  </article>
-
-                  <article class="appa-card">
-                    <div class="appa-card-head">
-                      <h4 id="appa-report-history-title">报告历史</h4>
-                    </div>
-                    <div id="appa-reports-list" class="stack-list"></div>
-                  </article>
-
-                  <article class="appa-card">
-                    <div class="appa-card-head">
-                      <h4 id="appa-report-types-title">报告类型</h4>
-                    </div>
-                    <div id="appa-report-types-list" class="stack-list"></div>
-                  </article>
-                </div>
-              </section>
-            </section>
-          </div>
-        </div>
-      </section>
     </main>
   </div>
-  <script src="/static/app.js?v=20260321-0154"></script>
+  <script src="/static/app.js?v=20260322-0435"></script>
 </body>
 </html>

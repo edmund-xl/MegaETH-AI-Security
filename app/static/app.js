@@ -15,7 +15,6 @@ const i18n = {
       skills: ["技能", "按模块查看平台已经接入的分析能力单元，以及它们当前负责的方向。"],
       integrations: ["连接", "在这里管理外部安全平台连接层，把资产、终端、报表和事件入口带入系统工作流。"],
       memory: ["学习", "查看系统已经学会的分类经验，并把新的判断继续沉淀下来。"],
-      pentest: ["渗透测试", "这里后面会放渗透测试相关的 MCP、Agent 和 Skill，和安全日志分析分成两条主线。"],
     },
     sidebarCopy: {
       overview: "先看系统是否真的在处理事件，再看最近报告、调查和沉淀记录。",
@@ -23,7 +22,6 @@ const i18n = {
       skills: "这里看平台已经接入哪些分析能力，以及每个模块当前覆盖了多少分析引擎。",
       integrations: "这里是外部平台连接层。当前 Bitdefender 已接入可直接使用的资产清单、终端列表和报表目录链路。",
       memory: "这里是系统学习层。每次你确认正确分类后，都可以在这里让系统学会。",
-      pentest: "这里会逐步接入渗透测试相关的入口、工作台和综合报告链路，和日志分析分开管理。",
     },
     ui: {
       overviewTitle: "平台概览",
@@ -97,19 +95,19 @@ const i18n = {
       noInvestigations: "还没有调查会话。上传文件批次后，这里会自动出现会话记录。",
       noSummary: "暂无分析结论。",
       recentRunsTitle: "最近运行情况",
-      recentRunsCopy: "这里看的是平台最近是否真的在处理事件，而不是仅仅完成了部署。",
+      recentRunsCopy: "看最近有没有真实在处理事件。",
       coverageTitle: "能力覆盖范围",
-      coverageCopy: "这里看系统目前具备哪些能力，以及这些能力是否已经接入真实执行逻辑。",
-      flowTitle: "处理流程说明",
-      flowCopy: "用法上只需要把材料交给系统，但平台内部会根据输入类型走不同路径。",
+      coverageCopy: "看哪些能力已接入真实执行。",
+      flowTitle: "处理流程",
+      flowCopy: "输入会按类型走不同链路。",
       architectureTitle: "架构关系图",
-      architectureCopy: "这张图用来说明连接层、分析主链和分析能力在平台里的协作关系。",
+      architectureCopy: "连接层、分析主链和能力层如何协作。",
       historySummaryTitle: "运行沉淀",
-      historySummaryCopy: "这里保留平台已经沉淀下来的记录数量，用来确认这套系统不是一次性页面状态。",
+      historySummaryCopy: "记录数量用来确认系统持续在运行。",
       plannerSummaryTitle: "系统准备调用这些能力",
-      plannerSummaryCopy: "系统会根据材料类型、来源线索和已学习经验，选择最合适的分析能力。",
+      plannerSummaryCopy: "系统会按材料类型和已有经验选择能力。",
       normalizeSummaryTitle: "标准化结果摘要",
-      normalizeSummaryCopy: "系统已经把原始材料转换成统一事件结构，后续的技能规划和风险报告都基于这份标准化事件。",
+      normalizeSummaryCopy: "原始材料已变成统一事件结构。",
       reportSummaryTitle: "结论判断",
       reportReasonTitle: "为什么会这样判断",
       reportFactsTitle: "关键事实",
@@ -126,7 +124,7 @@ const i18n = {
       memoryPatternTitle: "系统记住的特征",
       memorySavedSkillsTitle: "系统会优先调用这些能力",
       overviewSnapshotTitle: "平台快照",
-      memoryRuleCopy: "这条经验会在系统再次遇到相似材料时，帮助它更快走到正确的分析路径。",
+      memoryRuleCopy: "相似材料再次出现时，这条经验会直接带路。",
       memoryFeedbackSavedSkills: "保存的优先能力",
       memoryRulePreferredSkills: "优先调用能力",
       memoryRuleHeaders: "记住的表头特征",
@@ -142,44 +140,36 @@ const i18n = {
       menuIntegrations: "连接",
       menuMemory: "学习",
       menuSecurityGroup: "安全日志分析",
-      menuPentestGroup: "渗透测试",
-      menuPentestWorkbench: "工作台",
-      pentestSectionTitle: "任务工作台",
-      pentestDashboardTab: "工作台",
-      pentestReportsTab: "报告",
-      pentestRunStatus: "绿色周期运行中",
-      pentestAuditReport: "审计报告",
-      pentestLaunchScan: "发起新扫描",
-      pentestLogout: "退出",
-      pentestNavOverview: "总览",
-      pentestNavAttackPaths: "攻击路径",
-      pentestNavPentestAi: "验证编排 AI",
-      pentestNavVulnerabilities: "发现归并",
-      pentestNavTargets: "范围定义",
-      pentestNavEvidence: "证据链",
-      pentestNavReports: "报告",
-      pentestCardCopy: "APPA 不是自动利用机器人，而是以攻击路径为中心、由 AI 负责规划与综合、由受控开源工具负责执行、最后按审计风格报告交付结果的持续渗透测试编排器。",
-      pentestScopeTitle: "范围定义",
-      pentestDiscoveryTitle: "发现进度",
-      pentestOrchestrationTitle: "验证编排",
-      pentestMissionCopy: "绿色周期运行中",
-      pentestSurfaceTitle: "攻击路径建模",
-      pentestAiTitle: "渗透测试 AI",
-      pentestEvidenceTitle: "证据优先发现",
-      pentestTargetsTitle: "报告输出",
-      pentestAttackPathCopy: "沿已发现基础设施建模逻辑攻击路径。",
-      pentestFindingsCopy: "当前任务期内沉淀下来的证据优先发现。",
-      pentestFindingsKey: "标准键",
-      pentestFindingsImpact: "可能性 / 影响",
-      pentestFindingsTarget: "目标节点",
-      pentestFindingsPreview: "证据预览",
+      targetsImportTitle: "真实资产入口",
+      targetsImportCopy: "把资产清单和架构备注分开导入。",
+      targetsQuickFeedTitle: "快速输入",
+      targetsQuickFeedCopy: "常见目标分槽输入后直接入控制面。",
+      targetsQuickFeedScopeTitle: "Scope 快速输入",
+      targetsQuickFeedDiagramTitle: "架构备注",
+      targetsQuickFeedAdd: "追加",
+      targetsQuickFeedUpload: "选图 / 文件",
+      targetsQuickFeedApply: "一键进入控制面",
+      targetsQuickFeedApplyHint: "解析草稿后写入字段。",
+      targetsImportStageTitle: "导入阶段",
+      targetsImportManifestLabel: "资产清单",
+      targetsImportDiagramLabel: "架构备注",
+      targetsImportStageStaged: "暂存",
+      targetsImportStageParsed: "解析",
+      targetsImportStageApplied: "写入",
+      targetsImportStageSaved: "保存",
+      targetsImportNextActionEmpty: "先拖入文件或粘贴范围内容。",
+      targetsImportNextActionDraft: "先解析草稿，再写入控制面。",
+      targetsImportNextActionParsed: "写入下方控制面字段。",
+      targetsImportNextActionApplied: "保存到后端控制面。",
+      targetsImportNextActionSaved: "控制面已保存，可继续补充。",
+      targetsImportNextActionStale: "草稿已变更，请重新解析。",
       viewSkillDirectoryTitle: "全部能力",
       viewSkillDirectoryCopy: "默认展示当前平台全部能力，你也可以按模块快速收窄并定位对应引擎。",
       skillsDirectoryNote: "默认展示当前平台全部能力；也可以按模块快速收窄。",
       viewLearningCopy: "这里会沉淀系统学到的分类经验，后续相似材料会优先复用这些判断。",
       uploadRunsWaiting: "还没有上传分析记录",
       learningReadyHint: "在输入页完成一次分析后，这里可以直接把正确判断保存成系统经验。",
-      overviewPulseCopy: "这里展示的是平台最近一次真实分析留下的运行脉搏。",
+      overviewPulseCopy: "最近一次真实分析留下的运行脉搏。",
       platformActive: "平台活跃",
       platformWaiting: "等待材料",
       statusReadyAnalyze: "可开始分析",
@@ -216,7 +206,6 @@ const i18n = {
       skills: ["Skill", "Browse active Skill capability units by module and see what each one is responsible for."],
       integrations: ["MCP", "Manage the MCP connection layer here and bring asset, endpoint, report, and event-entry data into the Agent workflow."],
       memory: ["Agent Learning", "Review what the Agent has learned and keep teaching it with new decisions."],
-      pentest: ["Pentest", "This area will hold pentest-related MCP, Agent, and Skill flows as a separate top-level track from log analysis."],
     },
     sidebarCopy: {
       overview: "Start with platform activity, then review recent reports, investigations, and stored history.",
@@ -224,7 +213,6 @@ const i18n = {
       skills: "Review which Skills are active and how each module is currently covered.",
       integrations: "This is the MCP layer. Bitdefender is already wired in for asset inventory, endpoint list, and report catalog workflows.",
       memory: "This is the Agent learning layer. Each confirmed result can become future guidance.",
-      pentest: "This area will gradually host pentest entry points, workbenches, and synthesis flows, separate from security log analysis.",
     },
     ui: {
       overviewTitle: "Platform Overview",
@@ -308,9 +296,9 @@ const i18n = {
       historySummaryTitle: "Runtime Footprint",
       historySummaryCopy: "This preserves accumulated records so you can verify the system is more than a one-off page state.",
       plannerSummaryTitle: "The Agent plans to use these Skills",
-      plannerSummaryCopy: "The Agent chooses the right Skills based on material type, source signals, and learned experience.",
+      plannerSummaryCopy: "The Agent chooses Skills from material type and learned experience.",
       normalizeSummaryTitle: "Normalization Summary",
-      normalizeSummaryCopy: "The system has converted the raw material into a unified event structure used by planning and reporting.",
+      normalizeSummaryCopy: "Raw material is now a unified event structure.",
       reportSummaryTitle: "Assessment",
       reportReasonTitle: "Why it was assessed this way",
       reportFactsTitle: "Key Facts",
@@ -327,7 +315,7 @@ const i18n = {
       memoryPatternTitle: "Pattern remembered by the Agent",
       memorySavedSkillsTitle: "The Agent will prefer these Skills",
       overviewSnapshotTitle: "Platform Snapshot",
-      memoryRuleCopy: "This experience helps the system reach the right analysis path more quickly when similar materials appear again.",
+      memoryRuleCopy: "This helps similar material reach the right path faster.",
       memoryFeedbackSavedSkills: "Saved preferred skills",
       memoryRulePreferredSkills: "Preferred skills",
       memoryRuleHeaders: "Remembered header patterns",
@@ -343,37 +331,29 @@ const i18n = {
       menuIntegrations: "MCP",
       menuMemory: "Agent Learning",
       menuSecurityGroup: "Security Log Analysis",
-      menuPentestGroup: "Pentest",
-      menuPentestWorkbench: "Workbench",
-      pentestSectionTitle: "Mission Dashboard",
-      pentestDashboardTab: "Dashboard",
-      pentestReportsTab: "Reports",
-      pentestRunStatus: "WEEKLY GREEN RUN • IN PROGRESS",
-      pentestAuditReport: "Audit Report",
-      pentestLaunchScan: "Launch New Scan",
-      pentestLogout: "Logout",
-      pentestNavOverview: "OVERVIEW",
-      pentestNavAttackPaths: "ATTACK PATHS",
-      pentestNavPentestAi: "PENTEST AI",
-      pentestNavVulnerabilities: "VULNERABILITIES",
-      pentestNavTargets: "TARGETS",
-      pentestNavEvidence: "EVIDENCE",
-      pentestNavReports: "REPORTS",
-      pentestCardCopy: "APPA is not an autonomous exploit bot. It is a continuous pentest orchestrator centered on attack paths, where AI plans and synthesizes, controlled open-source tools execute, and audit-style reports become the final output.",
-      pentestScopeTitle: "Asset Scope",
-      pentestDiscoveryTitle: "Discovery Status",
-      pentestOrchestrationTitle: "Active Orchestration",
-      pentestMissionCopy: "WEEKLY GREEN RUN • IN PROGRESS",
-      pentestSurfaceTitle: "Attack Path Modeling",
-      pentestAiTitle: "Pentest AI",
-      pentestEvidenceTitle: "Evidence-First Findings",
-      pentestTargetsTitle: "Report Outputs",
-      pentestAttackPathCopy: "Modeled logical traversals through discovered infrastructure.",
-      pentestFindingsCopy: "Canonical security events identified during active pentesting.",
-      pentestFindingsKey: "Canonical Key",
-      pentestFindingsImpact: "Likelihood / Impact",
-      pentestFindingsTarget: "Target Node",
-      pentestFindingsPreview: "Evidence Preview",
+      targetsImportTitle: "Real Asset Intake",
+      targetsImportCopy: "Keep assets and architecture notes separate.",
+      targetsQuickFeedTitle: "Quick Input",
+      targetsQuickFeedCopy: "Split common targets into slots, then send them in one step.",
+      targetsQuickFeedScopeTitle: "Quick Scope Entry",
+      targetsQuickFeedDiagramTitle: "Architecture Notes",
+      targetsQuickFeedAdd: "Add",
+      targetsQuickFeedUpload: "Pick Diagram / File",
+      targetsQuickFeedApply: "One-click Control Plane",
+      targetsQuickFeedApplyHint: "Parse the draft, write the fields, save.",
+      targetsImportStageTitle: "Import Stages",
+      targetsImportManifestLabel: "Asset List",
+      targetsImportDiagramLabel: "Architecture / Boundaries",
+      targetsImportStageStaged: "Stage",
+      targetsImportStageParsed: "Parse",
+      targetsImportStageApplied: "Write",
+      targetsImportStageSaved: "Save",
+      targetsImportNextActionEmpty: "Drop files or paste scope content.",
+      targetsImportNextActionDraft: "Parse the draft, then write it.",
+      targetsImportNextActionParsed: "Write the parsed draft below.",
+      targetsImportNextActionApplied: "Save the control plane.",
+      targetsImportNextActionSaved: "The control plane is saved.",
+      targetsImportNextActionStale: "The draft changed. Re-parse.",
       viewSkillDirectoryTitle: "All Skills",
       viewSkillDirectoryCopy: "Show the full active Skill set by default, then narrow it down by module when needed.",
       skillsDirectoryNote: "The default view shows the full active Skill set. Use the module filter to narrow it down.",
@@ -498,6 +478,27 @@ const skillMeta = {
   "megaeth.appsec.whitebox_report_synthesis": { maturity: "L2", trainedCases: 0 },
 };
 
+const skillTrainingCases = {
+  "megaeth.host.baseline_compliance_analysis": [
+    { zh: "Case 001 · 主机基线审计", en: "Case 001 · Host baseline review" },
+  ],
+  "megaeth.host.integrity_monitor": [
+    { zh: "Case 001 · 主机基线审计", en: "Case 001 · Host baseline review" },
+  ],
+  "megaeth.identity.jumpserver_command_review": [
+    { zh: "Case 002 · JumpServer 命令审计", en: "Case 002 · JumpServer command review" },
+  ],
+  "megaeth.identity.jumpserver_transfer_review": [
+    { zh: "Case 002 · JumpServer 文件传输审计", en: "Case 002 · JumpServer transfer review" },
+  ],
+  "megaeth.identity.jumpserver_operation_review": [
+    { zh: "Case 002 · JumpServer 管理平面审计", en: "Case 002 · JumpServer operation review" },
+  ],
+  "megaeth.identity.jumpserver_multi_source_review": [
+    { zh: "Case 002 · JumpServer 多源关联审计", en: "Case 002 · JumpServer multi-source review" },
+  ],
+};
+
 const moduleOrder = ["appsec", "host", "endpoint", "cloud", "easm", "identity", "key", "cicd"];
 
 const moduleNarratives = {
@@ -526,8 +527,6 @@ const moduleNarratives = {
 const storageKeys = {
   activeView: "megaeth-active-view-v2",
   language: "megaeth-language-v1",
-  appaTab: "megaeth-appa-tab-v1",
-  appaNav: "megaeth-appa-nav-v1",
 };
 
 const legacyStorageKeys = ["megaeth-active-view", "megaeth-raw-input", "megaeth-raw-input-v2"];
@@ -552,10 +551,8 @@ const uiState = {
   memoryRules: [],
   memoryFeedback: [],
   bitdefender: null,
-  appaOverview: null,
-  appaDashboard: null,
-  appaTab: "dashboard",
-  appaNav: "overview",
+  expandedSkillTraining: {},
+  expandedSkillModules: {},
   language: "zh",
 };
 
@@ -699,66 +696,61 @@ function termLabel(term) {
 function applyLanguage() {
   const lang = uiState.language;
   document.documentElement.lang = lang === "zh" ? "zh-CN" : "en";
-  document.getElementById("brand-title").textContent = t("brandTitle");
-  document.getElementById("brand-copy").textContent = t("brandCopy");
-  document.getElementById("hero-eyebrow").textContent = t("heroEyebrow");
-  document.getElementById("system-status-label").textContent = t("systemStatus");
+  if (document.getElementById("brand-title")) document.getElementById("brand-title").textContent = t("brandTitle");
+  if (document.getElementById("brand-copy")) document.getElementById("brand-copy").textContent = t("brandCopy");
+  if (document.getElementById("hero-eyebrow")) document.getElementById("hero-eyebrow").textContent = t("heroEyebrow");
+  if (document.getElementById("system-status-label")) document.getElementById("system-status-label").textContent = t("systemStatus");
   const ui = t("ui");
-  document.getElementById("section-overview-title").textContent = ui.overviewTitle;
-  document.getElementById("section-reports-title").textContent = ui.reportsTitle;
-  document.getElementById("section-investigations-title").textContent = ui.investigationsTitle;
-  document.getElementById("section-history-title").textContent = ui.historyTitle;
-  document.getElementById("section-bitdefender-title").textContent = ui.bitdefenderTitle;
-  document.getElementById("bitdefender-copy").textContent = ui.bitdefenderCopy;
-  document.getElementById("bitdefender-import-note").textContent = ui.bitdefenderImportNote;
-  document.getElementById("section-intake-input-title").textContent = ui.intakeInputTitle;
-  document.getElementById("upload-files-label").textContent = ui.uploadFiles;
+  if (document.getElementById("section-overview-title")) document.getElementById("section-overview-title").textContent = ui.overviewTitle;
+  if (document.getElementById("section-reports-title")) document.getElementById("section-reports-title").textContent = ui.reportsTitle;
+  if (document.getElementById("section-investigations-title")) document.getElementById("section-investigations-title").textContent = ui.investigationsTitle;
+  if (document.getElementById("section-history-title")) document.getElementById("section-history-title").textContent = ui.historyTitle;
+  if (document.getElementById("section-bitdefender-title")) document.getElementById("section-bitdefender-title").textContent = ui.bitdefenderTitle;
+  if (document.getElementById("bitdefender-copy")) document.getElementById("bitdefender-copy").textContent = ui.bitdefenderCopy;
+  if (document.getElementById("bitdefender-import-note")) document.getElementById("bitdefender-import-note").textContent = ui.bitdefenderImportNote;
+  if (document.getElementById("section-intake-input-title")) document.getElementById("section-intake-input-title").textContent = ui.intakeInputTitle;
+  if (document.getElementById("upload-files-label")) document.getElementById("upload-files-label").textContent = ui.uploadFiles;
   if (document.getElementById("preview-normalize")) document.getElementById("preview-normalize").textContent = ui.previewNormalize;
   if (document.getElementById("preview-plan")) document.getElementById("preview-plan").textContent = ui.previewPlan;
-  document.getElementById("analyze").textContent = ui.analyze;
-  document.getElementById("section-planner-title").textContent = ui.plannerTitle;
-  document.getElementById("section-normalize-title").textContent = ui.normalizeTitle;
-  document.getElementById("section-report-title").textContent = ui.reportTitle;
+  if (document.getElementById("analyze")) document.getElementById("analyze").textContent = ui.analyze;
+  if (document.getElementById("section-planner-title")) document.getElementById("section-planner-title").textContent = ui.plannerTitle;
+  if (document.getElementById("section-normalize-title")) document.getElementById("section-normalize-title").textContent = ui.normalizeTitle;
+  if (document.getElementById("section-report-title")) document.getElementById("section-report-title").textContent = ui.reportTitle;
   const showCorrectionBtn = document.getElementById("show-correction-form");
   const correctionSkillsLabel = document.getElementById("correction-skills-label");
   const saveCorrectionBtn = document.getElementById("save-correction");
   if (showCorrectionBtn) showCorrectionBtn.textContent = ui.learnWrong;
   if (correctionSkillsLabel) correctionSkillsLabel.textContent = ui.correctionSkills;
   if (saveCorrectionBtn) saveCorrectionBtn.textContent = ui.saveCorrection;
-  document.getElementById("section-file-runs-title").textContent = ui.fileRunsTitle;
-  document.getElementById("menu-group-security").textContent = ui.menuSecurityGroup;
-  document.getElementById("menu-group-pentest").textContent = ui.menuPentestGroup;
-  document.querySelectorAll("[data-view='pentest']").forEach((node) => node.textContent = ui.menuPentestWorkbench);
-  document.getElementById("intake-dropzone-title").textContent = ui.intakeDropzoneTitle;
-  document.getElementById("intake-dropzone-copy").textContent = ui.intakeDropzoneCopy;
-  document.getElementById("intake-editor-title").textContent = ui.intakeEditorTitle;
-  document.getElementById("intake-editor-note").textContent = ui.intakeEditorNote;
-  document.getElementById("intake-editor-badge").textContent = ui.intakeEditorBadge;
-  document.getElementById("run-bitdefender-test").textContent = ui.bitdefenderTest;
-  document.getElementById("run-bitdefender-network").textContent = ui.bitdefenderNetwork;
-  document.getElementById("import-bitdefender-network").textContent = ui.bitdefenderImportNetwork;
+  if (document.getElementById("section-file-runs-title")) document.getElementById("section-file-runs-title").textContent = ui.fileRunsTitle;
+  if (document.getElementById("menu-group-security")) document.getElementById("menu-group-security").textContent = ui.menuSecurityGroup;
+  if (document.getElementById("intake-dropzone-title")) document.getElementById("intake-dropzone-title").textContent = ui.intakeDropzoneTitle;
+  if (document.getElementById("intake-dropzone-copy")) document.getElementById("intake-dropzone-copy").textContent = ui.intakeDropzoneCopy;
+  if (document.getElementById("intake-editor-title")) document.getElementById("intake-editor-title").textContent = ui.intakeEditorTitle;
+  if (document.getElementById("intake-editor-note")) document.getElementById("intake-editor-note").textContent = ui.intakeEditorNote;
+  if (document.getElementById("intake-editor-badge")) document.getElementById("intake-editor-badge").textContent = ui.intakeEditorBadge;
+  if (document.getElementById("run-bitdefender-test")) document.getElementById("run-bitdefender-test").textContent = ui.bitdefenderTest;
+  if (document.getElementById("run-bitdefender-network")) document.getElementById("run-bitdefender-network").textContent = ui.bitdefenderNetwork;
+  if (document.getElementById("import-bitdefender-network")) document.getElementById("import-bitdefender-network").textContent = ui.bitdefenderImportNetwork;
   if (document.getElementById("run-bitdefender-reports")) document.getElementById("run-bitdefender-reports").textContent = ui.bitdefenderReports;
   if (document.getElementById("run-bitdefender-report-links")) document.getElementById("run-bitdefender-report-links").textContent = ui.bitdefenderReportLinks;
   if (document.getElementById("import-bitdefender-latest-report")) document.getElementById("import-bitdefender-latest-report").textContent = ui.bitdefenderImportLatestReport;
   if (document.getElementById("import-bitdefender-reports")) document.getElementById("import-bitdefender-reports").textContent = ui.bitdefenderImportReports;
-  document.getElementById("section-installed-skills-title").textContent = ui.installedSkillsTitle;
-  document.getElementById("section-skill-matrix-title").textContent = ui.skillMatrixTitle;
-  document.getElementById("section-memory-rules-title").textContent = ui.memoryRulesTitle;
-  document.getElementById("section-memory-feedback-title").textContent = ui.memoryFeedbackTitle;
-  document.getElementById("refresh-overview").textContent = t("refresh");
-  document.getElementById("refresh-reports").textContent = t("refresh");
-  document.getElementById("refresh-investigations").textContent = t("refresh");
-  document.getElementById("refresh-history").textContent = t("refresh");
-  document.getElementById("refresh-skills").textContent = t("refresh");
-  document.getElementById("refresh-matrix").textContent = t("refresh");
-  document.getElementById("refresh-memory-rules").textContent = t("refresh");
-  document.getElementById("refresh-memory-feedback").textContent = t("refresh");
-  document.getElementById("skills-search").placeholder = ui.searchSkillsPlaceholder;
-  document.getElementById("skills-directory-note").textContent = ui.skillsDirectoryNote;
-  document.getElementById("memory-search").placeholder = ui.searchMemoryPlaceholder;
-  document.getElementById("intake-upload-note").textContent = ui.intakeUploadNote;
-  document.getElementById("intake-analyze-hint").textContent = ui.intakeAnalyzeHint;
-  document.getElementById("download-report").textContent = ui.downloadReport;
+  if (document.getElementById("section-installed-skills-title")) document.getElementById("section-installed-skills-title").textContent = ui.installedSkillsTitle;
+  if (document.getElementById("section-skill-matrix-title")) document.getElementById("section-skill-matrix-title").textContent = ui.skillMatrixTitle;
+  if (document.getElementById("section-memory-feedback-title")) document.getElementById("section-memory-feedback-title").textContent = ui.memoryFeedbackTitle;
+  if (document.getElementById("refresh-overview")) document.getElementById("refresh-overview").textContent = t("refresh");
+  if (document.getElementById("refresh-reports")) document.getElementById("refresh-reports").textContent = t("refresh");
+  if (document.getElementById("refresh-investigations")) document.getElementById("refresh-investigations").textContent = t("refresh");
+  if (document.getElementById("refresh-history")) document.getElementById("refresh-history").textContent = t("refresh");
+  if (document.getElementById("refresh-skills")) document.getElementById("refresh-skills").textContent = t("refresh");
+  if (document.getElementById("refresh-matrix")) document.getElementById("refresh-matrix").textContent = t("refresh");
+  if (document.getElementById("refresh-memory-feedback")) document.getElementById("refresh-memory-feedback").textContent = t("refresh");
+  if (document.getElementById("skills-search")) document.getElementById("skills-search").placeholder = ui.searchSkillsPlaceholder;
+  if (document.getElementById("skills-directory-note")) document.getElementById("skills-directory-note").textContent = ui.skillsDirectoryNote;
+  if (document.getElementById("intake-upload-note")) document.getElementById("intake-upload-note").textContent = ui.intakeUploadNote;
+  if (document.getElementById("intake-analyze-hint")) document.getElementById("intake-analyze-hint").textContent = ui.intakeAnalyzeHint;
+  if (document.getElementById("download-report")) document.getElementById("download-report").textContent = ui.downloadReport;
   const filter = document.getElementById("skills-filter");
   if (filter) {
     const labels = uiState.language === "zh"
@@ -804,40 +796,6 @@ function applyLanguage() {
   document.querySelectorAll("[data-view='skills']").forEach((node) => node.textContent = ui.menuSkills);
   document.querySelectorAll("[data-view='integrations']").forEach((node) => node.textContent = ui.menuIntegrations);
   document.querySelectorAll("[data-view='memory']").forEach((node) => node.textContent = ui.menuMemory);
-  document.getElementById("section-pentest-title").textContent = ui.pentestSectionTitle;
-  document.getElementById("section-pentest-scope-title").textContent = ui.pentestScopeTitle;
-  document.getElementById("section-pentest-discovery-title").textContent = ui.pentestDiscoveryTitle;
-  document.getElementById("section-pentest-orchestration-title").textContent = ui.pentestOrchestrationTitle;
-  document.getElementById("pentest-card-copy").textContent = ui.pentestCardCopy;
-  document.getElementById("pentest-mission-copy").textContent = ui.pentestMissionCopy;
-  document.getElementById("section-pentest-surface-title").textContent = ui.pentestSurfaceTitle;
-  document.getElementById("section-pentest-ai-title").textContent = ui.pentestAiTitle;
-  document.getElementById("section-pentest-evidence-title").textContent = ui.pentestEvidenceTitle;
-  document.getElementById("section-pentest-targets-title").textContent = ui.pentestTargetsTitle;
-  document.getElementById("appa-tab-dashboard").textContent = ui.pentestDashboardTab;
-  document.getElementById("appa-audit-report").textContent = ui.pentestAuditReport;
-  document.getElementById("appa-nav-overview").lastElementChild.textContent = ui.pentestNavOverview;
-  document.getElementById("appa-nav-attack-paths").lastElementChild.textContent = ui.pentestNavAttackPaths;
-  document.getElementById("appa-nav-pentest-ai").lastElementChild.textContent = ui.pentestNavPentestAi;
-  document.getElementById("appa-nav-vulnerabilities").lastElementChild.textContent = ui.pentestNavVulnerabilities;
-  document.getElementById("appa-nav-targets").lastElementChild.textContent = ui.pentestNavTargets;
-  document.getElementById("appa-nav-evidence").lastElementChild.textContent = ui.pentestNavEvidence;
-  document.getElementById("appa-nav-reports").lastElementChild.textContent = ui.pentestNavReports;
-  document.getElementById("appa-launch-scan").textContent = ui.pentestLaunchScan;
-  document.getElementById("appa-logout").textContent = ui.pentestLogout;
-  document.getElementById("appa-attack-path-copy").textContent = ui.pentestAttackPathCopy;
-  document.getElementById("appa-findings-copy").textContent = ui.pentestFindingsCopy;
-  document.getElementById("appa-findings-col-key").textContent = ui.pentestFindingsKey;
-  document.getElementById("appa-findings-col-impact").textContent = ui.pentestFindingsImpact;
-  document.getElementById("appa-findings-col-target").textContent = ui.pentestFindingsTarget;
-  document.getElementById("appa-findings-col-preview").textContent = ui.pentestFindingsPreview;
-  document.getElementById("appa-latest-report-title").textContent = uiState.language === "zh" ? "最新审计输出" : "Latest Audit Output";
-  document.getElementById("appa-latest-report-copy").textContent = uiState.language === "zh"
-    ? "这里看 APPA 最近一次已经产出的审计型交付物。"
-    : "Review the newest audit-style output currently produced by APPA.";
-  document.getElementById("appa-report-download-inline").textContent = uiState.language === "zh" ? "下载最新报告" : "Download Latest Report";
-  document.getElementById("appa-report-history-title").textContent = uiState.language === "zh" ? "报告历史" : "Report History";
-  document.getElementById("appa-report-types-title").textContent = uiState.language === "zh" ? "报告类型" : "Report Types";
   if (!intakeState.rawEvent && !intakeState.normalizedEvent && !intakeState.plannerPreview && !intakeState.report) {
     document.getElementById("intake-status").textContent = ui.ready;
   }
@@ -852,10 +810,8 @@ function applyLanguage() {
   if (uiState.history) renderHistory(uiState.history);
   if (uiState.skills.length) renderSkills(uiState.skills);
   if (Object.keys(uiState.matrix).length) renderMatrix(uiState.matrix);
-  if (uiState.memoryRules.length) renderMemoryRules(uiState.memoryRules);
   if (uiState.memoryFeedback.length) renderMemoryFeedback(uiState.memoryFeedback);
   renderBitdefender(uiState.bitdefender);
-  if (uiState.appaDashboard) renderAppaDashboard(uiState.appaDashboard);
 }
 
 async function request(url, options = {}) {
@@ -866,2673 +822,15 @@ async function request(url, options = {}) {
   return data;
 }
 
-function clearLegacyLocalState() {
-  legacyStorageKeys.forEach((key) => localStorage.removeItem(key));
-}
-
-function currentViewFromLocation() {
-  const hashView = window.location.hash.replace(/^#/, "").trim();
-  const allowedViews = new Set(["overview", "intake", "skills", "integrations", "memory", "pentest"]);
-  if (allowedViews.has(hashView)) return hashView;
-  const storedView = localStorage.getItem(storageKeys.activeView) || "overview";
-  return allowedViews.has(storedView) ? storedView : "overview";
-}
-
-function setView(view) {
-  document.querySelectorAll(".menu-item").forEach((item) => {
-    item.classList.toggle("active", item.dataset.view === view);
-  });
-  document.querySelectorAll(".view").forEach((item) => {
-    item.classList.toggle("active", item.dataset.section === view);
-  });
-  document.getElementById("view-title").textContent = t("viewMeta")[view][0];
-  document.getElementById("view-copy").textContent = t("viewMeta")[view][1];
-  document.getElementById("sidebar-copy").textContent = t("sidebarCopy")[view] || "";
-  document.body.classList.toggle("view-pentest-active", view === "pentest");
-  localStorage.setItem(storageKeys.activeView, view);
-  if (window.location.hash !== `#${view}`) {
-    window.history.replaceState(null, "", `#${view}`);
-  }
-}
-
-function setHealth(text, tone = "idle") {
-  const badge = document.getElementById("health-badge");
-  badge.textContent = text;
-  badge.className = `health-badge ${tone}`;
-}
-
-function uploadStatusText(data) {
-  const uploadedCount = Number(data?.uploaded_count || 0);
-  const resultCount = Number(data?.count || 0);
-  const compositeGenerated = Boolean(data?.composite_generated);
-  const visibleResults = (data?.results || []).filter((item) => item?.normalized_event?.event_type !== "jumpserver_multi_source_audit");
-  const sourceCategoryCount = new Set(
-    visibleResults
-      .map((item) => item?.normalized_event?.source_type)
-      .filter(Boolean)
-  ).size;
-  if (uiState.language === "zh") {
-    if (compositeGenerated && uploadedCount > 0) {
-      if (sourceCategoryCount > 0 && sourceCategoryCount !== uploadedCount) {
-        return `已上传 ${uploadedCount} 个文件，覆盖 ${sourceCategoryCount} 类场景，生成 ${resultCount} 条分析结果（包含 1 条综合结果）。`;
-      }
-      return `已上传 ${uploadedCount} 个文件，生成 ${resultCount} 条分析结果（包含 1 条综合结果）。`;
-    }
-    return `已上传 ${uploadedCount || resultCount} 个文件，生成 ${resultCount} 条分析结果。`;
-  }
-  if (compositeGenerated && uploadedCount > 0) {
-    if (sourceCategoryCount > 0 && sourceCategoryCount !== uploadedCount) {
-      return `Uploaded ${uploadedCount} file(s), covering ${sourceCategoryCount} source category(ies), and produced ${resultCount} analysis result(s), including 1 composite result.`;
-    }
-    return `Uploaded ${uploadedCount} file(s) and produced ${resultCount} analysis result(s), including 1 composite result.`;
-  }
-  return `Uploaded ${uploadedCount || resultCount} file(s) and produced ${resultCount} analysis result(s).`;
-}
-
-function stagedUploadManifest(files) {
-  const manifest = {
-    mode: "staged_upload",
-    status: uiState.language === "zh" ? "waiting_for_normalize_and_analyze" : "waiting_for_normalize_and_analyze",
-    message:
-      uiState.language === "zh"
-        ? "文件已上传完成，等待点击“归一化后分析”后才会真正开始处理。"
-        : "Files have been uploaded and are waiting for “Normalize + Analyze” before processing starts.",
-    pending_files: files.map((file) => ({
-      name: file.name,
-      size_bytes: file.size,
-      type: file.type || "application/octet-stream",
-    })),
-  };
-  return JSON.stringify(manifest, null, 2);
-}
-
-function healthText(kind) {
-  if (uiState.language === "zh") {
-    if (kind === "healthy") return "正常";
-    if (kind === "staged") return "等待分析";
-    if (kind === "normalizing") return "归一化中...";
-    if (kind === "planning") return "规划中...";
-    if (kind === "analyzing") return "分析中...";
-    if (kind === "uploading") return "上传中...";
-  }
-  if (kind === "healthy") return "Healthy";
-  if (kind === "staged") return "Ready to analyze";
-  if (kind === "normalizing") return "Normalizing...";
-  if (kind === "planning") return "Planning...";
-  if (kind === "analyzing") return "Analyzing...";
-  if (kind === "uploading") return "Uploading...";
-  return kind;
-}
-
-function el(tag, className, text) {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text !== undefined) node.textContent = text;
-  return node;
-}
-
-function linkEl(href, className, text) {
-  const node = document.createElement("a");
-  if (className) node.className = className;
-  node.href = href;
-  node.target = "_blank";
-  node.rel = "noreferrer";
-  node.textContent = text;
-  return node;
-}
-
-function createEmptyState(text) {
-  return el("div", "empty-state", text);
-}
-
-function formatTime(value) {
-  if (!value) return "暂无记录";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return String(value);
-  return date.toLocaleString("zh-CN");
-}
-
-function moduleLabel(category) {
-  return categoryLabels[category] || String(category || "Unknown");
-}
-
-function sourceTypeLabel(value) {
-  return sourceTypeLabels[uiState.language][value] || String(value || (uiState.language === "zh" ? "未知" : "Unknown"));
-}
-
-function eventTypeLabel(value) {
-  return eventTypeLabels[uiState.language][value] || String(value || (uiState.language === "zh" ? "未知事件" : "Unknown event"));
-}
-
-function engineLabel(adapter) {
-  return engineLabels[adapter] || "MegaETH Analysis Engine";
-}
-
-function skillLabel(skillId) {
-  const labels = skillLabels[skillId];
-  return labels ? labels[uiState.language] : skillId;
-}
-
-function orderedCategories(categories) {
-  return [...categories].sort((a, b) => {
-    const aIndex = moduleOrder.indexOf(a);
-    const bIndex = moduleOrder.indexOf(b);
-    return (aIndex === -1 ? 99 : aIndex) - (bIndex === -1 ? 99 : bIndex);
-  });
-}
-
-function skillSpecUrl(skillId) {
-  return `https://github.com/edmund-xl/MegaETH-AI-Security/blob/main/skill_specs/${skillId}.md`;
-}
-
-function moduleNarrative(category) {
-  return moduleNarratives[uiState.language][category] || "";
-}
-
-function skillMetaFor(skill) {
-  return skillMeta[skill.skill_id] || {maturity: "L1", trainedCases: 0};
-}
-
-function executionModeLabel(mode) {
-  const labels = {
-    zh: {
-      rule_only: "规则版",
-      agent_optional: "可挂 Agent",
-      agent_augmented: "Agent 增强",
-    },
-    en: {
-      rule_only: "Rule-only",
-      agent_optional: "Agent optional",
-      agent_augmented: "Agent augmented",
-    },
-  };
-  return labels[uiState.language][mode] || mode;
-}
-
-function maturityLabel(level) {
-  const labels = {
-    zh: {
-      L1: "L1 占位",
-      L2: "L2 启发式",
-      L3: "L3 已训练",
-      L4: "L4 稳定",
-    },
-    en: {
-      L1: "L1 Placeholder",
-      L2: "L2 Heuristic",
-      L3: "L3 Trained",
-      L4: "L4 Stable",
-    },
-  };
-  return labels[uiState.language][level] || level;
-}
-
-function caseCountLabel(count) {
-  return uiState.language === "zh" ? `已训练 ${count} 个 case` : `${count} trained case${count === 1 ? "" : "s"}`;
-}
-
-function skillStrategySummary(skill) {
-  const triggers = skill.agent_trigger_conditions || [];
-  const fallbacks = skill.rule_fallback_conditions || [];
-  const contextPolicy = skill.max_context_policy || "full";
-  if ((skill.execution_mode || "rule_only") === "rule_only") {
-    return uiState.language === "zh"
-      ? "默认走规则版，优先保证结构稳定、统计可重复和结果可控。"
-      : "Defaults to rule-only execution for stable structure, repeatable statistics, and predictable output.";
-  }
-  const contextLabel = {
-    zh: {
-      full: "完整上下文",
-      summary_first: "摘要优先",
-      summary_plus_samples: "摘要 + 样本",
-    },
-    en: {
-      full: "full context",
-      summary_first: "summary first",
-      summary_plus_samples: "summary + samples",
-    },
-  }[uiState.language][contextPolicy] || contextPolicy;
-  const triggerText = triggers[0] || (uiState.language === "zh" ? "摘要和证据足够完整时" : "when summary evidence is complete");
-  const fallbackText = fallbacks[0] || (uiState.language === "zh" ? "模型不可用时自动回退规则版" : "falls back to rule-only when the model is unavailable");
-  return uiState.language === "zh"
-    ? `优先条件：${triggerText}；回退条件：${fallbackText}；上下文策略：${contextLabel}。`
-    : `Preferred when ${triggerText}; falls back when ${fallbackText}; context policy: ${contextLabel}.`;
-}
-
-function skillFamilyId(skill) {
-  if (skill.category === "identity" && skill.skill_id.includes("jumpserver")) return "jumpserver_audit";
-  return "";
-}
-
-function skillFamilyLabel(familyId) {
-  const labels = {
-    jumpserver_audit: {
-      zh: "JumpServer Audit",
-      en: "JumpServer Audit",
-    },
-    general: {
-      zh: "其他能力",
-      en: "Other Skills",
-    },
-  };
-  return labels[familyId]?.[uiState.language] || "";
-}
-
-function bucketSkillsByFamily(skills) {
-  const buckets = new Map();
-  skills.forEach((skill) => {
-    const familyId = skillFamilyId(skill) || "general";
-    if (!buckets.has(familyId)) buckets.set(familyId, []);
-    buckets.get(familyId).push(skill);
-  });
-  return [...buckets.entries()].sort(([a], [b]) => {
-    if (a === "jumpserver_audit") return -1;
-    if (b === "jumpserver_audit") return 1;
-    return a.localeCompare(b);
-  });
-}
-
-function buildSkillBucket(items) {
-  const wrapper = el("div", "skill-bucket");
-  const featured = items.slice(0, Math.min(2, items.length));
-  const remaining = items.slice(featured.length);
-
-  if (featured.length) {
-    const featureGrid = el("div", "module-feature-grid");
-    featured.forEach((skill, index) => {
-      const metaInfo = skillMetaFor(skill);
-      const card = el("article", `skill-feature-card ${index === 0 ? "primary" : ""}`.trim());
-      const top = el("div", "skill-card-top");
-      const title = el("div", "");
-      title.appendChild(el("h5", "", skill.skill_name));
-      title.appendChild(el("p", "card-copy", skill.description));
-      top.appendChild(title);
-      top.appendChild(linkEl(skillSpecUrl(skill.skill_id), "spec-link", uiState.language === "zh" ? "查看规格" : "Open Spec"));
-      card.appendChild(top);
-      const submeta = el("div", "skill-submeta");
-      const family = skillFamilyId(skill);
-      if (family) submeta.appendChild(el("span", "chip", skillFamilyLabel(family)));
-      submeta.appendChild(el("span", "chip good", skill.stage === "tool-backed" ? (uiState.language === "zh" ? "已接入真实执行" : "Live execution") : (uiState.language === "zh" ? "待接入" : "Pending")));
-      submeta.appendChild(el("span", "chip", maturityLabel(metaInfo.maturity)));
-      submeta.appendChild(el("span", "chip", caseCountLabel(metaInfo.trainedCases)));
-      submeta.appendChild(el("span", "chip", executionModeLabel(skill.execution_mode || "rule_only")));
-      submeta.appendChild(el("span", "chip", uiState.language === "zh" ? `引擎：${engineLabel(skill.adapter)}` : `Engine: ${engineLabel(skill.adapter)}`));
-      card.appendChild(submeta);
-      card.appendChild(el("p", "card-copy", skillStrategySummary(skill)));
-      featureGrid.appendChild(card);
-    });
-    wrapper.appendChild(featureGrid);
-  }
-
-  if (remaining.length) {
-    const compactList = el("div", "skill-compact-list");
-    remaining.forEach((skill) => {
-      const metaInfo = skillMetaFor(skill);
-      const row = el("div", "skill-row");
-      row.appendChild(el("div", "skill-row-name", skill.skill_name));
-      row.appendChild(el("div", "skill-row-copy", skill.description));
-      const meta = el("div", "skill-row-meta");
-      const family = skillFamilyId(skill);
-      if (family) meta.appendChild(el("span", "chip", skillFamilyLabel(family)));
-      meta.appendChild(el("span", "chip", maturityLabel(metaInfo.maturity)));
-      meta.appendChild(el("span", "chip", caseCountLabel(metaInfo.trainedCases)));
-      meta.appendChild(el("span", "chip", executionModeLabel(skill.execution_mode || "rule_only")));
-      meta.appendChild(el("span", "chip", engineLabel(skill.adapter)));
-      meta.appendChild(linkEl(skillSpecUrl(skill.skill_id), "spec-link", uiState.language === "zh" ? "规格" : "Spec"));
-      row.appendChild(meta);
-      row.appendChild(el("div", "skill-row-copy", skillStrategySummary(skill)));
-      compactList.appendChild(row);
-    });
-    wrapper.appendChild(compactList);
-  }
-
-  return wrapper;
-}
-
-function rankSkill(skill) {
-  const scoreMap = [
-    ["baseline_compliance_analysis", 100],
-    ["whitebox_report_synthesis", 95],
-    ["whitebox_exploit_validation", 90],
-    ["whitebox_recon", 88],
-    ["process_anomaly", 86],
-    ["asset_discovery", 84],
-    ["config_audit", 82],
-    ["policy_risk_analysis", 80],
-    ["service_scan", 78],
-    ["integrity_monitor", 76],
-  ];
-  let score = 50;
-  scoreMap.forEach(([token, weight]) => {
-    if (skill.skill_id.includes(token)) score = Math.max(score, weight);
-  });
-  if (skill.stage === "tool-backed") score += 5;
-  return score;
-}
-
-function renderChips(values, tone = "") {
-  const row = el("div", "token-list");
-  values.forEach((value) => {
-    const normalized = String(value || "").toLowerCase();
-    let tokenTone = tone;
-    if (!tokenTone) {
-      if (normalized.includes("jumpserver")) tokenTone = "cyan";
-      else if (normalized.includes("bitdefender")) tokenTone = "green";
-      else if (normalized.includes("whitebox") || normalized.includes("appsec")) tokenTone = "violet";
-      else if (normalized.includes("host")) tokenTone = "amber";
-      else if (normalized.includes("identity")) tokenTone = "cyan";
-      else if (normalized.includes("endpoint")) tokenTone = "green";
-    }
-    row.appendChild(el("span", `token ${tokenTone}`.trim(), value));
-  });
-  return row;
-}
-
-function updateButtonState(buttonId, label, disabled = false) {
-  const button = document.getElementById(buttonId);
-  if (!button) return;
-  button.textContent = label;
-  button.disabled = disabled;
-}
-
-async function withRefreshState(buttonId, loader) {
-  updateButtonState(buttonId, t("refreshing"), true);
-  const startedAt = Date.now();
-  try {
-    await loader();
-    const elapsed = Date.now() - startedAt;
-    if (elapsed < 450) {
-      await new Promise((resolve) => setTimeout(resolve, 450 - elapsed));
-    }
-    updateButtonState(buttonId, t("refreshed"), false);
-    setTimeout(() => updateButtonState(buttonId, t("refresh"), false), 900);
-  } catch (error) {
-    updateButtonState(buttonId, t("retry"), false);
-    throw error;
-  }
-}
-
-function renderSkills(skills) {
-  uiState.skills = skills;
-  populateCorrectionSkillOptions();
-  const root = document.getElementById("skills-output");
-  root.innerHTML = "";
-  const keyword = (document.getElementById("skills-search")?.value || "").trim().toLowerCase();
-  const filter = document.getElementById("skills-filter")?.value || "all";
-  const filtered = skills.filter((skill) => {
-    const matchesFilter = filter === "all" || skill.category === filter;
-    const haystack = [
-      skill.skill_name,
-      skill.description,
-      skill.skill_id,
-      moduleLabel(skill.category),
-      engineLabel(skill.adapter),
-    ].join(" ").toLowerCase();
-    const matchesKeyword = !keyword || haystack.includes(keyword);
-    return matchesFilter && matchesKeyword;
-  });
-  if (!filtered.length) {
-    root.appendChild(createEmptyState(t("ui").noSkills));
-    return;
-  }
-  const grouped = filtered.reduce((acc, skill) => {
-    acc[skill.category] = acc[skill.category] || [];
-    acc[skill.category].push(skill);
-    return acc;
-  }, {});
-  const categories = orderedCategories(Object.keys(grouped));
-  const trainedCount = filtered.filter((skill) => skillMetaFor(skill).trainedCases > 0).length;
-  const directory = el("div", "skill-directory");
-
-  const summary = el("div", "skill-summary-strip");
-  [
-    [uiState.language === "zh" ? "当前能力数" : "Live skills", String(filtered.length)],
-    [uiState.language === "zh" ? "模块数量" : "Modules", String(categories.length)],
-    [uiState.language === "zh" ? "已接入执行" : "Tool-backed", String(filtered.filter((skill) => skill.stage === "tool-backed").length)],
-    [uiState.language === "zh" ? "已训练能力" : "Case-trained", String(trainedCount)],
-  ].forEach(([label, value]) => {
-    const stat = el("div", "skill-stat");
-    stat.appendChild(el("span", "meta-label", label));
-    stat.appendChild(el("span", "skill-stat-value", value));
-    summary.appendChild(stat);
-  });
-  directory.appendChild(summary);
-
-  const tabs = el("div", "directory-tabs");
-  const allTab = el("button", `directory-tab ${filter === "all" ? "active" : ""}`.trim(), uiState.language === "zh" ? "全部能力" : "All Skills");
-  allTab.type = "button";
-  allTab.addEventListener("click", () => {
-    const filterNode = document.getElementById("skills-filter");
-    filterNode.value = "all";
-    renderSkills(uiState.skills);
-  });
-  tabs.appendChild(allTab);
-  categories.forEach((category) => {
-    const items = grouped[category] || [];
-    const tab = el("button", `directory-tab ${filter === category ? "active" : ""}`.trim(), `${moduleLabel(category)} · ${items.length}`);
-    tab.type = "button";
-    tab.addEventListener("click", () => {
-      const filterNode = document.getElementById("skills-filter");
-      filterNode.value = category;
-      renderSkills(uiState.skills);
-    });
-    tabs.appendChild(tab);
-  });
-  directory.appendChild(tabs);
-
-  categories.forEach((category) => {
-    const items = [...(grouped[category] || [])].sort((a, b) => rankSkill(b) - rankSkill(a));
-    const trainedInModule = items.filter((skill) => skillMetaFor(skill).trainedCases > 0).length;
-    const familyBuckets = bucketSkillsByFamily(items);
-
-    const cluster = el("section", "module-cluster");
-    const head = el("div", "module-cluster-head");
-    const headText = el("div", "");
-    headText.appendChild(el("h4", "", moduleLabel(category)));
-    headText.appendChild(el("p", "section-note", moduleNarrative(category) || t("ui").viewSkillDirectoryCopy));
-    headText.appendChild(el("div", "compact-meta", uiState.language === "zh" ? `已训练 ${trainedInModule} / ${items.length}` : `${trainedInModule} / ${items.length} trained`));
-    head.appendChild(headText);
-    head.appendChild(el("span", "module-pill", uiState.language === "zh" ? `${items.length} 个能力` : `${items.length} capabilities`));
-    cluster.appendChild(head);
-
-    familyBuckets.forEach(([familyId, familyItems]) => {
-      if (familyBuckets.length > 1 || familyId !== "general") {
-        const familyHead = el("div", "module-subhead");
-        familyHead.appendChild(el("h5", "", skillFamilyLabel(familyId)));
-        familyHead.appendChild(el("span", "module-pill", uiState.language === "zh" ? `${familyItems.length} 个能力` : `${familyItems.length} capabilities`));
-        cluster.appendChild(familyHead);
-      }
-      cluster.appendChild(buildSkillBucket(familyItems));
-    });
-
-    directory.appendChild(cluster);
-  });
-
-  root.appendChild(directory);
-}
-
-function populateCorrectionSkillOptions(selected = []) {
-  const select = document.getElementById("correction-skills");
-  if (!select) return;
-  const current = new Set(selected.length ? selected : Array.from(select.selectedOptions).map((option) => option.value));
-  select.innerHTML = "";
-  uiState.skills.forEach((skill) => {
-    const option = document.createElement("option");
-    option.value = skill.skill_id;
-    option.textContent = `${skill.skill_name} · ${moduleLabel(skill.category)}`;
-    option.selected = current.has(skill.skill_id);
-    select.appendChild(option);
-  });
-}
-
-function renderMatrix(matrix) {
-  uiState.matrix = matrix;
-  const root = document.getElementById("matrix-output");
-  root.innerHTML = "";
-  const keyword = (document.getElementById("skills-search")?.value || "").trim().toLowerCase();
-  const filter = document.getElementById("skills-filter")?.value || "all";
-  const entries = orderedCategories(Object.keys(matrix).filter((category) => filter === "all" || category === filter))
-    .map((category) => [category, matrix[category]]);
-  if (!entries.length) {
-    root.appendChild(createEmptyState(t("ui").noMatrix));
-    return;
-  }
-  const wrapper = el("div", "module-map");
-  wrapper.appendChild(el("p", "section-note", uiState.language === "zh" ? "这里改成矩阵 + 强弱条的方式，能更直观看到每个模块偏检测、分析、处置还是取证。" : "This panel now uses a matrix plus strength bars so you can quickly see whether each module leans toward detection, analysis, response, or forensics."));
-  const capabilityTable = el("div", "capability-table");
-  const capabilityTableHeader = el("div", "capability-table-header");
-  [uiState.language === "zh" ? "能力组" : "Capability Group", uiState.language === "zh" ? "成熟度" : "Maturity", uiState.language === "zh" ? "已训练" : "Trained", uiState.language === "zh" ? "执行模式" : "Mode", uiState.language === "zh" ? "覆盖强度" : "Coverage"].forEach((text) => {
-    capabilityTableHeader.appendChild(el("span", "", text));
-  });
-  capabilityTable.appendChild(capabilityTableHeader);
-  const matrixTable = el("div", "capability-matrix");
-  const header = el("div", "capability-matrix-row capability-matrix-head");
-  [uiState.language === "zh" ? "模块" : "Module", "Detection", "Analysis", "Response", "Forensics"].forEach((text) => {
-    header.appendChild(el("span", "", text));
-  });
-  matrixTable.appendChild(header);
-  const totalSkills = entries.reduce((sum, [, skills]) => sum + skills.length, 0) || 1;
-  entries.forEach(([category, skills]) => {
-    const relevant = skills.filter((skill) => {
-      if (!keyword) return true;
-      const haystack = [
-        skill.skill_name,
-        skill.description,
-        skill.skill_id,
-        moduleLabel(skill.category),
-        engineLabel(skill.adapter),
-      ].join(" ").toLowerCase();
-      return haystack.includes(keyword);
-    });
-    if (!relevant.length) return;
-    const trainedCount = relevant.filter((skill) => skillMetaFor(skill).trainedCases > 0).length;
-    const agentCount = relevant.filter((skill) => (skill.execution_mode || "rule_only") !== "rule_only").length;
-    const averageRank = relevant.reduce((sum, skill) => sum + rankSkill(skill), 0) / relevant.length;
-    const normalizedRank = Math.max(12, Math.min(100, Math.round((averageRank / 5) * 100)));
-    const tableRow = el("div", "capability-table-row");
-    tableRow.appendChild(el("span", "", moduleLabel(category)));
-    tableRow.appendChild(el("span", "", `L${Math.max(1, Math.min(4, Math.round(averageRank)))}`));
-    tableRow.appendChild(el("span", "", `${trainedCount}/${relevant.length}`));
-    tableRow.appendChild(el("span", agentCount ? "capability-mode agent" : "capability-mode", agentCount ? (uiState.language === "zh" ? "Agent 可选" : "Agent Optional") : (uiState.language === "zh" ? "规则版" : "Rule Only")));
-    const maturityCell = el("div", "maturity-bar-row");
-    const maturityTrack = el("div", "memory-track");
-    const maturityFill = el("span", "maturity-bar-fill");
-    maturityFill.style.width = `${normalizedRank}%`;
-    maturityTrack.appendChild(maturityFill);
-    maturityCell.appendChild(maturityTrack);
-    maturityCell.appendChild(el("span", "", `${normalizedRank}%`));
-    tableRow.appendChild(maturityCell);
-    capabilityTable.appendChild(tableRow);
-    const dotRow = el("div", "capability-matrix-row");
-    dotRow.appendChild(el("span", "", moduleLabel(category)));
-    const flags = [
-      relevant.length > 0,
-      trainedCount > 0,
-      relevant.some((skill) => (skill.execution_mode || "rule_only") !== "rule_only"),
-      relevant.some((skill) => String(skill.skill_id || "").includes("jumpserver") || String(skill.skill_id || "").includes("whitebox")),
-    ];
-    flags.forEach((active) => dotRow.appendChild(el("span", active ? "matrix-dot active" : "matrix-dot", active ? "●" : "○")));
-    matrixTable.appendChild(dotRow);
-    const card = el("article", "module-map-card");
-    const head = el("div", "module-map-head");
-    head.appendChild(el("h4", "", moduleLabel(category)));
-    head.appendChild(el("span", "matrix-count", uiState.language === "zh" ? `${relevant.length} 个能力` : `${relevant.length} capabilities`));
-    card.appendChild(head);
-    card.appendChild(el("p", "mini-copy", moduleNarrative(category)));
-    card.appendChild(el("p", "mini-copy", uiState.language === "zh" ? `已训练能力 ${trainedCount} 个` : `${trainedCount} case-trained skill(s)`));
-    const list = el("div", "module-map-list");
-    [...relevant].sort((a, b) => rankSkill(b) - rankSkill(a)).slice(0, 3).forEach((skill, index) => {
-      const item = el("div", "module-map-item");
-      item.appendChild(el("span", "", `${index + 1}. ${skill.skill_name}`));
-      item.appendChild(el("span", "", uiState.language === "zh" ? (skill.stage === "tool-backed" ? "已接入" : "待接入") : (skill.stage === "tool-backed" ? "Live" : "Pending")));
-      list.appendChild(item);
-    });
-    card.appendChild(list);
-    const bar = el("div", "module-map-bar");
-    const fill = el("span", "");
-    fill.style.width = `${Math.max(18, Math.round((relevant.length / totalSkills) * 100))}%`;
-    bar.appendChild(fill);
-    card.appendChild(bar);
-    wrapper.appendChild(card);
-  });
-  wrapper.prepend(capabilityTable);
-  wrapper.prepend(matrixTable);
-  root.appendChild(wrapper);
-}
-
-function renderMemoryRules(rules) {
-  uiState.memoryRules = rules;
-  const root = document.getElementById("memory-rules-output");
-  root.innerHTML = "";
-  const keyword = (document.getElementById("memory-search")?.value || "").trim().toLowerCase();
-  const filtered = rules.filter((rule) => {
-    const haystack = [
-      rule.name,
-      rule.expected_source_type,
-      rule.expected_event_type,
-      ...(rule.header_tokens || []),
-      ...(rule.filename_tokens || []),
-      ...(rule.preferred_skills || []),
-    ].join(" ").toLowerCase();
-    return !keyword || haystack.includes(keyword);
-  });
-  if (!filtered.length) {
-    root.appendChild(createEmptyState(t("ui").noMemoryRules));
-    return;
-  }
-  const board = el("div", "memory-rules-board");
-  const summary = el("div", "skill-summary-strip");
-  [
-    [uiState.language === "zh" ? "规则总数" : "Rules", String(filtered.length)],
-    [uiState.language === "zh" ? "累计命中" : "Matches", String(filtered.reduce((sum, rule) => sum + Number(rule.usage_count || 0), 0))],
-    [uiState.language === "zh" ? "自动沉淀" : "Auto learned", String(filtered.filter((rule) => !rule.manual).length)],
-    [uiState.language === "zh" ? "人工纠正" : "Manual", String(filtered.filter((rule) => rule.manual).length)],
-  ].forEach(([label, value]) => {
-    const stat = el("div", "skill-stat");
-    stat.appendChild(el("span", "meta-label", label));
-    stat.appendChild(el("span", "skill-stat-value", value));
-    summary.appendChild(stat);
-  });
-  board.appendChild(summary);
-  board.appendChild(el("p", "section-note", uiState.language === "zh" ? "这里是系统已经沉淀下来的长期规则。它们会在后续遇到相似材料时直接参与分类和能力决策。" : "This panel shows the long-lived rules the Agent has already retained. They are reused directly when similar materials appear again."));
-  const visualGrid = el("div", "memory-visual-grid");
-  const sourceCard = el("article", "memory-visual-card");
-  sourceCard.appendChild(el("h4", "", uiState.language === "zh" ? "规则来源构成" : "Rule Source Mix"));
-  sourceCard.appendChild(el("p", "card-copy", uiState.language === "zh" ? "先看这些长期规则更多来自自动沉淀还是人工纠偏。" : "Start by checking whether retained rules mostly come from automated observations or manual corrections."));
-  const sourceBars = el("div", "memory-bar-list");
-  const sourceCounts = [
-    [uiState.language === "zh" ? "自动" : "Auto", filtered.filter((rule) => !rule.manual).length, "cyan"],
-    [uiState.language === "zh" ? "人工" : "Manual", filtered.filter((rule) => rule.manual).length, "violet"],
-  ];
-  const maxSource = Math.max(...sourceCounts.map(([, count]) => count), 1);
-  sourceCounts.forEach(([label, count, tone]) => {
-    const row = el("div", "memory-bar-row");
-    row.appendChild(el("span", "meta-label", label));
-    const track = el("div", "memory-track");
-    const fill = el("span", `signal-fill ${tone}`);
-    fill.style.width = `${Math.max(10, Math.round((count / maxSource) * 100))}%`;
-    track.appendChild(fill);
-    row.appendChild(track);
-    row.appendChild(el("span", "signal-value", String(count)));
-    sourceBars.appendChild(row);
-  });
-  sourceCard.appendChild(sourceBars);
-  visualGrid.appendChild(sourceCard);
-  const targetCard = el("article", "memory-visual-card");
-  targetCard.appendChild(el("h4", "", uiState.language === "zh" ? "主要命中事件" : "Top Learned Targets"));
-  targetCard.appendChild(el("p", "card-copy", uiState.language === "zh" ? "这里更像系统当前最容易复用的学习方向。" : "This reflects the event targets the system is most likely to reuse." ));
-  const eventCounts = new Map();
-  filtered.forEach((rule) => {
-    const key = eventTypeLabel(rule.expected_event_type);
-    eventCounts.set(key, (eventCounts.get(key) || 0) + Number(rule.usage_count || 0));
-  });
-  const topEvents = [...eventCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 4);
-  const maxEvent = Math.max(...topEvents.map(([, count]) => count), 1);
-  const eventBars = el("div", "memory-bar-list");
-  topEvents.forEach(([label, count]) => {
-    const row = el("div", "memory-bar-row");
-    row.appendChild(el("span", "meta-label", label));
-    const track = el("div", "memory-track");
-    const fill = el("span", "signal-fill green");
-    fill.style.width = `${Math.max(10, Math.round((count / maxEvent) * 100))}%`;
-    track.appendChild(fill);
-    row.appendChild(track);
-    row.appendChild(el("span", "signal-value", String(count)));
-    eventBars.appendChild(row);
-  });
-  targetCard.appendChild(eventBars);
-  visualGrid.appendChild(targetCard);
-  board.appendChild(visualGrid);
-  filtered.forEach((rule) => {
-    const card = el("article", "memory-rule-card");
-    const top = el("div", "memory-rule-top");
-    const titleWrap = el("div", "");
-    titleWrap.appendChild(el("h4", "", `${sourceTypeLabel(rule.expected_source_type)} · ${eventTypeLabel(rule.expected_event_type)}`));
-    titleWrap.appendChild(el("p", "card-copy", t("ui").memoryRuleCopy));
-    top.appendChild(titleWrap);
-    top.appendChild(el("span", "memory-rule-strength", uiState.language === "zh" ? `命中 ${rule.usage_count || 0} 次` : `${rule.usage_count || 0} matches`));
-    card.appendChild(top);
-    const patternChipRow = el("div", "chip-row");
-    patternChipRow.appendChild(el("span", "chip good", uiState.language === "zh" ? "系统会在相似材料中自动复用这条经验" : "This experience will be reused for similar materials"));
-    card.appendChild(patternChipRow);
-    const meta = el("div", "meta-grid");
-    [
-      [uiState.language === "zh" ? "目标来源" : "Target source", sourceTypeLabel(rule.expected_source_type)],
-      [uiState.language === "zh" ? "目标事件" : "Target event", eventTypeLabel(rule.expected_event_type)],
-      [uiState.language === "zh" ? "命中次数" : "Matches", String(rule.usage_count || 0)],
-      [uiState.language === "zh" ? "最近命中" : "Last matched", formatTime(rule.last_matched_at || rule.updated_at)],
-    ].forEach(([label, value]) => {
-      const item = el("div", "meta-item");
-      item.appendChild(el("span", "meta-label", label));
-      item.appendChild(el("span", "meta-value", value));
-      meta.appendChild(item);
-    });
-    card.appendChild(meta);
-
-    const patternGrid = el("div", "memory-pattern-grid");
-    if (Array.isArray(rule.preferred_skills) && rule.preferred_skills.length) {
-      const block = el("div", "memory-pattern-block");
-      block.appendChild(el("span", "meta-label", t("ui").memorySavedSkillsTitle));
-      block.appendChild(renderChips(rule.preferred_skills.map((skillId) => skillLabel(skillId))));
-      patternGrid.appendChild(block);
-    }
-    if (Array.isArray(rule.header_tokens) && rule.header_tokens.length) {
-      const block = el("div", "memory-pattern-block");
-      block.appendChild(el("span", "meta-label", t("ui").memoryPatternTitle));
-      block.appendChild(renderChips(rule.header_tokens.slice(0, 8), "note"));
-      patternGrid.appendChild(block);
-    }
-    if (patternGrid.childNodes.length) card.appendChild(patternGrid);
-    if (rule.notes) {
-      const note = el("div", "meta-item");
-      note.appendChild(el("span", "meta-label", uiState.language === "zh" ? "备注" : "Notes"));
-      note.appendChild(el("span", "meta-value", rule.notes));
-      card.appendChild(note);
-    }
-    board.appendChild(card);
-  });
-  root.appendChild(board);
-}
-
-function renderMemoryFeedback(feedback) {
-  uiState.memoryFeedback = feedback;
-  const root = document.getElementById("memory-feedback-output");
-  root.innerHTML = "";
-  if (!feedback.length) {
-    root.appendChild(createEmptyState(t("ui").noMemoryFeedback));
-    return;
-  }
-  const timeline = el("div", "feedback-timeline");
-  const summary = el("div", "skill-summary-strip");
-  [
-    [uiState.language === "zh" ? "反馈记录" : "Feedback", String(feedback.length)],
-    [uiState.language === "zh" ? "来源文件" : "Files", String(new Set(feedback.map((item) => item.filename || item.name || "unknown")).size)],
-    [uiState.language === "zh" ? "自动学习" : "Auto", String(feedback.filter((item) => !item.manual).length)],
-    [uiState.language === "zh" ? "人工学习" : "Manual", String(feedback.filter((item) => item.manual).length)],
-  ].forEach(([label, value]) => {
-    const stat = el("div", "skill-stat");
-    stat.appendChild(el("span", "meta-label", label));
-    stat.appendChild(el("span", "skill-stat-value", value));
-    summary.appendChild(stat);
-  });
-  timeline.appendChild(summary);
-  timeline.appendChild(el("p", "section-note", uiState.language === "zh" ? "这里看的是最近发生的学习动作，用来回看系统最近吸收了哪些人工判断或自动沉淀。" : "This panel shows the most recent learning actions so you can review what judgment the Agent absorbed recently."));
-  const visualGrid = el("div", "memory-visual-grid");
-  const cadenceCard = el("article", "memory-visual-card");
-  cadenceCard.appendChild(el("h4", "", uiState.language === "zh" ? "近期学习节奏" : "Recent Learning Cadence"));
-  cadenceCard.appendChild(el("p", "card-copy", uiState.language === "zh" ? "这里看最近学习动作的节奏和来源。" : "This shows the recent learning rhythm and where it is coming from."));
-  const cadenceBars = el("div", "memory-bar-list");
-  const cadenceEntries = [
-    [uiState.language === "zh" ? "最近 24h" : "Last 24h", feedback.filter((item) => item.created_at && Date.now() - new Date(item.created_at).getTime() <= 86400000).length],
-    [uiState.language === "zh" ? "人工" : "Manual", feedback.filter((item) => item.manual).length],
-    [uiState.language === "zh" ? "自动" : "Auto", feedback.filter((item) => !item.manual).length],
-  ];
-  const maxCadence = Math.max(...cadenceEntries.map(([, count]) => count), 1);
-  cadenceEntries.forEach(([label, count], index) => {
-    const row = el("div", "memory-bar-row");
-    row.appendChild(el("span", "meta-label", label));
-    const track = el("div", "memory-track");
-    const fill = el("span", `signal-fill ${index === 0 ? "cyan" : index === 1 ? "violet" : "green"}`);
-    fill.style.width = `${Math.max(10, Math.round((count / maxCadence) * 100))}%`;
-    track.appendChild(fill);
-    row.appendChild(track);
-    row.appendChild(el("span", "signal-value", String(count)));
-    cadenceBars.appendChild(row);
-  });
-  cadenceCard.appendChild(cadenceBars);
-  visualGrid.appendChild(cadenceCard);
-  const routeCard = el("article", "memory-visual-card");
-  routeCard.appendChild(el("h4", "", uiState.language === "zh" ? "近期回写能力" : "Recent Skill Write-Back"));
-  routeCard.appendChild(el("p", "card-copy", uiState.language === "zh" ? "这里直接看最近学习动作最常回写到哪些能力。" : "This shows which skills recent learning has reinforced most often."));
-  const skillCounts = new Map();
-  feedback.forEach((item) => {
-    (item.preferred_skills || []).forEach((skillId) => {
-      const key = skillLabel(skillId);
-      skillCounts.set(key, (skillCounts.get(key) || 0) + 1);
-    });
-  });
-  const topSkills = [...skillCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 4);
-  const maxSkill = Math.max(...topSkills.map(([, count]) => count), 1);
-  const routeBars = el("div", "memory-bar-list");
-  topSkills.forEach(([label, count]) => {
-    const row = el("div", "memory-bar-row");
-    row.appendChild(el("span", "meta-label", label));
-    const track = el("div", "memory-track");
-    const fill = el("span", "signal-fill green");
-    fill.style.width = `${Math.max(10, Math.round((count / maxSkill) * 100))}%`;
-    track.appendChild(fill);
-    row.appendChild(track);
-    row.appendChild(el("span", "signal-value", String(count)));
-    routeBars.appendChild(row);
-  });
-  routeCard.appendChild(routeBars);
-  visualGrid.appendChild(routeCard);
-  timeline.appendChild(visualGrid);
-  feedback.forEach((item) => {
-    const row = el("div", "feedback-item");
-    const line = el("div", "feedback-line");
-    line.appendChild(el("span", "feedback-dot", ""));
-    row.appendChild(line);
-    const card = el("article", "feedback-card");
-    const header = el("div", "feedback-header");
-    const title = el("div", "");
-    title.appendChild(el("h4", "", `${sourceTypeLabel(item.expected_source_type)} · ${eventTypeLabel(item.expected_event_type)}`));
-    title.appendChild(el("p", "card-copy", uiState.language === "zh" ? `这次学习来自文件：${item.filename || "未记录文件名"}` : `This learning record came from: ${item.filename || "Unknown file"}`));
-    header.appendChild(title);
-    header.appendChild(el("span", "feedback-time", formatTime(item.created_at)));
-    card.appendChild(header);
-    const memoryContext = el("div", "feedback-summary");
-    const statusRow = el("div", "feedback-summary-row");
-    statusRow.appendChild(el("span", "chip good", uiState.language === "zh" ? "系统已经把这次人工判断沉淀为后续参考" : "This manual judgment has been retained for future reference"));
-    memoryContext.appendChild(statusRow);
-    card.appendChild(memoryContext);
-    const meta = el("div", "meta-grid");
-    [
-      [uiState.language === "zh" ? "修正来源" : "Corrected source", sourceTypeLabel(item.expected_source_type)],
-      [uiState.language === "zh" ? "修正事件" : "Corrected event", eventTypeLabel(item.expected_event_type)],
-      [uiState.language === "zh" ? "能力数量" : "Skill count", String((item.preferred_skills || []).length)],
-      [uiState.language === "zh" ? "记录类型" : "Entry type", item.notes === "manual-correction-from-intake" ? (uiState.language === "zh" ? "人工纠正" : "Manual correction") : (uiState.language === "zh" ? "自动沉淀" : "Auto observation")],
-    ].forEach(([label, value]) => {
-      const cell = el("div", "meta-item");
-      cell.appendChild(el("span", "meta-label", label));
-      cell.appendChild(el("span", "meta-value", value));
-      meta.appendChild(cell);
-    });
-    card.appendChild(meta);
-    if (Array.isArray(item.preferred_skills) && item.preferred_skills.length) {
-      const skillsRow = el("div", "feedback-summary-row");
-      skillsRow.appendChild(el("span", "meta-label", t("ui").memorySavedSkillsTitle));
-      skillsRow.appendChild(renderChips(item.preferred_skills.map((skillId) => skillLabel(skillId))));
-      card.appendChild(skillsRow);
-    }
-    if (item.notes) {
-      const note = el("div", "meta-item");
-      note.appendChild(el("span", "meta-label", uiState.language === "zh" ? "备注" : "Notes"));
-      note.appendChild(el("span", "meta-value", item.notes));
-      card.appendChild(note);
-    }
-    row.appendChild(card);
-    timeline.appendChild(row);
-  });
-  root.appendChild(timeline);
-}
-
-function renderOverview(data) {
-  uiState.overview = data;
-  const root = document.getElementById("overview-output");
-  root.innerHTML = "";
-  const metrics = data.metrics || {};
-  const library = data.skill_library || {};
-  const categories = Object.entries(library.categories || {});
-
-  const heroStrip = el("div", "hero-kpi-grid");
-  [
-    {
-      tone: "success",
-      eyebrow: "SYSTEM INTEGRITY",
-      value: metrics.events_processed > 0 ? (uiState.language === "zh" ? "活跃" : "Active") : (uiState.language === "zh" ? "空闲" : "Idle"),
-      suffix: uiState.language === "zh" ? "Pipeline" : "Pipeline",
-      copy: metrics.events_processed > 0
-        ? (uiState.language === "zh" ? `当前已处理 ${metrics.events_processed} 条事件，分析链正在持续产出新的安全判断。` : `The platform has processed ${metrics.events_processed} events and the analysis pipeline is actively producing new conclusions.`)
-        : (uiState.language === "zh" ? "当前没有新的事件进入分析链，平台处于空闲状态。" : "No new events have entered the analysis pipeline, and the platform is currently idle."),
-    },
-    {
-      tone: "cyan",
-      eyebrow: "AGENT STATUS",
-      value: String((data.agent?.bound_skills || []).length || 0),
-      suffix: uiState.language === "zh" ? "Bound Skills" : "Bound Skills",
-      copy: uiState.language === "zh"
-        ? `当前模型提供方：${String(data.agent?.model_provider || "unknown").toUpperCase()}。`
-        : `Current model provider: ${String(data.agent?.model_provider || "unknown").toUpperCase()}.`,
-    },
-    {
-      tone: "violet",
-      eyebrow: "SKILL COVERAGE",
-      value: String(library.total_skills ?? 0),
-      suffix: uiState.language === "zh" ? "Skills" : "Skills",
-      copy: uiState.language === "zh"
-        ? `${library.tool_backed ?? 0} 个能力已接入真实执行，覆盖 ${categories.length} 个模块。`
-        : `${library.tool_backed ?? 0} skills are live across ${categories.length} modules.`,
-    },
-  ].forEach((item) => {
-    const card = el("article", `hero-kpi-card ${item.tone}`.trim());
-    card.appendChild(el("span", "hero-kpi-eyebrow", item.eyebrow));
-    const value = el("div", "hero-kpi-value");
-    value.appendChild(el("span", "hero-kpi-number", item.value));
-    value.appendChild(el("span", "hero-kpi-suffix", item.suffix));
-    card.appendChild(value);
-    card.appendChild(el("p", "card-copy", item.copy));
-    heroStrip.appendChild(card);
-  });
-  const situationalGrid = el("div", "situational-grid");
-  const signalCard = el("article", "signal-card");
-  signalCard.appendChild(el("h4", "", uiState.language === "zh" ? "平台态势信号" : "Platform Signal Mix"));
-  signalCard.appendChild(el("p", "card-copy", uiState.language === "zh" ? "这里的口径是四个并列维度：事件处理量、发现生成量、能力覆盖数、当前 Agent 绑定数。它不是风险分，而是平台运行重心的快照。" : "This panel compares four parallel dimensions: processed events, generated findings, capability coverage, and current agent bindings. It is not a risk score; it is a snapshot of where the platform is spending its energy."));
-  const signalList = el("div", "signal-list");
-  const signalEntries = [
-    [uiState.language === "zh" ? "事件处理" : "Processing", Number(metrics.events_processed || 0), "cyan"],
-    [uiState.language === "zh" ? "发现生成" : "Findings", Number(metrics.findings_generated || 0), "green"],
-    [uiState.language === "zh" ? "能力覆盖" : "Coverage", Number(library.total_skills || 0), "violet"],
-    [uiState.language === "zh" ? "Agent 绑定" : "Agent Bindings", Number((data.agent?.bound_skills || []).length || 0), "red"],
-  ];
-  const maxSignal = Math.max(...signalEntries.map(([, value]) => value), 1);
-  signalEntries.forEach(([label, value, tone]) => {
-    const row = el("div", "signal-row");
-    row.appendChild(el("span", "meta-label", label));
-    const track = el("div", "signal-track");
-    const fill = el("span", `signal-fill ${tone}`);
-    fill.style.width = `${Math.max(10, Math.round((value / maxSignal) * 100))}%`;
-    track.appendChild(fill);
-    row.appendChild(track);
-    row.appendChild(el("span", "signal-value", String(value)));
-    signalList.appendChild(row);
-  });
-  signalCard.appendChild(signalList);
-  situationalGrid.appendChild(signalCard);
-
-  const runCard = el("article", "summary-card");
-  runCard.appendChild(el("h4", "", t("ui").recentRunsTitle));
-  runCard.appendChild(el("p", "card-copy", t("ui").recentRunsCopy));
-  const snapshotRow = el("div", "chip-row");
-  snapshotRow.appendChild(el("span", "chip good", `${t("ui").overviewSnapshotTitle}: ${metrics.events_processed > 0 ? t("ui").platformActive : t("ui").platformWaiting}`));
-  runCard.appendChild(snapshotRow);
-  const runMeta = el("div", "kpi-strip");
-  [
-    [uiState.language === "zh" ? "已处理事件" : "Events processed", String(metrics.events_processed ?? 0)],
-    [uiState.language === "zh" ? "已生成发现" : "Findings generated", String(metrics.findings_generated ?? 0)],
-    [uiState.language === "zh" ? "最近一次处理" : "Last processed", formatTime(metrics.last_event_at)],
-    [uiState.language === "zh" ? "当前状态" : "Status", metrics.events_processed > 0 ? t("ui").statusReadyAnalyze : t("ui").statusWaitingInput],
-  ].forEach(([label, value]) => {
-    const tile = el("div", "kpi-tile");
-    tile.appendChild(el("span", "kpi-label", label));
-    tile.appendChild(el("span", "kpi-value", value));
-    runMeta.appendChild(tile);
-  });
-  runCard.appendChild(runMeta);
-
-  const pulse = el("div", "chip-row");
-  pulse.appendChild(el("span", "chip note", t("ui").overviewPulseCopy));
-  runCard.appendChild(pulse);
-  const libraryCard = el("article", "summary-card");
-  libraryCard.appendChild(el("h4", "", t("ui").coverageTitle));
-  libraryCard.appendChild(el("p", "card-copy", t("ui").coverageCopy));
-  const libraryMeta = el("div", "meta-grid");
-  [
-    [uiState.language === "zh" ? "总能力数" : "Total capabilities", String(library.total_skills ?? 0)],
-    [uiState.language === "zh" ? "已接入能力" : "Active capabilities", String(library.tool_backed ?? 0)],
-    [uiState.language === "zh" ? "规则保底" : "Rule-only", String((library.execution_modes || {}).rule_only ?? 0)],
-    [uiState.language === "zh" ? "Agent 可选" : "Agent optional", String((library.execution_modes || {}).agent_optional ?? 0)],
-  ].forEach(([label, value]) => {
-    const item = el("div", "meta-item");
-    item.appendChild(el("span", "meta-label", label));
-    item.appendChild(el("span", "meta-value", value));
-    libraryMeta.appendChild(item);
-  });
-  libraryCard.appendChild(libraryMeta);
-  if (categories.length) {
-    const chart = el("div", "category-bar-list");
-    const maxCount = Math.max(...categories.map(([, count]) => count), 1);
-    categories.forEach(([name, count]) => {
-      const row = el("div", "category-bar-row");
-      row.appendChild(el("span", "meta-label", moduleLabel(name)));
-      const bar = el("div", "category-bar");
-      const fill = el("span", "category-bar-fill");
-      fill.style.width = `${Math.max(10, Math.round((count / maxCount) * 100))}%`;
-      bar.appendChild(fill);
-      row.appendChild(bar);
-      row.appendChild(el("span", "meta-value", String(count)));
-      chart.appendChild(row);
-    });
-    libraryCard.appendChild(chart);
-  }
-  const flowCard = el("article", "summary-card");
-  flowCard.appendChild(el("h4", "", t("ui").flowTitle));
-  flowCard.appendChild(el("p", "card-copy", t("ui").flowCopy));
-  const flowList = el("ul", "bullet-list");
-  [
-    uiState.language === "zh" ? "标准化事件：分类 -> 规划 -> 执行 -> 聚合 -> 风险 -> 报告" : "Normalized event: classify -> plan -> execute -> aggregate -> risk -> report",
-    uiState.language === "zh" ? "原始输入：归一化 -> 分类 -> 规划 -> 执行 -> 风险 -> 报告" : "Raw input: normalize -> classify -> plan -> execute -> risk -> report",
-    uiState.language === "zh" ? "文件上传：解析 -> 归一化 -> 分类 -> 规划 -> 执行 -> 报告 -> 调查会话" : "File upload: parse -> normalize -> classify -> plan -> execute -> report -> investigation session",
-  ].forEach((text) => {
-    flowList.appendChild(el("li", "", text));
-  });
-  flowCard.appendChild(flowList);
-  const lastRefresh = el("div", "chip-row");
-  lastRefresh.appendChild(el("span", "chip latest", `${t("ui").latestAnalysis}: ${formatTime(metrics.last_event_at)}`));
-  flowCard.appendChild(lastRefresh);
-
-  const architectureCard = el("article", "summary-card");
-  architectureCard.appendChild(el("h4", "", t("ui").architectureTitle));
-  architectureCard.appendChild(el("p", "card-copy", t("ui").architectureCopy));
-  const architectureFlow = el("div", "architecture-flow");
-  architectureFlow.appendChild(el("span", "chip note", termLabel("mcp")));
-  architectureFlow.appendChild(el("span", "chip latest", "->"));
-  architectureFlow.appendChild(el("span", "chip good", termLabel("agent")));
-  architectureFlow.appendChild(el("span", "chip latest", "->"));
-  architectureFlow.appendChild(el("span", "chip", termLabel("skill")));
-  architectureFlow.appendChild(el("span", "chip latest", "->"));
-  architectureFlow.appendChild(el("span", "chip note", termLabel("report")));
-  architectureCard.appendChild(architectureFlow);
-  const architectureList = el("ul", "bullet-list");
-  [
-    t("ui").architectureMcp,
-    t("ui").architectureAgent,
-    t("ui").architectureSkill,
-    t("ui").architectureOutput,
-  ].forEach((text) => architectureList.appendChild(el("li", "", text)));
-  architectureCard.appendChild(architectureList);
-
-  const blocks = el("div", "overview-block");
-  blocks.appendChild(heroStrip);
-  blocks.appendChild(situationalGrid);
-  blocks.appendChild(runCard);
-  blocks.appendChild(libraryCard);
-  blocks.appendChild(flowCard);
-  blocks.appendChild(architectureCard);
-  root.appendChild(blocks);
-}
-
-function renderPlannerPreview(data) {
-  const root = document.getElementById("planner-output");
-  root.innerHTML = "";
-  if (!data) {
-    root.className = "stack-list loading-copy";
-    root.textContent = t("ui").waitingPreview;
-    return;
-  }
-  root.className = "stack-list";
-  const summary = el("article", "planner-card");
-  summary.appendChild(el("h4", "planner-title", t("ui").plannerSummaryTitle));
-  summary.appendChild(el("p", "card-copy", data.analysis_reason || t("ui").plannerSummaryCopy));
-  const meta = el("div", "meta-grid");
-  [
-    [uiState.language === "zh" ? "事件类型" : "Event type", data.classification?.classification?.map((value) => eventTypeLabel(value)).join(" / ") || (uiState.language === "zh" ? "未识别" : "Unidentified")],
-      [uiState.language === "zh" ? "优先级" : "Priority", data.classification?.priority === "high" ? (uiState.language === "zh" ? "高" : "High") : data.classification?.priority === "low" ? (uiState.language === "zh" ? "低" : "Low") : (uiState.language === "zh" ? "常规" : "Normal")],
-    [uiState.language === "zh" ? "调用能力数" : "Skill count", String((data.skills_to_execute || []).length)],
-    [uiState.language === "zh" ? "规划状态" : "Planning status", (data.skills_to_execute || []).length ? (uiState.language === "zh" ? "已完成" : "Ready") : (uiState.language === "zh" ? "待确认" : "Pending")],
-  ].forEach(([label, value]) => {
-    const item = el("div", "meta-item");
-    item.appendChild(el("span", "meta-label", label));
-    item.appendChild(el("span", "meta-value", value));
-    meta.appendChild(item);
-  });
-  summary.appendChild(meta);
-  if (Array.isArray(data.skills_to_execute) && data.skills_to_execute.length) {
-    summary.appendChild(el("p", "card-copy", t("ui").plannerPlannedSkills));
-    summary.appendChild(renderChips(data.skills_to_execute.map((skillId) => skillLabel(skillId))));
-  }
-  root.appendChild(summary);
-}
-
-function getNormalizedJumpServerSections(report) {
-  if (!report || report.report_template !== "jumpserver_multisource_v2") return null;
-  const original = Array.isArray(report.structured_sections) ? report.structured_sections : [];
-  const byTitle = new Map(original.map((section) => [section.title, JSON.parse(JSON.stringify(section))]));
-  const summaryParagraph = report.assessment || report.summary || "本批 JumpServer 审计样本需要继续结合多源审计日志复核。";
-
-  const conclusion = byTitle.get("综合结论：") || { title: "综合结论：", paragraphs: [summaryParagraph], bullets: [], subsections: [] };
-  if (!Array.isArray(conclusion.paragraphs) || !conclusion.paragraphs.length) conclusion.paragraphs = [summaryParagraph];
-
-  const basis = byTitle.get("主要依据如下：") || { title: "主要依据如下：", paragraphs: [], bullets: [], subsections: [] };
-  const basisMap = new Map((basis.subsections || []).map((section) => [section.title, section]));
-  const basisTitles = [
-    "1. 登录侧",
-    "2. 命令侧",
-    "3. 文件传输侧",
-    "4. 操作记录侧",
-  ];
-  basis.subsections = basisTitles.map((title) => (
-    basisMap.get(title) || { title, paragraphs: [], bullets: ["当前样本在该维度暂未补齐足够细节，建议结合原始日志继续复核。"], subsections: [] }
-  ));
-
-  const focus = byTitle.get("5. 重点高危操作账户与命令汇总") || {
-    title: "5. 重点高危操作账户与命令汇总",
-    paragraphs: [],
-    bullets: [],
-    subsections: [],
-  };
-  if (!Array.isArray(focus.subsections) || !focus.subsections.length) {
-    focus.subsections = [{
-      title: "5.1 当前样本暂未提炼出可直接归档的高危账户画像",
-      paragraphs: [],
-      bullets: [
-        "风险范围：待继续复核",
-        "判断：当前样本已经呈现多源高风险语义，但还缺少足够稳定的账户级画像，后续应继续结合用户、资产、命令、文件传输和管理平面动作补齐。",
-      ],
-      subsections: [],
-    }];
-  }
-
-  const provenance = byTitle.get("6. 证据来源与导出链") || {
-    title: "6. 证据来源与导出链",
-    paragraphs: [],
-    bullets: ["当前尚未从管理平面完整还原导出来源链，需要继续补齐 operation_audit 证据。"],
-    subsections: [],
-  };
-  if (!Array.isArray(provenance.bullets) || !provenance.bullets.length) {
-    provenance.bullets = ["当前尚未从管理平面完整还原导出来源链，需要继续补齐 operation_audit 证据。"];
-  }
-
-  const judgment = byTitle.get("7. 综合判断") || {
-    title: "7. 综合判断",
-    paragraphs: [],
-    bullets: [],
-    subsections: [],
-  };
-  const judgmentBullets = Array.isArray(judgment.bullets) ? judgment.bullets : [];
-  judgment.bullets = judgmentBullets.filter((item) => {
-    const text = String(item || "").trim();
-    if (!text) return false;
-    if (text === "当前最需要 AI 学会区分的，不是“有没有 sudo”，而是：") return false;
-    if (text === "哪个用户" || text === "在哪台资产" || text === "执行了哪些高危命令" || text === "命令是否与文件传输、登录、管理平面动作串成完整链条") return false;
-    if (text === "因此，") return false;
-    if (text === "- 哪个用户" || text === "- 在哪台资产" || text === "- 执行了哪些高危命令" || text === "- 命令是否与文件传输、登录、管理平面动作串成完整链条") return false;
-    return true;
-  });
-  if (!judgment.bullets.length) {
-    judgment.bullets = [
-      "本批样本的最终定性应为：“未发现足以直接确认外部入侵成功的证据，但已发现多组需要重点审计和治理的高风险运维操作链，以及高影响管理平面操作。后续应以用户、资产、命令、会话、文件传输和管理平面变更六个维度进行联合判断，而不能仅依赖 JumpServer 原始风险标签。”",
-    ];
-  }
-
-  return [conclusion, basis, focus, provenance, judgment];
-}
-
-function renderReport(report) {
-  const root = document.getElementById("report-output");
-  root.innerHTML = "";
-  if (!report) {
-    root.className = "stack-list loading-copy";
-    root.textContent = t("ui").waitingRun;
-    return;
-  }
-  root.className = "stack-list scroll";
-  const renderStructuredBulletGroups = (items, container) => {
-    if (!Array.isArray(items) || !items.length) return;
-    let list = null;
-    let currentItem = null;
-    let nestedList = null;
-
-    const ensureList = () => {
-      if (!list) {
-        list = el("ul", "bullet-list");
-        container.appendChild(list);
-      }
-    };
-
-    items.forEach((rawItem) => {
-      const text = String(rawItem || "");
-      if (!text.trim()) return;
-      const isNested = /^\s*-\s+/.test(text);
-      if (isNested) {
-        if (!currentItem) {
-          ensureList();
-          currentItem = el("li", "", "");
-          list.appendChild(currentItem);
-        }
-        if (!nestedList) {
-          nestedList = el("ul", "bullet-list");
-          currentItem.appendChild(nestedList);
-        }
-        nestedList.appendChild(el("li", "", text.replace(/^\s*-\s+/, "")));
-        return;
-      }
-      ensureList();
-      currentItem = el("li", "", text);
-      list.appendChild(currentItem);
-      nestedList = null;
-    });
-  };
-  const renderStructuredSections = (sections) => {
-    sections.forEach((section) => {
-      const card = el("article", "report-card report-section");
-      card.appendChild(el("h5", "", section.title || ""));
-      (section.paragraphs || []).forEach((paragraph) => {
-        card.appendChild(el("p", "card-copy", paragraph));
-      });
-      renderStructuredBulletGroups(section.bullets, card);
-      if (Array.isArray(section.subsections) && section.subsections.length) {
-        const wrap = el("div", "stack-list");
-        section.subsections.forEach((subsection) => {
-          const block = el("div", "report-card report-section");
-          block.appendChild(el("h5", "", subsection.title || ""));
-          (subsection.paragraphs || []).forEach((paragraph) => {
-            block.appendChild(el("p", "card-copy", paragraph));
-          });
-          renderStructuredBulletGroups(subsection.bullets, block);
-          wrap.appendChild(block);
-        });
-        card.appendChild(wrap);
-      }
-      root.appendChild(card);
-    });
-  };
-  const top = el("article", "report-card");
-  top.appendChild(el("h4", "", t("ui").reportSummaryTitle));
-  top.appendChild(el("p", "card-copy", report.assessment || report.summary || t("ui").noSummary));
-  const meta = el("div", "meta-grid");
-  [
-    [uiState.language === "zh" ? "结论类型" : "Verdict", report.verdict || "needs_review"],
-    [uiState.language === "zh" ? "风险级别" : "Risk level", report.top_risk_label || "info"],
-    [uiState.language === "zh" ? "风险分数" : "Risk score", String(report.overall_risk_score ?? 0)],
-    [uiState.language === "zh" ? "发现数量" : "Finding count", String((report.findings || []).length)],
-    [uiState.language === "zh" ? "执行模式" : "Execution mode", executionModeLabel(report.execution_mode || "rule_only")],
-  ].forEach(([label, value]) => {
-    const item = el("div", "meta-item");
-    item.appendChild(el("span", "meta-label", label));
-    item.appendChild(el("span", "meta-value", value));
-    meta.appendChild(item);
-  });
-  top.appendChild(meta);
-  if (Array.isArray(report.skills_selected) && report.skills_selected.length) {
-    top.appendChild(el("p", "card-copy", uiState.language === "zh" ? "本次主要分析路径" : "Primary analysis path"));
-    top.appendChild(renderChips(report.skills_selected.map((skillId) => skillLabel(skillId))));
-  }
-  if (report.execution_mode === "agent_augmented" && report.agent_context?.provider) {
-    top.appendChild(
-      el(
-        "p",
-        "section-note",
-        uiState.language === "zh"
-          ? `这次报告由 Agent 增强生成，模型提供方为 ${String(report.agent_context.provider).toUpperCase()}。`
-          : `This report used Agent augmentation via ${String(report.agent_context.provider).toUpperCase()}.`,
-      ),
-    );
-  }
-  root.appendChild(top);
-
-  const normalizedJumpServerSections = getNormalizedJumpServerSections(report);
-  if (normalizedJumpServerSections && normalizedJumpServerSections.length) {
-    renderStructuredSections(normalizedJumpServerSections);
-    return;
-  }
-
-  if (report.event_type === "host_baseline_assessment") {
-    const hostBaselineNarrative = {
-      filesystem_isolation_issue: {
-        zh: {
-          title: "/var/log/audit 未单独分区",
-          reason: "审计日志目录未使用独立分区，可能导致日志填满磁盘并影响系统稳定性。",
-          impacts: ["日志耗尽攻击", "审计日志丢失", "系统稳定性降低"],
-          recommendation: "为 /var/log/audit 创建独立分区并启用日志轮转。",
-          level: "Medium",
-        },
-        en: {
-          title: "/var/log/audit is not isolated",
-          reason: "Audit logs are not on a dedicated partition, which can increase log-exhaustion and stability risk.",
-          impacts: ["Log exhaustion", "Audit log loss", "System instability"],
-          recommendation: "Create a dedicated partition for /var/log/audit and enable log rotation.",
-          level: "Medium",
-        },
-      },
-      temporary_directory_configuration: {
-        zh: {
-          title: "/var/tmp 未单独分区",
-          reason: "临时目录未隔离，可能被滥用执行恶意脚本或用于临时文件劫持。",
-          impacts: ["权限提升", "临时文件劫持"],
-          recommendation: "为 /var/tmp 启用 nodev、nosuid、noexec 挂载参数。",
-          level: "Medium",
-        },
-        en: {
-          title: "/var/tmp is not isolated",
-          reason: "The temporary directory is not isolated, increasing the risk of script abuse or temporary file hijacking.",
-          impacts: ["Privilege escalation", "Temporary file hijacking"],
-          recommendation: "Apply nodev, nosuid, and noexec mount flags to /var/tmp.",
-          level: "Medium",
-        },
-      },
-      log_permission_configuration: {
-        zh: {
-          title: "日志文件权限未正确配置",
-          reason: "日志权限过宽或审计组件缺失，可能导致敏感信息泄露或日志篡改。",
-          impacts: ["敏感信息泄露", "日志篡改", "审计能力不足"],
-          recommendation: "收紧关键日志权限，并补齐 auditd 等审计组件。",
-          level: "Medium",
-        },
-        en: {
-          title: "Log permissions are too weak",
-          reason: "Overly broad log permissions or missing audit components can expose sensitive data and weaken integrity.",
-          impacts: ["Information disclosure", "Log tampering", "Reduced audit coverage"],
-          recommendation: "Tighten critical log permissions and restore audit components such as auditd.",
-          level: "Medium",
-        },
-      },
-      unused_filesystem_modules: {
-        zh: {
-          title: "不必要文件系统模块已启用",
-          reason: "未使用的文件系统模块会扩大主机攻击面，并可能被利用加载恶意镜像。",
-          impacts: ["攻击面扩大", "恶意镜像加载风险"],
-          recommendation: "禁用 cramfs、udf 等未使用文件系统模块。",
-          level: "Low",
-        },
-        en: {
-          title: "Unused filesystem modules are enabled",
-          reason: "Unused filesystem modules increase attack surface and may help malicious image-loading paths.",
-          impacts: ["Expanded attack surface", "Malicious image loading risk"],
-          recommendation: "Disable unused filesystem modules such as cramfs and udf.",
-          level: "Low",
-        },
-      },
-    };
-
-    const findingsCard = el("article", "report-card report-section");
-    findingsCard.appendChild(el("h5", "", uiState.language === "zh" ? "关键安全发现" : "Key Security Findings"));
-    const findingsWrap = el("div", "stack-list");
-    (report.findings || []).forEach((finding, index) => {
-      const narrative = hostBaselineNarrative[finding.risk_type]?.[uiState.language] || null;
-      const block = el("div", "report-card report-section");
-      block.appendChild(el("h5", "", `${index + 1}. ${narrative?.title || finding.summary}`));
-      const evidenceValues = [];
-      (finding.evidence || []).forEach((entry) => {
-        Object.values(entry).forEach((value) => {
-          if (Array.isArray(value)) evidenceValues.push(...value);
-          else evidenceValues.push(String(value));
-        });
-      });
-      if (narrative?.reason) {
-        block.appendChild(el("p", "card-copy", `${uiState.language === "zh" ? "风险原因" : "Risk reason"}：${narrative.reason}`));
-      }
-      if (narrative?.impacts?.length) {
-        block.appendChild(el("p", "card-copy", uiState.language === "zh" ? "潜在影响：" : "Potential impact:"));
-        const impactList = el("ul", "bullet-list");
-        narrative.impacts.forEach((item) => impactList.appendChild(el("li", "", item)));
-        block.appendChild(impactList);
-      }
-      if (evidenceValues.length) {
-        block.appendChild(el("p", "card-copy", uiState.language === "zh" ? "对应记录：" : "Observed records:"));
-        const list = el("ul", "bullet-list");
-        evidenceValues.slice(0, 4).forEach((item) => list.appendChild(el("li", "", String(item))));
-        block.appendChild(list);
-      }
-      block.appendChild(el("p", "card-copy", `${uiState.language === "zh" ? "风险等级" : "Risk level"}：${narrative?.level || finding.risk_label}`));
-      if (narrative?.recommendation || finding.recommendations?.length) {
-        block.appendChild(el("p", "card-copy", `${uiState.language === "zh" ? "建议" : "Recommendation"}：${narrative?.recommendation || finding.recommendations[0]}`));
-      }
-      findingsWrap.appendChild(block);
-    });
-    findingsCard.appendChild(findingsWrap);
-    root.appendChild(findingsCard);
-
-    const riskCard = el("article", "report-card report-section");
-    riskCard.appendChild(el("h5", "", uiState.language === "zh" ? "综合风险评估" : "Comprehensive Risk Assessment"));
-    const riskMeta = el("div", "meta-grid");
-    [
-      [uiState.language === "zh" ? "配置风险" : "Configuration risk", uiState.language === "zh" ? "存在" : "Present"],
-      [uiState.language === "zh" ? "攻击行为" : "Active attack", uiState.language === "zh" ? "未发现" : "Not observed"],
-      [uiState.language === "zh" ? "权限风险" : "Privilege risk", uiState.language === "zh" ? "中等" : "Moderate"],
-      [uiState.language === "zh" ? "综合等级" : "Overall level", report.top_risk_label || "medium"],
-    ].forEach(([label, value]) => {
-      const item = el("div", "meta-item");
-      item.appendChild(el("span", "meta-label", label));
-      item.appendChild(el("span", "meta-value", value));
-      riskMeta.appendChild(item);
-    });
-    riskCard.appendChild(riskMeta);
-    root.appendChild(riskCard);
-
-    const actionsCard = el("article", "report-card report-section");
-    actionsCard.appendChild(el("h5", "", uiState.language === "zh" ? "建议行动" : "Recommended Actions"));
-    const actionGroups = [
-      [uiState.language === "zh" ? "高优先级" : "High Priority", (report.recommended_actions || []).slice(0, 1)],
-      [uiState.language === "zh" ? "中优先级" : "Medium Priority", (report.recommended_actions || []).slice(1, 3)],
-      [uiState.language === "zh" ? "低优先级" : "Low Priority", (report.recommended_actions || []).slice(3, 5)],
-    ];
-    actionGroups.forEach(([title, items]) => {
-      if (!items.length) return;
-      actionsCard.appendChild(el("p", "card-copy", title));
-      const list = el("ul", "bullet-list");
-      items.forEach((item) => list.appendChild(el("li", "", item)));
-      actionsCard.appendChild(list);
-    });
-    root.appendChild(actionsCard);
-    return;
-  }
-
-  const narrative = [];
-  if (report.professional_judgment) narrative.push(report.professional_judgment);
-  if (Array.isArray(report.key_facts) && report.key_facts.length) narrative.push(report.key_facts[0]);
-  if (Array.isArray(report.probable_causes) && report.probable_causes.length) narrative.push(report.probable_causes[0]);
-  if (Array.isArray(report.recommended_actions) && report.recommended_actions.length) narrative.push(report.recommended_actions[0]);
-  if (narrative.length) {
-    const note = el("article", "report-card report-section emphasis");
-    note.appendChild(el("h5", "", uiState.language === "zh" ? "分析摘要" : "Analyst Summary"));
-    note.appendChild(el("p", "", narrative.join(uiState.language === "zh" ? " " : " ")));
-    root.appendChild(note);
-  }
-
-  if (Array.isArray(report.evidence_highlights) && report.evidence_highlights.length) {
-    const evidence = el("article", "report-card report-section");
-    evidence.appendChild(el("h5", "", t("ui").reportEvidenceTitle));
-    const list = el("ul", "bullet-list");
-    report.evidence_highlights.forEach((item) => list.appendChild(el("li", "", item)));
-    evidence.appendChild(list);
-    root.appendChild(evidence);
-  }
-
-  if (Array.isArray(report.recommended_actions) && report.recommended_actions.length) {
-    const nextSteps = el("article", "report-card report-section");
-    nextSteps.appendChild(el("h5", "", t("ui").reportNextStepsTitle));
-    const list = el("ul", "bullet-list");
-    report.recommended_actions.slice(0, 5).forEach((item) => list.appendChild(el("li", "", item)));
-    nextSteps.appendChild(list);
-    root.appendChild(nextSteps);
-  }
-
-  const sections = [
-    [t("ui").reportReasonTitle, report.why_flagged],
-    [t("ui").reportFactsTitle, report.key_facts],
-    [t("ui").reportCauseTitle, report.probable_causes],
-    [t("ui").reportChecksTitle, report.quick_checks],
-    [t("ui").reportEscalationTitle, report.escalation_conditions],
-    [t("ui").reportJudgmentTitle, report.professional_judgment],
-  ];
-  sections.forEach(([title, value]) => {
-    if (!value || (Array.isArray(value) && !value.length)) return;
-    const section = el("article", "report-card report-section");
-    section.appendChild(el("h5", "", title));
-    if (Array.isArray(value)) {
-      const list = el("ul", "bullet-list");
-      value.forEach((item) => list.appendChild(el("li", "", item)));
-      section.appendChild(list);
-    } else {
-      section.appendChild(el("p", "", value));
-    }
-    root.appendChild(section);
-  });
-}
-
-function reportDownloadName(report) {
-  const safeType = String(report?.event_type || "security_report").replace(/[^a-zA-Z0-9_-]+/g, "_");
-  const timestamp = String(report?.generated_at || new Date().toISOString()).replace(/[:.]/g, "-");
-  return `${safeType}_${timestamp}.md`;
-}
-
-function pushBulletSection(lines, title, items) {
-  if (!Array.isArray(items) || !items.length) return;
-  lines.push(`## ${title}`);
-  lines.push("");
-  items.forEach((item) => lines.push(`- ${item}`));
-  lines.push("");
-}
-
-function flattenEvidence(finding) {
-  const values = [];
-  (finding?.evidence || []).forEach((entry) => {
-    if (!entry || typeof entry !== "object") return;
-    Object.values(entry).forEach((value) => {
-      if (Array.isArray(value)) values.push(...value.map((item) => String(item)));
-      else if (value !== null && value !== undefined && String(value).trim()) values.push(String(value));
-    });
-  });
-  return values.slice(0, 5);
-}
-
-function buildHostBaselineDownload(report) {
-  const lines = [];
-  lines.push("# 主机基线分析报告");
-  lines.push("");
-  lines.push("## 结论判断");
-  lines.push("");
-  lines.push(report.assessment || report.summary || "");
-  lines.push("");
-  lines.push(`- 风险级别：${String(report.top_risk_label || "medium").toUpperCase()}`);
-  lines.push(`- 风险分数：${report.overall_risk_score ?? 0}`);
-  lines.push("");
-  lines.push("## 关键安全发现");
-  lines.push("");
-  (report.findings || []).forEach((finding, index) => {
-    lines.push(`### ${index + 1}. ${finding.summary}`);
-    lines.push("");
-    const evidence = flattenEvidence(finding);
-    if (evidence.length) {
-      lines.push("- 对应记录：");
-      evidence.forEach((item) => lines.push(`  - ${item}`));
-    }
-    if (finding.recommendations?.length) {
-      lines.push("- 建议动作：");
-      finding.recommendations.forEach((item) => lines.push(`  - ${item}`));
-    }
-    lines.push("");
-  });
-  pushBulletSection(lines, "综合风险评估", report.key_facts);
-  pushBulletSection(lines, "建议行动", report.recommended_actions);
-  if (report.professional_judgment) {
-    lines.push("## 专业判断");
-    lines.push("");
-    lines.push(report.professional_judgment);
-    lines.push("");
-  }
-  return `${lines.join("\n").trim()}\n`;
-}
-
-function buildJumpServerDownload(report) {
-  const lines = [];
-  const pushStructuredBulletLines = (items) => {
-    if (!Array.isArray(items) || !items.length) return;
-    items.forEach((item) => {
-      const text = String(item || "");
-      if (!text.trim()) return;
-      if (/^\s*-\s+/.test(text)) {
-        lines.push(`  - ${text.replace(/^\s*-\s+/, "")}`);
-      } else {
-        lines.push(`- ${text}`);
-      }
-    });
-    lines.push("");
-  };
-  const normalizedJumpServerSections = getNormalizedJumpServerSections(report);
-  if (normalizedJumpServerSections && normalizedJumpServerSections.length) {
-    normalizedJumpServerSections.forEach((section) => {
-      lines.push(section.title || "");
-      lines.push("");
-      (section.paragraphs || []).forEach((paragraph) => {
-        lines.push(paragraph);
-        lines.push("");
-      });
-      pushStructuredBulletLines(section.bullets);
-      if (Array.isArray(section.subsections) && section.subsections.length) {
-        section.subsections.forEach((subsection) => {
-          lines.push(subsection.title || "");
-          lines.push("");
-          (subsection.paragraphs || []).forEach((paragraph) => {
-            lines.push(paragraph);
-            lines.push("");
-          });
-          pushStructuredBulletLines(subsection.bullets);
-        });
-      }
-    });
-  } else {
-    lines.push("综合结论：");
-    lines.push("");
-    lines.push(report.assessment || report.summary || "");
-    lines.push("");
-    lines.push(`- 结论类型：${report.verdict || "needs_review"}`);
-    lines.push(`- 风险级别：${String(report.top_risk_label || "high").toUpperCase()}`);
-    lines.push(`- 执行模式：${executionModeLabel(report.execution_mode || "rule_only")}`);
-    lines.push(`- 分析能力：${(report.skills_selected || []).map((item) => skillLabel(item)).join(" / ")}`);
-    lines.push("");
-    pushBulletSection(lines, "关键事实", report.key_facts);
-    pushBulletSection(lines, "可能原因", report.probable_causes);
-    lines.push("重点关联链");
-    lines.push("");
-    (report.findings || []).forEach((finding, index) => {
-      lines.push(`${index + 1}. ${finding.summary}`);
-      lines.push("");
-      const evidence = flattenEvidence(finding);
-      if (evidence.length) {
-        lines.push("- 关联证据：");
-        evidence.forEach((item) => lines.push(`  - ${item}`));
-      }
-      if (finding.affected_assets?.length) {
-        lines.push(`- 影响对象：${finding.affected_assets.join("、")}`);
-      }
-      if (finding.recommendations?.length) {
-        lines.push("- 建议动作：");
-        finding.recommendations.forEach((item) => lines.push(`  - ${item}`));
-      }
-      lines.push("");
-    });
-    pushBulletSection(lines, "快速核查", report.quick_checks);
-    pushBulletSection(lines, "升级条件", report.escalation_conditions);
-    if (report.professional_judgment) {
-      lines.push("专业判断");
-      lines.push("");
-      lines.push(report.professional_judgment);
-      lines.push("");
-    }
-  }
-  return `${lines.join("\n").trim()}\n`;
-}
-
-function buildEndpointDownload(report) {
-  const lines = [];
-  lines.push("# 端点安全事件分析报告");
-  lines.push("");
-  lines.push("## 结论判断");
-  lines.push("");
-  lines.push(report.assessment || report.summary || "");
-  lines.push("");
-  lines.push(`- 风险级别：${String(report.top_risk_label || "info").toUpperCase()}`);
-  lines.push(`- 发现数量：${(report.findings || []).length}`);
-  lines.push("");
-  pushBulletSection(lines, "关键事实", report.key_facts);
-  pushBulletSection(lines, "关键证据", report.evidence_highlights);
-  pushBulletSection(lines, "建议动作", report.recommended_actions);
-  if (report.professional_judgment) {
-    lines.push("## 专业判断");
-    lines.push("");
-    lines.push(report.professional_judgment);
-    lines.push("");
-  }
-  return `${lines.join("\n").trim()}\n`;
-}
-
-function buildWhiteboxDownload(report) {
-  const titleMap = {
-    whitebox_recon_assessment: "应用白盒侦察报告",
-    whitebox_exploit_validation: "应用白盒验证报告",
-    whitebox_security_report: "应用白盒综合安全报告",
-  };
-  const lines = [];
-  lines.push(`# ${titleMap[report.event_type] || "应用白盒分析报告"}`);
-  lines.push("");
-  lines.push("## 结论摘要");
-  lines.push("");
-  lines.push(report.assessment || report.summary || "");
-  lines.push("");
-  pushBulletSection(lines, "关键事实", report.key_facts);
-  pushBulletSection(lines, "可能原因", report.probable_causes);
-  if (Array.isArray(report.findings) && report.findings.length) {
-    lines.push("## 发现清单");
-    lines.push("");
-    report.findings.forEach((finding, index) => {
-      lines.push(`### ${index + 1}. ${finding.summary}`);
-      lines.push("");
-      flattenEvidence(finding).forEach((item) => lines.push(`- ${item}`));
-      lines.push("");
-    });
-  }
-  pushBulletSection(lines, "建议动作", report.recommended_actions);
-  if (report.professional_judgment) {
-    lines.push("## 专业判断");
-    lines.push("");
-    lines.push(report.professional_judgment);
-    lines.push("");
-  }
-  return `${lines.join("\n").trim()}\n`;
-}
-
-function buildGenericDownload(report) {
-  const lines = [];
-  lines.push("# 安全报告");
-  lines.push("");
-  lines.push(`- 事件类型：\`${report.event_type || "unknown"}\``);
-  lines.push(`- 来源类型：\`${report.source_type || "unknown"}\``);
-  lines.push(`- 结论类型：\`${report.verdict || "needs_review"}\``);
-  lines.push(`- 风险级别：\`${report.top_risk_label || "info"}\``);
-  lines.push("");
-  lines.push("## 结论判断");
-  lines.push("");
-  lines.push(report.assessment || report.summary || "");
-  lines.push("");
-  pushBulletSection(lines, "关键事实", report.key_facts);
-  pushBulletSection(lines, "建议动作", report.recommended_actions);
-  if (report.professional_judgment) {
-    lines.push("## 专业判断");
-    lines.push("");
-    lines.push(report.professional_judgment);
-    lines.push("");
-  }
-  return `${lines.join("\n").trim()}\n`;
-}
-
-function buildDownloadableReportText(report) {
-  if (!report) return "";
-  if (report.event_type === "host_baseline_assessment") return buildHostBaselineDownload(report);
-  if (["jumpserver_multi_source_audit", "login_auth_review", "jumpserver_command_review", "jumpserver_transfer_review", "jumpserver_operation_review"].includes(report.event_type)) {
-    return buildJumpServerDownload(report);
-  }
-  if (report.source_type === "endpoint" || report.event_type === "endpoint_process") return buildEndpointDownload(report);
-  if (["whitebox_recon_assessment", "whitebox_exploit_validation", "whitebox_security_report"].includes(report.event_type)) {
-    return buildWhiteboxDownload(report);
-  }
-  return buildGenericDownload(report);
-}
-
-function downloadCurrentReport() {
-  if (!intakeState.report) return;
-  const blob = new Blob([buildDownloadableReportText(intakeState.report)], { type: "text/markdown;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = reportDownloadName(intakeState.report);
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  URL.revokeObjectURL(url);
-}
-
-function renderFileRuns(batch) {
-  const root = document.getElementById("file-runs-output");
-  root.innerHTML = "";
-  if (batch?.pendingFiles?.length) {
-    root.className = "stack-list";
-    root.appendChild(
-      el(
-        "p",
-        "section-note",
-        uiState.language === "zh"
-          ? `当前已上传 ${batch.pendingFiles.length} 个文件，等待点击“归一化后分析”开始处理。`
-          : `${batch.pendingFiles.length} file(s) uploaded and waiting for “Normalize + Analyze”.`
-      )
-    );
-    batch.pendingFiles.forEach((name) => {
-      const card = el("article", "run-card");
-      card.appendChild(el("h5", "", name));
-      card.appendChild(
-        el(
-          "p",
-          "card-copy",
-          uiState.language === "zh" ? "文件已进入当前会话，但还没有开始分析。" : "The file is staged in the current session and has not been analyzed yet."
-        )
-      );
-      root.appendChild(card);
-    });
-    return;
-  }
-  if (!batch || !batch.results?.length) {
-    root.className = "stack-list loading-copy";
-    root.textContent = t("ui").uploadRunsWaiting;
-    return;
-  }
-  root.className = "stack-list scroll";
-  root.appendChild(el("p", "section-note", t("ui").fileRunsSummaryCopy));
-  batch.results.forEach((item) => {
-    const card = el("article", "run-card");
-    card.appendChild(el("h5", "", item.filename || (uiState.language === "zh" ? "未命名文件" : "Unnamed file")));
-    card.appendChild(
-      el(
-        "p",
-        "card-copy",
-        uiState.language === "zh"
-          ? `${sourceTypeLabel(item.normalized_event?.source_type)} -> ${eventTypeLabel(item.normalized_event?.event_type)}，本次共分配 ${(item.planner_preview?.skills_to_execute || []).length} 个能力。`
-          : `${sourceTypeLabel(item.normalized_event?.source_type)} -> ${eventTypeLabel(item.normalized_event?.event_type)}, with ${(item.planner_preview?.skills_to_execute || []).length} planned skill(s).`
-      )
-    );
-    const meta = el("div", "meta-grid");
-    [
-      [uiState.language === "zh" ? "风险级别" : "Risk level", item.report?.top_risk_label || "info"],
-      [uiState.language === "zh" ? "风险分数" : "Risk score", String(item.report?.overall_risk_score ?? 0)],
-      [uiState.language === "zh" ? "解析方式" : "Parser", item.raw_event?.payload?.parser_profile === "csv-tabular" ? "CSV" : item.raw_event?.payload?.parser_profile === "pdf-text" ? "PDF" : item.raw_event?.payload?.parser_profile === "json-structured" ? "JSON" : (item.raw_event?.payload?.parser_profile || "generic")],
-      [uiState.language === "zh" ? "发现数量" : "Finding count", String((item.report?.findings || []).length)],
-    ].forEach(([label, value]) => {
-      const m = el("div", "meta-item");
-      m.appendChild(el("span", "meta-label", label));
-      m.appendChild(el("span", "meta-value", value));
-      meta.appendChild(m);
-    });
-    card.appendChild(meta);
-    if (item.planner_preview?.skills_to_execute?.length) {
-      card.appendChild(renderChips(item.planner_preview.skills_to_execute.map((skillId) => skillLabel(skillId))));
-    }
-    root.appendChild(card);
-  });
-}
-
-function persistRawInput() {
-  return;
-}
-
-function renderNormalizeOutput(data) {
-  const output = document.getElementById("normalize-output");
-  if (!data) {
-    output.textContent = t("ui").waitingInput;
-    return;
-  }
-  output.textContent = "";
-  const wrapper = document.createElement("div");
-  wrapper.className = "stack-list";
-
-  const card = el("article", "normalize-card");
-  card.appendChild(el("h4", "", t("ui").normalizeSummaryTitle));
-  card.appendChild(el("p", "card-copy", t("ui").normalizeSummaryCopy));
-  const meta = el("div", "meta-grid");
-  [
-    [uiState.language === "zh" ? "事件 ID" : "Event ID", data.event_id || (uiState.language === "zh" ? "未生成" : "Not generated")],
-    [uiState.language === "zh" ? "事件类型" : "Event type", eventTypeLabel(data.event_type)],
-    [uiState.language === "zh" ? "来源类型" : "Source type", sourceTypeLabel(data.source_type)],
-    [uiState.language === "zh" ? "事件时间" : "Timestamp", formatTime(data.timestamp)],
-    [uiState.language === "zh" ? "资产名称" : "Asset name", data.asset_context?.asset_name || (uiState.language === "zh" ? "未提供" : "Not provided")],
-    [uiState.language === "zh" ? "环境" : "Environment", data.asset_context?.environment || "unknown"],
-  ].forEach(([label, value]) => {
-    const item = el("div", "meta-item");
-    item.appendChild(el("span", "meta-label", label));
-    item.appendChild(el("span", "meta-value", String(value)));
-    meta.appendChild(item);
-  });
-  card.appendChild(meta);
-
-  const highlights = [];
-  if (data.normalized_data?.filename) highlights.push(uiState.language === "zh" ? `文件：${data.normalized_data.filename}` : `File: ${data.normalized_data.filename}`);
-  if (data.normalized_data?.parser_profile) highlights.push(uiState.language === "zh" ? `解析方式：${data.normalized_data.parser_profile}` : `Parser: ${data.normalized_data.parser_profile}`);
-  if (data.normalized_data?.row_count !== undefined) highlights.push(uiState.language === "zh" ? `记录数：${data.normalized_data.row_count}` : `Rows: ${data.normalized_data.row_count}`);
-  if (data.normalized_data?.target) highlights.push(uiState.language === "zh" ? `目标：${data.normalized_data.target}` : `Target: ${data.normalized_data.target}`);
-  if (highlights.length) {
-    card.appendChild(el("p", "card-copy", uiState.language === "zh" ? "已提取关键信息" : "Extracted highlights"));
-    card.appendChild(renderChips(highlights, "note"));
-  }
-
-  const details = document.createElement("details");
-  details.className = "details-block";
-  const summary = document.createElement("summary");
-  summary.textContent = uiState.language === "zh" ? "查看完整标准化结构" : "View full normalized structure";
-  details.appendChild(summary);
-  const pre = document.createElement("pre");
-  pre.textContent = JSON.stringify(data, null, 2);
-  details.appendChild(pre);
-  card.appendChild(details);
-
-  wrapper.appendChild(card);
-  output.replaceChildren(wrapper);
-}
-
-function localizedRecentReportTitle(report) {
-  if (uiState.language === "zh") return report.report_title || "最近分析结论";
-  const map = {
-    login_auth_review: "JumpServer Login Audit",
-    jumpserver_command_review: "JumpServer Command Audit",
-    jumpserver_transfer_review: "JumpServer File Transfer Audit",
-    jumpserver_operation_review: "JumpServer Control Plane Audit",
-    jumpserver_multi_source_audit: "JumpServer Composite Audit",
-    host_baseline_assessment: "Host Baseline Assessment",
-    endpoint_process: "Endpoint Security Review",
-    whitebox_security_report: "Whitebox Security Report",
-    whitebox_recon_assessment: "Whitebox Recon Report",
-    whitebox_exploit_validation: "Whitebox Validation Report",
-  };
-  return map[report.event_type] || report.report_title || "Recent Assessment";
-}
-
-function localizedRecentReportCopy(report) {
-  if (uiState.language === "zh") {
-    return report.professional_judgment || report.assessment || report.summary || "暂无摘要。";
-  }
-  const findings = (report.findings || []).length;
-  const risk = String(report.top_risk_label || "info").toLowerCase();
-  const mode = executionModeLabel(report.execution_mode || "rule_only");
-  const generic = `This report is currently classified as ${risk} risk, with ${findings} finding(s), generated via ${mode}.`;
-  const byEvent = {
-    login_auth_review: `This login audit highlights authentication outcomes and surrounding access context. Treat it as access evidence, not proof of compromise by itself. ${generic}`,
-    jumpserver_command_review: `This command audit focuses on privileged execution, service control, remote operations, downloads, and binary execution patterns. ${generic}`,
-    jumpserver_transfer_review: `This transfer audit focuses on uploaded artifacts, landing paths, permission changes, and follow-on execution signals. ${generic}`,
-    jumpserver_operation_review: `This control-plane audit focuses on export actions, account or host creation, authorization changes, and other high-impact administrative events. ${generic}`,
-    jumpserver_multi_source_audit: `This composite JumpServer audit correlates login, command, transfer, and control-plane activity to surface high-risk operation chains that need session-level review. ${generic}`,
-    host_baseline_assessment: `This report reflects baseline and configuration weakness rather than active intrusion, and should be read as a governance and hardening signal. ${generic}`,
-    endpoint_process: `This endpoint review summarizes process-side security signals and prioritizes host-level follow-up. ${generic}`,
-    whitebox_security_report: `This whitebox report consolidates application findings into a security assessment with prioritized follow-up. ${generic}`,
-    whitebox_recon_assessment: `This whitebox recon report summarizes externally observable application exposure and verification leads. ${generic}`,
-    whitebox_exploit_validation: `This whitebox validation report summarizes exploitability checks and evidence quality. ${generic}`,
-  };
-  return byEvent[report.event_type] || generic;
-}
-
-function renderReports(reports) {
-  uiState.reports = reports;
-  const root = document.getElementById("reports-output");
-  root.innerHTML = "";
-  if (!reports.length) {
-    root.appendChild(createEmptyState(t("ui").noReports));
-    return;
-  }
-  const board = el("div", "reports-board");
-  reports.slice(0, 6).forEach((report) => {
-    const riskClass = ["critical", "high"].includes(String(report.top_risk_label || "").toLowerCase()) ? "report-card-alert" : ["medium"].includes(String(report.top_risk_label || "").toLowerCase()) ? "report-card-watch" : "report-card-calm";
-    const card = el("article", `report-card ${report === reports[0] ? "priority" : ""} ${riskClass}`.trim());
-    card.appendChild(el("h4", "", localizedRecentReportTitle(report)));
-    card.appendChild(el("p", "card-copy", localizedRecentReportCopy(report)));
-    const snapshot = el("div", "chip-row");
-    snapshot.appendChild(el("span", "chip latest", `${t("ui").reportSnapshotTitle}: ${report.verdict || "needs_review"}`));
-    snapshot.appendChild(el("span", `chip ${["critical", "high"].includes(String(report.top_risk_label || "").toLowerCase()) ? "report-chip-alert" : ["medium"].includes(String(report.top_risk_label || "").toLowerCase()) ? "report-chip-watch" : "report-chip-calm"}`.trim(), `${uiState.language === "zh" ? "风险" : "Risk"}: ${report.top_risk_label || "info"}`));
-    card.appendChild(snapshot);
-    const kpis = el("div", "kpi-strip");
-    [
-      [uiState.language === "zh" ? "风险级别" : "Risk level", report.top_risk_label || "info"],
-      [uiState.language === "zh" ? "风险分数" : "Risk score", String(report.overall_risk_score ?? 0)],
-      [uiState.language === "zh" ? "发现数量" : "Finding count", String((report.findings || []).length)],
-      [uiState.language === "zh" ? "报告时间" : "Reported at", formatTime(report.generated_at || report.created_at)],
-    ].forEach(([label, value]) => {
-      const tile = el("div", "kpi-tile");
-      tile.appendChild(el("span", "kpi-label", label));
-      tile.appendChild(el("span", "kpi-value", value));
-      kpis.appendChild(tile);
-    });
-    card.appendChild(kpis);
-    if (report === reports[0]) {
-      const latest = el("div", "chip-row");
-      latest.appendChild(el("span", "chip latest", t("ui").latest));
-      card.appendChild(latest);
-    }
-    if (Array.isArray(report.skills_selected) && report.skills_selected.length) {
-      card.appendChild(el("p", "card-copy", t("ui").reportsPathTitle));
-      card.appendChild(renderChips(report.skills_selected.map((skillId) => skillLabel(skillId)), "skill-accent"));
-    }
-    board.appendChild(card);
-  });
-  root.appendChild(board);
-}
-
-function renderInvestigations(items) {
-  uiState.investigations = items;
-  const root = document.getElementById("investigations-output");
-  root.innerHTML = "";
-  const grouped = [];
-  const seen = new Set();
-  const isCompositeInvestigationFile = (file) => file && file.source_type === "jumpserver" && file.event_type === "jumpserver_multi_source_audit";
-  items.forEach((item) => {
-    const firstFile = (item.files || []).find((file) => !isCompositeInvestigationFile(file)) || item.files?.[0] || {};
-    const key = [
-      firstFile.filename || "unknown",
-      firstFile.event_type || "unknown",
-      firstFile.source_type || "unknown",
-    ].join("|");
-    if (seen.has(key)) return;
-    seen.add(key);
-    grouped.push(item);
-  });
-  if (!grouped.length) {
-    root.appendChild(createEmptyState(t("ui").noInvestigations));
-    return;
-  }
-  grouped.slice(0, 4).forEach((item) => {
-    const visibleFiles = (item.files || []).filter((file) => !isCompositeInvestigationFile(file));
-    const firstFile = visibleFiles[0] || item.files?.[0] || {};
-    const uploadedCount = item.result_count
-      ? Number(item.file_count || visibleFiles.length || 0)
-      : (visibleFiles.length || Number(item.file_count || 0));
-    const resultCount = item.result_count
-      ? Number(item.result_count || 0)
-      : Number((item.files || []).length || item.file_count || 0);
-    const compositeCount = Math.max(0, resultCount - uploadedCount);
-    const sourceCategoryCount = new Set(
-      visibleFiles.map((file) => file?.source_type).filter(Boolean)
-    ).size;
-    const card = el("article", "investigation-card");
-    card.appendChild(el("h4", "", firstFile.filename || item.name || "未命名调查"));
-    card.appendChild(
-      el(
-        "p",
-        "card-copy",
-        uiState.language === "zh"
-          ? compositeCount > 0
-            ? sourceCategoryCount > 0 && sourceCategoryCount !== uploadedCount
-              ? `${sourceTypeLabel(firstFile.source_type)} 材料已经进入 ${eventTypeLabel(firstFile.event_type)} 调查链路；本批次上传 ${uploadedCount} 个文件，覆盖 ${sourceCategoryCount} 类场景，生成 ${resultCount} 条结果（含 ${compositeCount} 条综合结果）。`
-              : `${sourceTypeLabel(firstFile.source_type)} 材料已经进入 ${eventTypeLabel(firstFile.event_type)} 调查链路；本批次上传 ${uploadedCount} 个文件，生成 ${resultCount} 条结果（含 ${compositeCount} 条综合结果）。`
-            : `${sourceTypeLabel(firstFile.source_type)} 材料已经进入 ${eventTypeLabel(firstFile.event_type)} 调查链路；本批次上传 ${uploadedCount} 个文件，生成 ${resultCount} 条结果。`
-          : compositeCount > 0
-            ? sourceCategoryCount > 0 && sourceCategoryCount !== uploadedCount
-              ? `${sourceTypeLabel(firstFile.source_type)} material entered the ${eventTypeLabel(firstFile.event_type)} investigation path; this batch uploaded ${uploadedCount} file(s), covered ${sourceCategoryCount} source category(ies), and produced ${resultCount} result(s), including ${compositeCount} composite result(s).`
-              : `${sourceTypeLabel(firstFile.source_type)} material entered the ${eventTypeLabel(firstFile.event_type)} investigation path; this batch uploaded ${uploadedCount} file(s) and produced ${resultCount} result(s), including ${compositeCount} composite result(s).`
-            : `${sourceTypeLabel(firstFile.source_type)} material entered the ${eventTypeLabel(firstFile.event_type)} investigation path; this batch uploaded ${uploadedCount} file(s) and produced ${resultCount} result(s).`
-      )
-    );
-    const meta = el("div", "meta-grid");
-    [
-      [uiState.language === "zh" ? "最高风险" : "Top risk", item.top_risk_label || "info"],
-      [uiState.language === "zh" ? "最高分数" : "Top score", String(item.top_risk_score ?? 0)],
-      [uiState.language === "zh" ? "涉及能力数" : "Skills used", String((item.skills_seen || []).length)],
-      [uiState.language === "zh" ? "创建时间" : "Created at", formatTime(item.created_at)],
-    ].forEach(([label, value]) => {
-      const cell = el("div", "meta-item");
-      cell.appendChild(el("span", "meta-label", label));
-      cell.appendChild(el("span", "meta-value", value));
-      meta.appendChild(cell);
-    });
-    card.appendChild(meta);
-    if (item === grouped[0]) {
-      const latest = el("div", "chip-row");
-      latest.appendChild(el("span", "chip latest", t("ui").latest));
-      card.appendChild(latest);
-    }
-    if (Array.isArray(item.skills_seen) && item.skills_seen.length) {
-      card.appendChild(el("p", "card-copy", t("ui").investigationsEnginesTitle));
-      card.appendChild(renderChips(item.skills_seen.map((skillId) => skillLabel(skillId))));
-    }
-    root.appendChild(card);
-  });
-}
-
-function renderHistory(data) {
-  uiState.history = data;
-  const root = document.getElementById("history-output");
-  root.innerHTML = "";
-  const reports = data.reports || [];
-  const events = data.events || [];
-  const rawEvents = data.raw_events || [];
-  const investigations = data.investigations || [];
-  const card = el("article", "history-card");
-  card.appendChild(el("h4", "", t("ui").historySummaryTitle));
-  card.appendChild(el("p", "card-copy", t("ui").historySummaryCopy));
-  const meta = el("div", "meta-grid");
-  [
-    [uiState.language === "zh" ? "标准化事件" : "Normalized events", String(events.length)],
-    [uiState.language === "zh" ? "原始输入" : "Raw inputs", String(rawEvents.length)],
-    [uiState.language === "zh" ? "报告记录" : "Reports", String(reports.length)],
-    [uiState.language === "zh" ? "调查会话" : "Investigations", String(investigations.length)],
-  ].forEach(([label, value]) => {
-    const item = el("div", "meta-item");
-    item.appendChild(el("span", "meta-label", label));
-    item.appendChild(el("span", "meta-value", value));
-    meta.appendChild(item);
-  });
-  card.appendChild(meta);
-  const compact = el("div", "compact-meta");
-  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近事件：${formatTime(events[0]?.normalized_event?.timestamp || events[0]?.created_at)}` : `Latest event: ${formatTime(events[0]?.normalized_event?.timestamp || events[0]?.created_at)}`));
-  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近输入：${formatTime(rawEvents[0]?.timestamp || rawEvents[0]?.created_at)}` : `Latest intake: ${formatTime(rawEvents[0]?.timestamp || rawEvents[0]?.created_at)}`));
-  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近报告：${formatTime(reports[0]?.generated_at || reports[0]?.created_at)}` : `Latest report: ${formatTime(reports[0]?.generated_at || reports[0]?.created_at)}`));
-  card.appendChild(compact);
-  root.appendChild(card);
-}
-
-function renderBitdefender(data) {
-  uiState.bitdefender = data;
-  const root = document.getElementById("bitdefender-output");
-  const status = document.getElementById("bitdefender-status");
-  root.innerHTML = "";
-  if (!data) {
-    root.className = "stack-list";
-    root.appendChild(el("p", "section-note", t("ui").integrationsSectionCopy));
-    root.appendChild(createEmptyState(t("ui").bitdefenderNoData));
-    status.textContent = t("ui").bitdefenderWaiting;
-    return;
-  }
-  root.className = "stack-list";
-  status.textContent = data.error
-    ? (uiState.language === "zh" ? `最近结果：${data.error}` : `Latest result: ${data.error}`)
-    : (uiState.language === "zh" ? "最近一次调用已完成。" : "Latest call completed.");
-  root.appendChild(el("p", "section-note", t("ui").integrationsSectionCopy));
-
-  const quickGrid = el("div", "hero-kpi-grid");
-  [
-    {
-      tone: "success",
-      eyebrow: uiState.language === "zh" ? "CONNECTION STATUS" : "CONNECTION STATUS",
-      value: data.error ? (uiState.language === "zh" ? "异常" : "Issue") : (uiState.language === "zh" ? "在线" : "Live"),
-      suffix: uiState.language === "zh" ? "MCP" : "MCP",
-      copy: uiState.language === "zh" ? "这里优先判断连接层是否正常，以及是否值得继续导入分析。" : "This card focuses on whether the MCP is healthy and worth continuing into analysis.",
-    },
-    {
-      tone: "cyan",
-      eyebrow: uiState.language === "zh" ? "LATEST REPORT" : "LATEST REPORT",
-      value: String(data.latest_report_summary?.row_count ?? 0),
-      suffix: uiState.language === "zh" ? "Rows" : "Rows",
-      copy: uiState.language === "zh" ? "如果最新报表已经有内容，通常最有价值的动作就是导入它。" : "If the latest report already has content, importing it is usually the most valuable next action.",
-    },
-    {
-      tone: "violet",
-      eyebrow: uiState.language === "zh" ? "NEXT ACTION" : "NEXT ACTION",
-      value: uiState.language === "zh" ? "导入报表" : "Import",
-      suffix: uiState.language === "zh" ? "Into Platform" : "Into Platform",
-      copy: uiState.language === "zh" ? "不要纠结设备总数，更应该看最新报表有没有新的高风险信号。" : "Do not over-focus on total device counts; focus on whether the latest report has new high-risk signals.",
-    },
-  ].forEach((item) => {
-    const card = el("article", `hero-kpi-card ${item.tone}`.trim());
-    card.appendChild(el("span", "hero-kpi-eyebrow", item.eyebrow));
-    const value = el("div", "hero-kpi-value");
-    value.appendChild(el("span", "hero-kpi-number", item.value));
-    value.appendChild(el("span", "hero-kpi-suffix", item.suffix));
-    card.appendChild(value);
-    card.appendChild(el("p", "card-copy", item.copy));
-    quickGrid.appendChild(card);
-  });
-  root.appendChild(quickGrid);
-  const statusGrid = el("div", "connection-status-grid");
-  [
-    [uiState.language === "zh" ? "连接健康" : "Connection Health", data.error ? (uiState.language === "zh" ? "需修复" : "Needs Repair") : (uiState.language === "zh" ? "正常" : "Healthy"), uiState.language === "zh" ? "先确认 MCP 连通，再决定要不要继续导入。" : "Confirm the MCP is reachable before importing further."],
-    [uiState.language === "zh" ? "可分析内容" : "Ready-to-Analyze", `${data.latest_report_summary?.row_count ?? 0}`, uiState.language === "zh" ? "这里直接回答有没有值得导入的新东西。" : "This tells you whether there is something worth importing now."],
-    [uiState.language === "zh" ? "推荐动作" : "Recommended Action", uiState.language === "zh" ? "导入最新报表" : "Import Latest Report", uiState.language === "zh" ? "如果这里只做一个动作，通常就是它。" : "If you only do one thing on this page, it is usually this."],
-  ].forEach(([label, value, copy]) => {
-    const card = el("article", "connection-status-card");
-    card.appendChild(el("span", "meta-label", label));
-    card.appendChild(el("strong", "", String(value)));
-    card.appendChild(el("p", "card-copy", copy));
-    statusGrid.appendChild(card);
-  });
-  root.appendChild(statusGrid);
-
-  const summary = el("article", "summary-card");
-  summary.appendChild(el("h4", "", t("ui").bitdefenderSummaryTitle));
-  summary.appendChild(el("p", "card-copy", t("ui").bitdefenderDefaultKeyNotice));
-  const statusMeta = el("div", "meta-grid");
-  [
-    [uiState.language === "zh" ? "连接状态" : "Connection status", data.error ? (uiState.language === "zh" ? "异常" : "Issue detected") : (uiState.language === "zh" ? "已连接" : "Connected")],
-    [uiState.language === "zh" ? "最近结果" : "Latest result", data.error ? (uiState.language === "zh" ? "需要关注" : "Needs attention") : (uiState.language === "zh" ? "调用成功" : "Call completed")],
-    [uiState.language === "zh" ? "公司 ID" : "Company ID", data.company_id || (uiState.language === "zh" ? "未发现" : "Not found")],
-    [uiState.language === "zh" ? "可用报表数" : "Available reports", String(data.report_total ?? data.reports?.total ?? 0)],
-  ].forEach(([label, value]) => {
-    const item = el("div", "meta-item");
-    item.appendChild(el("span", "meta-label", label));
-    item.appendChild(el("span", "meta-value", String(value)));
-    statusMeta.appendChild(item);
-  });
-  summary.appendChild(statusMeta);
-  summary.appendChild(el("h4", "", t("ui").bitdefenderAvailableDataTitle));
-  const dataTypes = el("div", "chip-row");
-  const availableTypes = [
-    uiState.language === "zh" ? "终端资产" : "Asset inventory",
-    uiState.language === "zh" ? "安全报表" : "Security reports",
-  ];
-  if (Array.isArray(data.hierarchy_policies) && data.hierarchy_policies.length) {
-    availableTypes.push(uiState.language === "zh" ? "策略分布" : "Policy distribution");
-  }
-  if (Array.isArray(data.hierarchy_os_families) && data.hierarchy_os_families.length) {
-    availableTypes.push(uiState.language === "zh" ? "系统分布" : "OS distribution");
-  }
-  availableTypes.forEach((item) => dataTypes.appendChild(el("span", "chip good", item)));
-  summary.appendChild(dataTypes);
-  if (data.latest_report_summary) {
-    summary.appendChild(el("h4", "", t("ui").bitdefenderCoverageTitle));
-    summary.appendChild(el("p", "card-copy", t("ui").bitdefenderReportFocusCopy));
-    const latestSummary = el("div", "meta-grid");
-    [
-      [uiState.language === "zh" ? "最新报表记录数" : "Latest report rows", String(data.latest_report_summary.row_count ?? 0)],
-      [uiState.language === "zh" ? "最新报表主机数" : "Latest report hosts", String(data.latest_report_summary.unique_host_count ?? 0)],
-      [uiState.language === "zh" ? "恶意软件检测" : "Malware detections", String(data.latest_report_summary.malware_count ?? 0)],
-      [uiState.language === "zh" ? "网络攻击记录" : "Network attacks", String(data.latest_report_summary.attack_count ?? 0)],
-      [uiState.language === "zh" ? "阻止网站" : "Blocked sites", String(data.latest_report_summary.blocked_count ?? 0)],
-    ].forEach(([label, value]) => {
-      const item = el("div", "meta-item");
-      item.appendChild(el("span", "meta-label", label));
-      item.appendChild(el("span", "meta-value", String(value)));
-      latestSummary.appendChild(item);
-    });
-    summary.appendChild(latestSummary);
-    summary.appendChild(el("p", "card-copy", t("ui").bitdefenderActionHint));
-    if (Array.isArray(data.latest_report_summary.top_hosts) && data.latest_report_summary.top_hosts.length) {
-      summary.appendChild(el("h5", "", t("ui").bitdefenderTopHostsTitle));
-      const hosts = el("div", "chip-row");
-      data.latest_report_summary.top_hosts.forEach((item) => {
-        hosts.appendChild(el("span", "chip", `${item.name} · ${item.count}`));
-      });
-      summary.appendChild(hosts);
-    }
-    if (Array.isArray(data.latest_report_summary.top_event_types) && data.latest_report_summary.top_event_types.length) {
-      summary.appendChild(el("h5", "", t("ui").bitdefenderTopEventsTitle));
-      const events = el("div", "chip-row");
-      data.latest_report_summary.top_event_types.forEach((item) => {
-        events.appendChild(el("span", "chip", `${item.name} · ${item.count}`));
-      });
-      summary.appendChild(events);
-    }
-    const apiHosts = Number(data.endpoint_total ?? data.endpoints?.total ?? 0);
-    const reportHosts = Number(data.latest_report_summary.unique_host_count ?? 0);
-    if (reportHosts > apiHosts) {
-      const gapCard = el("article", "report-card report-section");
-      gapCard.appendChild(el("h5", "", t("ui").bitdefenderCoverageGapTitle));
-      gapCard.appendChild(el("p", "card-copy", t("ui").bitdefenderCoverageGapCopy));
-      const gapMeta = el("div", "meta-grid");
-      [
-        [uiState.language === "zh" ? "API 可见端点" : "API-visible endpoints", String(apiHosts)],
-        [uiState.language === "zh" ? "报表出现主机" : "Hosts seen in reports", String(reportHosts)],
-      ].forEach(([label, value]) => {
-        const item = el("div", "meta-item");
-        item.appendChild(el("span", "meta-label", label));
-        item.appendChild(el("span", "meta-value", value));
-        gapMeta.appendChild(item);
-      });
-      gapCard.appendChild(gapMeta);
-      summary.appendChild(gapCard);
-    }
-  }
-  root.appendChild(summary);
-  const actionRail = el("div", "action-rail");
-  const actionCard = el("article", "action-rail-card");
-  actionCard.appendChild(el("h4", "", uiState.language === "zh" ? "这页真正能做什么" : "What This Page Actually Helps With"));
-  const actionList = el("ul", "bullet-list");
-  [
-    uiState.language === "zh" ? "确认 Bitdefender 连接层是不是活的。" : "Confirm whether the Bitdefender MCP is alive.",
-    uiState.language === "zh" ? "如果最新报表已经有内容，优先导入报表，而不是纠结设备总数。" : "If the latest report already has content, import it before over-focusing on device totals.",
-    uiState.language === "zh" ? "资产导入更像补背景，报表导入更像直接进入分析。" : "Asset import adds context; report import gets you into analysis faster.",
-  ].forEach((text) => actionList.appendChild(el("li", "", text)));
-  actionCard.appendChild(actionList);
-  actionRail.appendChild(actionCard);
-  root.appendChild(actionRail);
-
-}
-
-function formatAppaMode(mode) {
-  const labels = {
-    zh: { green: "Green", yellow: "Yellow", red: "Red" },
-    en: { green: "Green", yellow: "Yellow", red: "Red" },
-  };
-  return labels[uiState.language][mode] || String(mode || "").toUpperCase();
-}
-
-function appaNavContext(nav) {
-  const map = {
-    zh: {
-      overview: ["工作台总览", "先在这里确认这次渗透测试是不是跑在同一条主线里：范围、路径、发现、证据和报告有没有串起来。"],
-      "attack-paths": ["攻击路径视图", "这一步回答的是怎么打：从哪里进、经过哪些节点、哪条路径最值得继续验证。"],
-      "pentest-ai": ["验证编排视图", "这一步看 AI 如何基于当前路径安排验证顺序、组织技能调用和解释结果。"],
-      vulnerabilities: ["证据化发现视图", "这一步把问题挂到攻击路径上，强调可能性、影响和状态，而不是只堆扫描器结果。"],
-      targets: ["目标覆盖视图", "这一步定义这次到底测什么、优先测什么，以及哪些边界不能碰。"],
-      evidence: ["证据链视图", "这一步看原始材料、脱敏预览、证据发现和报告之间的回链关系。"],
-    },
-    en: {
-      overview: ["Workbench Overview", "Confirm that this pentest still follows one coherent line from scope to report."],
-      "attack-paths": ["Attack Path View", "This step answers how to break in: entry points, path state, and which route should be validated next."],
-      "pentest-ai": ["Pentest AI View", "Use this step to see how AI turns current path context into verification order and skill orchestration."],
-      vulnerabilities: ["Evidence Findings View", "Use this step to review path-level findings with likelihood, impact, and status."],
-      targets: ["Target Coverage View", "Use this step to review what is actually in scope and what should be prioritized."],
-      evidence: ["Evidence Chain View", "Use this step to trace how raw evidence becomes findings and audit-ready outputs."],
-    },
-  };
-  return map[uiState.language][nav] || map[uiState.language].overview;
-}
-
-function appaWorkflowSteps() {
-  const zh = uiState.language === "zh";
-  return [
-    {
-      key: "targets",
-      title: zh ? "1. 范围定义" : "1. Scope",
-      copy: zh ? "明确 engagement、资产范围和禁止越界的边界。" : "Define the engagement, in-scope assets, and hard boundaries.",
-      nav: "targets",
-    },
-    {
-      key: "attack-paths",
-      title: zh ? "2. 攻击路径建模" : "2. Path Modeling",
-      copy: zh ? "把暴露面串成可验证的逻辑攻击路径。" : "Model logical attack paths from the exposed surface.",
-      nav: "attack-paths",
-    },
-    {
-      key: "pentest-ai",
-      title: zh ? "3. 验证编排" : "3. Verification",
-      copy: zh ? "由 Pentest AI 安排验证顺序、技能调用和解释逻辑。" : "Let Pentest AI orchestrate verification order, skills, and reasoning.",
-      nav: "pentest-ai",
-    },
-    {
-      key: "vulnerabilities",
-      title: zh ? "4. 发现归并" : "4. Findings",
-      copy: zh ? "把问题挂到路径上，形成 evidence-first finding。" : "Attach issues to paths as evidence-first findings.",
-      nav: "vulnerabilities",
-    },
-    {
-      key: "evidence",
-      title: zh ? "5. 证据链" : "5. Evidence",
-      copy: zh ? "保留原始材料、脱敏预览和引用关系。" : "Preserve raw material, redacted previews, and references.",
-      nav: "evidence",
-    },
-    {
-      key: "reports",
-      title: zh ? "6. 审计报告" : "6. Report",
-      copy: zh ? "最终输出可复核、可签发的审计风格报告。" : "Finish with an audit-style report ready for review and sign-off.",
-      nav: "reports",
-    },
-  ];
-}
-
-function renderAppaWorkflow() {
-  const root = document.getElementById("appa-flow-steps");
-  if (!root) return;
-  root.innerHTML = "";
-  appaWorkflowSteps().forEach((step) => {
-    const card = el("button", "appa-flow-step");
-    card.type = "button";
-    const active = step.tab ? uiState.appaTab === step.tab : uiState.appaNav === step.nav;
-    card.classList.toggle("active", active);
-    card.appendChild(el("strong", "", step.title));
-    card.addEventListener("click", () => {
-      if (step.tab) {
-        setAppaTab(step.tab);
-      } else if (step.nav) {
-        setAppaNav(step.nav);
-      }
-    });
-    root.appendChild(card);
-  });
-}
-
-function appaNavFocusMap(nav) {
-  const base = ["appa-card-scope", "appa-card-orchestration", "appa-card-paths", "appa-card-findings", "appa-card-ai", "appa-card-reports"];
-  const keep = {
-    overview: [],
-    "attack-paths": ["appa-card-paths"],
-    "pentest-ai": ["appa-card-ai", "appa-card-orchestration"],
-    vulnerabilities: ["appa-card-findings"],
-    targets: ["appa-card-scope", "appa-card-reports"],
-    evidence: ["appa-card-findings", "appa-card-reports", "appa-card-paths"],
-    reports: [],
-  }[nav] || [];
-  return { base, keep };
-}
-
-function applyAppaCardFocus(nav) {
-  const { base, keep } = appaNavFocusMap(nav);
-  const grid = document.querySelector(".appa-dashboard-grid");
-  if (grid) {
-    grid.classList.toggle("is-focused", keep.length > 0);
-  }
-  base.forEach((id) => {
-    const node = document.getElementById(id);
-    if (!node) return;
-    const spotlight = keep.includes(id);
-    node.classList.toggle("is-spotlight", spotlight);
-    node.classList.toggle("is-dimmed", false);
-    node.classList.toggle("is-hidden", keep.length > 0 && !spotlight);
-  });
-}
-
-function renderAppaNavContext(nav) {
-  const root = document.getElementById("appa-nav-context");
-  if (!root) return;
-  root.innerHTML = "";
-  const tabContexts = {
-    zh: {
-      reports: ["报告视图", "这里看最新审计输出、历史报告和不同交付物类型。"],
-    },
-    en: {
-      reports: ["Reports View", "Use this to inspect the latest audit output, report history, and report types."],
-    },
-  };
-  const [title, copy] = uiState.appaTab !== "dashboard"
-    ? (tabContexts[uiState.language][uiState.appaTab] || appaNavContext(nav))
-    : appaNavContext(nav);
-  root.appendChild(el("strong", "", title));
-  root.appendChild(el("p", "", copy));
-}
-
-function renderAppaReports(data) {
-  const latestRoot = document.getElementById("appa-latest-report-hero");
-  latestRoot.innerHTML = "";
-  const latest = data.reports?.[0];
-  if (latest) {
-    const card = el("article", "appa-report-card");
-    const head = el("div", "appa-report-head");
-    head.appendChild(el("strong", "", latest.title));
-    head.appendChild(el("span", "chip latest", latest.report_type));
-    card.appendChild(head);
-    card.appendChild(el("p", "appa-report-summary", latest.summary));
-    const meta = el("div", "appa-report-meta");
-    meta.appendChild(el("span", "chip", `${uiState.language === "zh" ? "发现数" : "Findings"}: ${latest.finding_count}`));
-    meta.appendChild(el("span", "chip", `${uiState.language === "zh" ? "生成时间" : "Generated"}: ${formatTime(latest.generated_at)}`));
-    latestRoot.appendChild(card);
-    latestRoot.appendChild(meta);
-  } else {
-    latestRoot.appendChild(el("p", "appa-empty-copy", uiState.language === "zh" ? "当前还没有报告输出。" : "No report output yet."));
-  }
-
-  const reportList = document.getElementById("appa-reports-list");
-  reportList.innerHTML = "";
-  (data.reports || []).forEach((report, index) => {
-    const card = el("article", "appa-report-card");
-    const head = el("div", "appa-report-head");
-    head.appendChild(el("strong", "", report.title));
-    head.appendChild(el("span", `chip ${index === 0 ? "report-chip-watch" : "note"}`.trim(), report.report_type));
-    card.appendChild(head);
-    card.appendChild(el("p", "appa-report-summary", report.summary));
-    const meta = el("div", "appa-report-meta");
-    meta.appendChild(el("span", "chip", `${uiState.language === "zh" ? "运行" : "Run"}: ${report.run_id}`));
-    meta.appendChild(el("span", "chip", `${uiState.language === "zh" ? "发现" : "Findings"}: ${report.finding_count}`));
-    meta.appendChild(el("span", "chip", formatTime(report.generated_at)));
-    card.appendChild(meta);
-    reportList.appendChild(card);
-  });
-  if (!(data.reports || []).length) {
-    reportList.appendChild(el("p", "appa-empty-copy", uiState.language === "zh" ? "当前还没有历史报告。" : "No report history yet."));
-  }
-
-  const reportTypesRoot = document.getElementById("appa-report-types-list");
-  reportTypesRoot.innerHTML = "";
-  (data.overview.report_types || []).forEach((item, index) => {
-    const card = el("article", "appa-report-card");
-    card.appendChild(el("span", `chip ${index === 0 ? "report-chip-watch" : index === 1 ? "report-chip-alert" : "report-chip-calm"}`.trim(), localizedText(item.label)));
-    card.appendChild(el("p", "appa-report-summary", localizedText(item.summary)));
-    reportTypesRoot.appendChild(card);
-  });
-}
-
-function renderAppaDashboard(data) {
-  uiState.appaDashboard = data;
-  uiState.appaOverview = data.overview;
-  uiState.appaTab = uiState.appaTab || data.active_tab || "dashboard";
-  uiState.appaNav = uiState.appaNav || data.active_nav || "overview";
-  const overview = data.overview;
-  const setStackList = (id, builder) => {
-    const root = document.getElementById(id);
-    if (!root) return;
-    root.innerHTML = "";
-    builder(root);
-  };
-
-  const ui = t("ui");
-  const activeModes = (overview.modes || []).filter((mode) => mode.status === "active").length;
-  const v1Skills = (overview.skill_packs || []).filter((skillPack) => skillPack.phase.startsWith("V1"));
-  const discoveryRatio = overview.skill_packs?.length ? Math.round((v1Skills.length / overview.skill_packs.length) * 100) : 0;
-  const previewNames = ["Redacted_Preview.log", "Path_Evidence.json", "Audit_Chain.md", "Surface_Map.json"];
-  const targetNodes = data.findings?.map((item) => item.target_node) || ["internet-mgmt", "cdn-origin", "host-secret", "gcp-iam"];
-  const nodeChains = [
-    "Nodes: Surface → Identity → Persistence",
-    "Nodes: Edge → Origin → Exposure",
-    "Nodes: Host → Secrets → Pivot",
-    "Nodes: Cloud → IAM → Resource",
-  ];
-  const accentClass = (accent) => `is-${accent === "note" ? "cyan" : accent}`;
-  const localizedProduct = localizedText(overview.product_name);
-  document.getElementById("appa-wordmark").textContent = localizedProduct.split(" ")[0] || "APPA";
-  setAppaTab(uiState.appaTab);
-  setAppaNav(uiState.appaNav);
-  document.getElementById("appa-flow-title").textContent = uiState.language === "zh" ? "渗透测试流程" : "Pentest Workflow";
-  document.getElementById("appa-flow-copy").textContent = uiState.language === "zh"
-    ? "先确认范围，再建模路径、组织验证、归并发现、保留证据，最后进入报告。"
-    : "Confirm scope first, then model paths, orchestrate validation, merge findings, preserve evidence, and finish with reporting.";
-  document.getElementById("pentest-card-copy").textContent = localizedText(overview.product_summary);
-  document.getElementById("pentest-mission-copy").textContent = ui.pentestRunStatus;
-  const operatorNameNode = document.querySelector(".appa-operator-card strong");
-  if (operatorNameNode) operatorNameNode.textContent = data.operator_name || "Sentinel-01";
-  const uptime = typeof data.operator_status === "string" && data.operator_status.includes("·")
-    ? data.operator_status.split("·").slice(1).join("·").trim()
-    : "4H 12M";
-  const operatorState = uiState.language === "zh"
-    ? (activeModes > 0 ? "运行中" : "空闲")
-    : (activeModes > 0 ? "ACTIVE" : "IDLE");
-  document.getElementById("appa-operator-status").textContent = `${operatorState} · ${uptime}`;
-  document.getElementById("appa-path-count").textContent = `${(overview.attack_paths || []).length} ${uiState.language === "zh" ? "条已建模路径" : "PATHS MODELED"}`;
-
-  setStackList("pentest-metric-strip", (root) => {
-    (overview.metrics || []).slice(0, 3).forEach((metric) => {
-      const row = el("div", "appa-scope-row");
-      row.appendChild(el("span", "", localizedText(metric.label)));
-      row.appendChild(el("strong", "", metric.value));
-      root.appendChild(row);
-    });
-  });
-
-  setStackList("pentest-methodology-list", (root) => {
-    const chip = el("div", "appa-discovery-chip");
-    chip.appendChild(el("p", "card-copy", localizedText(overview.methodologies?.[0]?.emphasis || overview.mission_copy)));
-    const rail = el("div", "progress-rail");
-    const fill = el("div", "progress-fill progress-fill-green");
-    fill.style.width = `${Math.max(24, discoveryRatio)}%`;
-    rail.appendChild(fill);
-    chip.appendChild(rail);
-    const foot = el("div", "appa-discovery-foot");
-    foot.appendChild(el("span", "", `${discoveryRatio}% ${uiState.language === "zh" ? "V1 覆盖" : "V1 Coverage"}`));
-    foot.appendChild(el("span", "", `${(overview.attack_paths || []).length} ${uiState.language === "zh" ? "条路径建模" : "Paths modeled"}`));
-    chip.appendChild(foot);
-    root.appendChild(chip);
-  });
-
-  setStackList("pentest-skill-pack-list", (root) => {
-    (overview.skill_packs || []).slice(0, 3).forEach((skillPack, index) => {
-      const row = el("div", "appa-orchestration-row");
-      const head = el("div", "appa-orchestration-head");
-      head.appendChild(el("span", "", skillPack.skill_id));
-      const progressText = skillPack.phase === "V1+" ? (uiState.language === "zh" ? "排队中" : "Queued") : `${Math.max(42, 88 - index * 18)}%`;
-      head.appendChild(el("span", "", progressText));
-      row.appendChild(head);
-      row.appendChild(el("p", "card-copy", localizedText(skillPack.label)));
-      const rail = el("div", "progress-rail");
-      const fill = el("div", `progress-fill ${index === 0 ? "progress-fill-cyan" : index === 1 ? "progress-fill-green" : "progress-fill-primary"}`.trim());
-      fill.style.width = skillPack.phase === "V1+" ? "20%" : `${Math.max(42, 88 - index * 18)}%`;
-      rail.appendChild(fill);
-      row.appendChild(rail);
-      root.appendChild(row);
-    });
-  });
-
-  setStackList("pentest-attack-path-list", (root) => {
-    (overview.attack_paths || []).forEach((item, index) => {
-      const card = el("article", `appa-path-card ${accentClass(item.accent || "cyan")}`.trim());
-      const top = el("div", "appa-path-top");
-      const code = el("div", "appa-path-code");
-      code.appendChild(el("span", `chip ${item.accent || "note"}`.trim(), `AP-${String(index + 1).padStart(3, "0")}`));
-      const pathFinding = data.findings?.[index];
-      const rawPathStatus = String(pathFinding?.status || (index === 0 ? "confirmed" : "running")).toLowerCase();
-      const pathStatus = uiState.language === "zh"
-        ? ({confirmed: "已确认", running: "处理中", collecting: "收集中"}[rawPathStatus] || "处理中")
-        : rawPathStatus.toUpperCase();
-      code.appendChild(el("span", `chip ${rawPathStatus === "confirmed" ? "report-chip-alert" : "report-chip-watch"}`.trim(), pathStatus));
-      top.appendChild(code);
-      const confidence = pathFinding ? `${(pathFinding.likelihood * 22 + pathFinding.impact * 11.5).toFixed(1)}%` : `${(98.2 - index * 8.4).toFixed(1)}%`;
-      top.appendChild(el("span", "appa-path-status", confidence));
-      card.appendChild(top);
-      card.appendChild(el("h5", "", localizedText(item.label)));
-      card.appendChild(el("p", "card-copy", localizedText(item.detail)));
-      const bottom = el("div", "appa-path-bottom");
-      bottom.appendChild(el("span", "card-copy", nodeChains[index] || nodeChains[nodeChains.length - 1]));
-      bottom.appendChild(el("span", "appa-path-action", uiState.language === "zh" ? "查看证据 →" : "Analyze Evidence →"));
-      card.appendChild(bottom);
-      root.appendChild(card);
-    });
-  });
-
-  setStackList("pentest-roadmap-list", (root) => {
-    (overview.roles || []).forEach((role, index) => {
-      const card = el("div", "pentest-evidence-card");
-      card.appendChild(el("span", `chip ${index === 0 ? "latest" : index === 1 ? "good" : "note"}`.trim(), localizedText(role.label)));
-      card.appendChild(el("p", "card-copy", localizedText(role.responsibility)));
-      root.appendChild(card);
-    });
-  });
-
-  setStackList("pentest-report-list", (root) => {
-    const sourceReports = data.reports?.length ? data.reports : overview.report_types;
-    sourceReports.forEach((reportType, index) => {
-      const tone = index === 0 ? "report-chip-watch" : index === 1 ? "report-chip-alert" : "report-chip-calm";
-      const card = el("div", "pentest-evidence-card");
-      const label = reportType.label ? localizedText(reportType.label) : reportType.title;
-      const summary = reportType.summary ? localizedText(reportType.summary) : reportType.summary || reportType.report_type;
-      card.appendChild(el("span", `chip ${tone}`.trim(), label));
-      card.appendChild(el("p", "card-copy", summary));
-      root.appendChild(card);
-    });
-  });
-
-  setStackList("pentest-role-list", (root) => {
-    const severityCounts = (data.findings || []).reduce((acc, item) => {
-      acc[item.severity] = (acc[item.severity] || 0) + 1;
-      return acc;
-    }, {});
-    Object.entries(severityCounts).forEach(([severity, count]) => {
-      const tone = severity === "critical" ? "report-chip-alert" : severity === "high" ? "report-chip-watch" : "report-chip-calm";
-      const chip = el("span", `chip ${tone}`.trim(), `${severity.toUpperCase()}: ${count}`);
-      root.appendChild(chip);
-    });
-  });
-
-  setStackList("pentest-evidence-list", (root) => {
-    const sourceFindings = data.findings?.length ? data.findings : overview.evidence_lanes;
-    sourceFindings.forEach((item, index) => {
-      const row = el("div", "appa-finding-row");
-      const key = el("div", "appa-finding-key");
-      const title = item.label ? localizedText(item.label) : item.title;
-      const subtitle = item.key ? item.key.replace(/_/g, "-") : item.subtitle;
-      key.appendChild(el("strong", "", title));
-      key.appendChild(el("span", "", subtitle));
-      row.appendChild(key);
-      const bars = el("div", "appa-risk-bars");
-      const strength = item.likelihood || (index === 0 ? 4 : index === 1 ? 3 : 2);
-      const accent = item.severity === "critical" ? "amber" : item.severity === "high" ? "violet" : item.accent || "cyan";
-      for (let i = 0; i < 4; i += 1) {
-        bars.appendChild(el("i", `${i < strength ? `is-on is-${accent === "note" ? "cyan" : accent}` : ""}`.trim()));
-      }
-      row.appendChild(bars);
-      row.appendChild(el("div", "card-copy", item.target_node || targetNodes[index] || targetNodes[targetNodes.length - 1]));
-      row.appendChild(el("span", "appa-preview-pill", item.evidence_preview || previewNames[index] || previewNames[previewNames.length - 1]));
-      root.appendChild(row);
-    });
-  });
-
-  renderAppaReports(data);
-  renderAppaNavContext(uiState.appaNav);
-  applyAppaCardFocus(uiState.appaNav);
-  renderAppaWorkflow();
-}
-
-async function loadHealth() {
-  try {
-    await request("/health");
-    setHealth(healthText("healthy"), "idle");
-  } catch (error) {
-    setHealth(String(error), "error");
-  }
-}
-
-async function loadOverview() {
-  renderOverview(await request("/pipeline/overview"));
-}
-
-async function loadReports() {
-  renderReports(await request("/reports/recent"));
-}
-
-async function loadInvestigations() {
-  renderInvestigations(await request("/investigations/recent"));
-}
-
-async function loadHistory() {
-  renderHistory(await request("/history"));
-}
-
-async function loadSkills() {
-  renderSkills(await request("/skills"));
-}
-
-async function loadMatrix() {
-  renderMatrix(await request("/skills/matrix"));
-}
-
-async function loadMemoryRules() {
-  renderMemoryRules(await request("/memory/rules"));
-}
-
-async function loadMemoryFeedback() {
-  renderMemoryFeedback(await request("/memory/feedback"));
-}
-
-async function loadAppaOverview() {
-  renderAppaDashboard(await request("/appa/dashboard"));
-}
-
-async function launchAppaRun() {
-  const button = document.getElementById("appa-launch-scan");
-  const original = button.textContent;
-  button.textContent = uiState.language === "zh" ? "启动中..." : "Launching...";
-  button.disabled = true;
-  try {
-    const data = await request("/appa/runs", {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({ mode: "green", triggered_by: "manual" }),
-    });
-    renderAppaDashboard(data.dashboard);
-  } finally {
-    button.disabled = false;
-    button.textContent = original;
-  }
-}
-
-async function downloadAppaReport() {
-  const response = await fetch("/appa/reports/latest/download");
-  const text = await response.text();
-  const blob = new Blob([text], { type: "text/markdown;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const anchor = document.createElement("a");
-  anchor.href = url;
-  anchor.download = `appa_audit_report_${new Date().toISOString().replace(/[:.]/g, "-")}.md`;
-  document.body.appendChild(anchor);
-  anchor.click();
-  anchor.remove();
-  URL.revokeObjectURL(url);
-}
-
-function setAppaTab(tab) {
-  const allowedTabs = ["dashboard", "reports"];
-  if (!allowedTabs.includes(tab)) {
-    tab = "dashboard";
-  }
-  uiState.appaTab = tab;
-  localStorage.setItem(storageKeys.appaTab, tab);
-  document.querySelectorAll(".appa-tab").forEach((item) => {
-    item.classList.toggle("active", item.id === `appa-tab-${tab}`);
-  });
-  document.getElementById("appa-panel-dashboard").classList.toggle("active", tab === "dashboard");
-  document.getElementById("appa-panel-reports").classList.toggle("active", tab === "reports");
-  const titleMap = uiState.language === "zh"
-    ? { dashboard: "任务工作台", reports: "审计报告" }
-    : { dashboard: "Mission Dashboard", reports: "Audit Reports" };
-  document.getElementById("section-pentest-title").textContent = titleMap[tab] || titleMap.dashboard;
-  if (tab === "reports") {
-    uiState.appaNav = "reports";
-    localStorage.setItem(storageKeys.appaNav, "reports");
-  } else if (uiState.appaNav === "reports") {
-    uiState.appaNav = "overview";
-    localStorage.setItem(storageKeys.appaNav, "overview");
-  }
-  document.querySelectorAll(".appa-side-link").forEach((item) => {
-    item.classList.toggle("active", item.id === `appa-nav-${uiState.appaNav}`);
-  });
-  renderAppaNavContext(uiState.appaNav);
-  renderAppaWorkflow();
-}
-
-function setAppaNav(nav) {
-  uiState.appaNav = nav;
-  localStorage.setItem(storageKeys.appaNav, nav);
-  if (nav === "reports") {
-    setAppaTab("reports");
-    return;
-  }
-  if (uiState.appaTab !== "dashboard") {
-    setAppaTab("dashboard");
-  }
-  document.querySelectorAll(".appa-side-link").forEach((item) => {
-    item.classList.toggle("active", item.id === `appa-nav-${nav}`);
-  });
-  renderAppaNavContext(nav);
-  applyAppaCardFocus(nav);
-  renderAppaWorkflow();
+function parseDelimitedList(value) {
+  return String(value || "")
+    .split(/[\n,]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function formatDelimitedList(values) {
+  return Array.isArray(values) ? values.join("\n") : "";
 }
 
 function bitdefenderPayload() {
@@ -3571,7 +869,7 @@ async function importBitdefender(endpoint, statusCopy) {
     document.getElementById("intake-status").textContent = uiState.language === "zh" ? "Bitdefender 数据已导入平台并完成分析。" : "Bitdefender data has been imported into the platform and analyzed.";
     setView("intake");
   }
-  await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory(), loadMemoryRules(), loadMemoryFeedback()]);
+  await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory(), loadMemoryFeedback()]);
   renderBitdefender(uiState.bitdefender);
 }
 
@@ -3589,7 +887,7 @@ async function previewNormalize() {
   renderNormalizeOutput(data);
   document.getElementById("intake-status").textContent = uiState.language === "zh" ? "归一化预览已生成。" : "Normalization preview is ready.";
   setHealth(healthText("healthy"), "idle");
-  await Promise.all([loadMemoryRules(), loadMemoryFeedback()]);
+  await Promise.all([loadMemoryFeedback()]);
   return data;
 }
 
@@ -3634,7 +932,7 @@ async function analyzeRaw() {
       }
       document.getElementById("intake-status").textContent = uploadStatusText(data);
       setHealth(healthText("healthy"), "idle");
-      await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory(), loadMemoryRules(), loadMemoryFeedback()]);
+      await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory(), loadMemoryFeedback()]);
       return;
     }
     const rawText = document.getElementById("raw-input").value.trim();
@@ -3655,7 +953,7 @@ async function analyzeRaw() {
     renderReport(report);
     document.getElementById("intake-status").textContent = uiState.language === "zh" ? "分析已完成。" : "Analysis completed.";
     setHealth(healthText("healthy"), "idle");
-    await Promise.all([loadOverview(), loadReports(), loadHistory(), loadMemoryRules(), loadMemoryFeedback()]);
+    await Promise.all([loadOverview(), loadReports(), loadHistory(), loadMemoryFeedback()]);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     document.getElementById("intake-status").textContent =
@@ -3724,7 +1022,7 @@ async function saveCorrection() {
       }),
     });
   correctionForm.classList.add("hidden");
-  await Promise.all([loadMemoryRules(), loadMemoryFeedback()]);
+  await Promise.all([loadMemoryFeedback()]);
 }
 
 document.querySelectorAll(".menu-item").forEach((item) => {
@@ -3737,7 +1035,6 @@ document.getElementById("refresh-investigations").addEventListener("click", () =
 document.getElementById("refresh-history").addEventListener("click", () => withRefreshState("refresh-history", loadHistory));
 document.getElementById("refresh-skills").addEventListener("click", () => withRefreshState("refresh-skills", loadSkills));
 document.getElementById("refresh-matrix").addEventListener("click", () => withRefreshState("refresh-matrix", loadMatrix));
-document.getElementById("refresh-memory-rules").addEventListener("click", () => withRefreshState("refresh-memory-rules", loadMemoryRules));
 document.getElementById("refresh-memory-feedback").addEventListener("click", () => withRefreshState("refresh-memory-feedback", loadMemoryFeedback));
 document.getElementById("run-bitdefender-test").addEventListener("click", () => runBitdefender("/integrations/bitdefender/test", uiState.language === "zh" ? "正在测试 Bitdefender 连接..." : "Testing Bitdefender connection..."));
 document.getElementById("run-bitdefender-network").addEventListener("click", () => runBitdefender("/integrations/bitdefender/network", uiState.language === "zh" ? "正在读取终端与资产清单..." : "Loading asset and endpoint inventory..."));
@@ -3748,17 +1045,16 @@ document.getElementById("import-bitdefender-latest-report").addEventListener("cl
 if (document.getElementById("import-bitdefender-reports")) document.getElementById("import-bitdefender-reports").addEventListener("click", () => importBitdefender("/integrations/bitdefender/reports/import", uiState.language === "zh" ? "正在导入报表目录元数据..." : "Importing report catalog metadata..."));
 document.getElementById("analyze").addEventListener("click", analyzeRaw);
 document.getElementById("download-report").addEventListener("click", downloadCurrentReport);
-document.getElementById("appa-launch-scan").addEventListener("click", launchAppaRun);
-document.getElementById("appa-audit-report").addEventListener("click", downloadAppaReport);
-document.getElementById("appa-report-download-inline").addEventListener("click", downloadAppaReport);
-document.getElementById("appa-tab-dashboard").addEventListener("click", () => setAppaTab("dashboard"));
-document.getElementById("appa-nav-overview").addEventListener("click", () => setAppaNav("overview"));
-document.getElementById("appa-nav-targets").addEventListener("click", () => setAppaNav("targets"));
-document.getElementById("appa-nav-attack-paths").addEventListener("click", () => setAppaNav("attack-paths"));
-document.getElementById("appa-nav-pentest-ai").addEventListener("click", () => setAppaNav("pentest-ai"));
-document.getElementById("appa-nav-vulnerabilities").addEventListener("click", () => setAppaNav("vulnerabilities"));
-document.getElementById("appa-nav-evidence").addEventListener("click", () => setAppaNav("evidence"));
-document.getElementById("appa-nav-reports").addEventListener("click", () => setAppaNav("reports"));
+document.addEventListener("click", (event) => {
+  const target = event.target.closest("[data-task-action]");
+  if (!target) return;
+  applyAppaTaskAction(target.dataset.taskId, target.dataset.taskAction);
+});
+document.addEventListener("click", (event) => {
+  const target = event.target.closest("[data-run-action]");
+  if (!target) return;
+  applyAppaRunAction(target.dataset.runId, target.dataset.runAction);
+});
 const showCorrectionFormBtn = document.getElementById("show-correction-form");
 if (showCorrectionFormBtn) {
   showCorrectionFormBtn.addEventListener("click", () => {
@@ -3783,7 +1079,6 @@ document.getElementById("skills-search").addEventListener("input", () => renderS
 document.getElementById("skills-search").addEventListener("input", () => renderMatrix(uiState.matrix));
 document.getElementById("skills-filter").addEventListener("change", () => renderSkills(uiState.skills));
 document.getElementById("skills-filter").addEventListener("change", () => renderMatrix(uiState.matrix));
-document.getElementById("memory-search").addEventListener("input", () => renderMemoryRules(uiState.memoryRules));
 document.getElementById("lang-zh").addEventListener("click", () => {
   uiState.language = "zh";
   localStorage.setItem(storageKeys.language, "zh");
@@ -3797,8 +1092,7 @@ document.getElementById("lang-en").addEventListener("click", () => {
 
 clearLegacyLocalState();
 uiState.language = localStorage.getItem(storageKeys.language) || "zh";
-uiState.appaTab = localStorage.getItem(storageKeys.appaTab) || "dashboard";
-uiState.appaNav = localStorage.getItem(storageKeys.appaNav) || "overview";
+hydrateAppaTargetsImport();
 document.getElementById("raw-input").value = "";
 if (document.getElementById("correction-source-type")) {
   fillSelectOptions("correction-source-type", sourceTypeOptions, uiState.language === "zh" ? "选择正确的来源类型" : "Choose the correct source type", sourceTypeLabel);
@@ -3819,7 +1113,5 @@ loadInvestigations();
 loadHistory();
 loadSkills();
 loadMatrix();
-loadMemoryRules();
 loadMemoryFeedback();
-loadAppaOverview();
 window.addEventListener("hashchange", () => setView(currentViewFromLocation()));
