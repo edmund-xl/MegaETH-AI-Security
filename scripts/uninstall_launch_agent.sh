@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Security-log-analysis mainline launch-agent remover.
 set -euo pipefail
 
 PORT="${PORT:-8011}"

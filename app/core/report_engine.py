@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline report engine.
+
 from datetime import datetime, timezone
 from typing import Any
 

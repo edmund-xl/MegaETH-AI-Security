@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline API routes for core analysis flows.
+
 from fastapi import APIRouter, File, UploadFile
 
 from app.api.shared import pipeline

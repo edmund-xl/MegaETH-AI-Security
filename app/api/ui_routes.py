@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline UI routes.
+
 from fastapi import APIRouter
 from fastapi.responses import FileResponse
 

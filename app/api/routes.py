@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline route composition.
+
 from fastapi import APIRouter
 
 from app.api.core_routes import router as core_router

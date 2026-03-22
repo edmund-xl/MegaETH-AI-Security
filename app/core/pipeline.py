@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline analysis pipeline.
+
 import time
 from collections import deque
 from datetime import datetime, timezone

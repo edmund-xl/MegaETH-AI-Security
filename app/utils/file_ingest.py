@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline file-ingest helpers.
+
 import csv
 import io
 import json

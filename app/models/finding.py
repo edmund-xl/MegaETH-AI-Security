@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline finding/report models.
+
 from typing import Any
 
 from pydantic import BaseModel, Field

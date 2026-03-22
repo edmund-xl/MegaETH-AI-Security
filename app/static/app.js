@@ -1,3 +1,4 @@
+// Security-log-analysis mainline frontend runtime.
 const i18n = {
   zh: {
     brandTitle: "AI 安全平台",

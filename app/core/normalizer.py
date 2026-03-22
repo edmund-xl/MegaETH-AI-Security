@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+# Security-log-analysis mainline event normalizer.
+
 from datetime import datetime, timezone
 from uuid import uuid4
 
