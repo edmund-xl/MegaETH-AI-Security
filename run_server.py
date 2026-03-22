@@ -8,6 +8,7 @@ from app.main import app
 
 
 def main() -> None:
+    # Mainline runtime now serves the security-log-analysis product only.
     port = int(os.getenv("PORT", "8011"))
     uvicorn.run(
         app,

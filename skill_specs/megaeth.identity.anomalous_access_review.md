@@ -7,6 +7,7 @@
 - 中文名称：MegaETH 异常访问审查能力
 - 模块：Identity
 - 当前状态：已接入，当前偏辅助
+- 适用产品域：安全日志分析
 
 ### 作用
 
@@ -38,6 +39,7 @@
 - Name: MegaETH Anomalous Access Review
 - Module: Identity
 - Status: Active, currently supportive
+- Product Surface: Security Log Analysis
 
 ### Purpose
 

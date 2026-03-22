@@ -26,7 +26,7 @@ pip install -r requirements.txt
 - 后台启动服务
 
 默认地址：
-- [http://127.0.0.1:8010](http://127.0.0.1:8010)
+- [http://127.0.0.1:8011](http://127.0.0.1:8011)
 
 如果你已经确认这套服务要长期放在这台 Mac 上，我一般会顺手把开机自启一起装了，不然后面电脑一重启就会忘记拉服务：
 
@@ -34,12 +34,12 @@ pip install -r requirements.txt
 ./scripts/install_launch_agent.sh
 ```
 
-这一步是把服务注册成当前用户登录后自动启动。以后重启电脑，只要登录系统，`8010` 就会自己回来。
+这一步是把服务注册成当前用户登录后自动启动。以后重启电脑，只要登录系统，`8011` 就会自己回来。
 
 如果你只是想确认服务活着，可以直接跑：
 
 ```bash
-curl http://127.0.0.1:8010/health
+curl http://127.0.0.1:8011/health
 ```
 
 正常会返回：
@@ -51,7 +51,7 @@ curl http://127.0.0.1:8010/health
 停服务：
 
 ```bash
-PORT=8010 ./stop.sh
+PORT=8011 ./stop.sh
 ```
 
 如果后面不想继续自动启动了：
@@ -67,13 +67,13 @@ PORT=8011 ./start.sh
 ```
 
 这里有个我踩过的坑：以前服务是跟着当前会话走的，看起来像是“突然挂了”。现在 `start.sh` 已经改成后台托管，会在根目录生成：
-- `.run-8010.pid`
-- `.run-8010.log`
+- `.run-8011.pid`
+- `.run-8011.log`
 
 真出问题时，先看日志最省时间：
 
 ```bash
-tail -n 80 .run-8010.log
+tail -n 80 .run-8011.log
 ```
 
 ### 跑起来之后怎么用
@@ -132,6 +132,10 @@ megaeth-ai-security-rebuild/
 - [docs](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs)
 - [skill_specs](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/skill_specs)
 - [training_cases](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases)
+
+### 当前主线
+
+现在仓库只保留 `安全日志分析` 这一条主线，后面继续推进时，也只围绕日志、报表、Skill 学习、训练 case 和中文安全报告展开。
 
 ### 这套系统现在已经能做什么
 
@@ -210,8 +214,8 @@ Cmd + Shift + R
 现在大概率不是代码坏了，而是本地服务没跑。先查：
 
 ```bash
-curl http://127.0.0.1:8010/health
-tail -n 80 .run-8010.log
+curl http://127.0.0.1:8011/health
+tail -n 80 .run-8011.log
 ```
 
 如果没起来，直接再跑：
