@@ -37,7 +37,7 @@
 
 ### 7. 训练与参考资产
 
-- [Case 001 - Host Baseline](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_001_host_baseline/README.md)
+- [Case 001 - Host Baseline](../training_cases/case_001_host_baseline/README.md)
 
 ### 8. 当前实现说明
 
@@ -86,7 +86,7 @@ This Skill is selected when the material is more about control integrity and hos
 
 ### 7. Training and Reference Assets
 
-- [Case 001 - Host Baseline](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_001_host_baseline/README.md)
+- [Case 001 - Host Baseline](../training_cases/case_001_host_baseline/README.md)
 
 ### 8. Current Implementation Notes
 

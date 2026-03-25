@@ -12,7 +12,7 @@
 标准启动方式：
 
 ```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
+cd MegaETH-AI-Security
 ./start.sh
 ```
 
@@ -78,7 +78,7 @@ This document explains how to start, stop, verify, diagnose, and recover the cur
 Standard startup:
 
 ```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
+cd MegaETH-AI-Security
 ./start.sh
 ```
 

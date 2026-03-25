@@ -37,7 +37,7 @@
 
 ### 7. 训练与参考资产
 
-- [Case 002 - JumpServer 多源综合审计](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_002_jumpserver_multisource/README.md)
+- [Case 002 - JumpServer 多源综合审计](../training_cases/case_002_jumpserver_multisource/README.md)
 
 ### 8. 当前实现说明
 
@@ -86,7 +86,7 @@ This Skill is selected for JumpServer file-transfer exports or other material cl
 
 ### 7. Training and Reference Assets
 
-- [Case 002 - JumpServer Multi-Source Audit](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_002_jumpserver_multisource/README.md)
+- [Case 002 - JumpServer Multi-Source Audit](../training_cases/case_002_jumpserver_multisource/README.md)
 
 ### 8. Current Implementation Notes
 

@@ -32,12 +32,41 @@ MegaETH AI Security Platform 是一套面向 **安全日志分析** 的本地化
 - EASM 单样本与多样本综合分析
 - Cloud、Identity、Key、CI/CD 相关能力
 
-### 3. 运行方式
+### 3. 系统概览
 
-#### 3.1 本地启动
+系统当前是一套本地优先、安全日志分析导向的工作台。它的目标不是做自动处置，而是把安全材料稳定地变成：
+
+- 可复核的结构化判断
+- 可下载的审计报告
+- 可持续校准的训练资产
+
+核心设计原则包括：
+
+- 单一产品域：只做安全日志分析
+- 规则主链优先：事实提取、分类和结构由系统控制
+- 受控增强：只在允许的段落接入模型增强
+- 样本驱动迭代：通过真实样本和目标输出持续校准
+
+### 4. 架构图
+
+```mermaid
+flowchart LR
+    A["安全材料 / 平台导入"] --> B["输入解析"]
+    B --> C["归一化"]
+    C --> D["Planner 分类"]
+    D --> E["Skill 执行"]
+    E --> F["风险判断"]
+    F --> G["报告生成"]
+    G --> H["历史 / 调查 / 学习沉淀"]
+```
+
+### 5. 运行方式
+
+#### 5.1 本地启动
 
 ```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
+git clone https://github.com/edmund-xl/MegaETH-AI-Security.git
+cd MegaETH-AI-Security
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -48,7 +77,7 @@ pip install -r requirements.txt
 
 - [http://127.0.0.1:8011](http://127.0.0.1:8011)
 
-#### 3.2 健康检查
+#### 5.2 健康检查
 
 ```bash
 curl http://127.0.0.1:8011/health
@@ -60,13 +89,13 @@ curl http://127.0.0.1:8011/health
 {"status":"ok"}
 ```
 
-#### 3.3 停止服务
+#### 5.3 停止服务
 
 ```bash
 PORT=8011 ./stop.sh
 ```
 
-### 4. 页面结构
+### 6. 页面结构
 
 当前前端固定为五个工作页面：
 
@@ -76,7 +105,18 @@ PORT=8011 ./stop.sh
 - `连接`：外部平台接入与导入入口
 - `学习`：学习反馈与长期校准结果
 
-### 5. 核心处理链路
+### 7. 当前分析域
+
+当前已经稳定落地的分析域包括：
+
+- Host baseline
+- Endpoint 平台事件
+- JumpServer 单文件与多源审计
+- Whitebox AppSec 三段式分析
+- EASM 单样本分析
+- EASM 多样本综合分析
+
+### 8. 核心处理链路
 
 ```text
 原始安全材料 / 外部平台数据
@@ -89,7 +129,7 @@ PORT=8011 ./stop.sh
 -> 历史 / 调查 / 学习沉淀
 ```
 
-### 6. 目录结构
+### 9. 目录结构
 
 ```text
 megaeth-ai-security-rebuild/
@@ -105,18 +145,18 @@ megaeth-ai-security-rebuild/
 └── VERSION
 ```
 
-### 7. 文档导航
+### 10. 文档导航
 
-- [系统设计](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/SYSTEM_DESIGN.md)
-- [架构说明](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/architecture.md)
-- [功能快照](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/FEATURE_SNAPSHOT.md)
-- [Skill 能力库](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/SKILL_LIBRARY.md)
-- [案例库](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/CASE_LIBRARY.md)
-- [训练流程](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/TRAINING_WORKFLOW.md)
-- [运行手册](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/runbook.md)
-- [交接文档](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/HANDOFF.md)
+- [系统设计](docs/SYSTEM_DESIGN.md)
+- [架构说明](docs/architecture.md)
+- [功能快照](docs/FEATURE_SNAPSHOT.md)
+- [Skill 能力库](docs/SKILL_LIBRARY.md)
+- [案例库](docs/CASE_LIBRARY.md)
+- [训练流程](docs/TRAINING_WORKFLOW.md)
+- [运行手册](docs/runbook.md)
+- [交接文档](docs/HANDOFF.md)
 
-### 8. 开发要求
+### 11. 开发要求
 
 每次有效改动至少应同步以下四层：
 
@@ -132,7 +172,7 @@ megaeth-ai-security-rebuild/
 - 分类边界要求
 - 报告结构要求
 
-### 9. 维护边界
+### 12. 维护边界
 
 本仓库当前不承载其他产品线或实验控制面。若未来需要扩展新的域，应先完成架构评审、文档增补和产品边界确认，再进入实现阶段。
 
@@ -167,12 +207,41 @@ Implemented analysis domains include:
 - EASM single-source and composite analysis
 - Cloud, Identity, Key, and CI/CD capabilities
 
-### 3. Runtime
+### 3. System Overview
 
-#### 3.1 Local Startup
+The current system is a local-first workbench dedicated to security log analysis. It is not an auto-remediation platform; instead, it turns security material into:
+
+- reviewable structured judgments
+- downloadable audit reports
+- continuously calibratable training assets
+
+Core design principles include:
+
+- single product surface: security log analysis only
+- rule-first pipeline: facts, classification, and structure stay system-owned
+- controlled augmentation: models only enhance explicitly allowed sections
+- sample-driven iteration: real samples and target outputs drive calibration
+
+### 4. Architecture Diagram
+
+```mermaid
+flowchart LR
+    A["Security Material / Platform Import"] --> B["Intake Parsing"]
+    B --> C["Normalization"]
+    C --> D["Planner Classification"]
+    D --> E["Skill Execution"]
+    E --> F["Risk Judgment"]
+    F --> G["Report Generation"]
+    G --> H["History / Investigation / Learning Retention"]
+```
+
+### 5. Runtime
+
+#### 5.1 Local Startup
 
 ```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
+git clone https://github.com/edmund-xl/MegaETH-AI-Security.git
+cd MegaETH-AI-Security
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
@@ -183,7 +252,7 @@ Default URL:
 
 - [http://127.0.0.1:8011](http://127.0.0.1:8011)
 
-#### 3.2 Health Check
+#### 5.2 Health Check
 
 ```bash
 curl http://127.0.0.1:8011/health
@@ -195,13 +264,13 @@ Expected response:
 {"status":"ok"}
 ```
 
-#### 3.3 Stop Service
+#### 5.3 Stop Service
 
 ```bash
 PORT=8011 ./stop.sh
 ```
 
-### 4. UI Structure
+### 6. UI Structure
 
 The active frontend is limited to five pages:
 
@@ -211,7 +280,18 @@ The active frontend is limited to five pages:
 - `连接` for integration entry points
 - `学习` for learning feedback and retained corrections
 
-### 5. Core Processing Flow
+### 7. Current Analysis Domains
+
+The currently landed analysis domains include:
+
+- Host baseline
+- Endpoint platform events
+- JumpServer single-source and multi-source auditing
+- Whitebox AppSec three-stage analysis
+- EASM single-source analysis
+- EASM composite multi-file analysis
+
+### 8. Core Processing Flow
 
 ```text
 Raw security material / external platform data
@@ -224,7 +304,7 @@ Raw security material / external platform data
 -> history / investigation / learning retention
 ```
 
-### 6. Repository Structure
+### 9. Repository Structure
 
 ```text
 megaeth-ai-security-rebuild/
@@ -240,18 +320,18 @@ megaeth-ai-security-rebuild/
 └── VERSION
 ```
 
-### 7. Document Map
+### 10. Document Map
 
-- [System Design](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/SYSTEM_DESIGN.md)
-- [Architecture](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/architecture.md)
-- [Feature Snapshot](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/FEATURE_SNAPSHOT.md)
-- [Skill Library](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/SKILL_LIBRARY.md)
-- [Case Library](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/CASE_LIBRARY.md)
-- [Training Workflow](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/TRAINING_WORKFLOW.md)
-- [Runbook](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/runbook.md)
-- [Handoff Guide](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/docs/HANDOFF.md)
+- [System Design](docs/SYSTEM_DESIGN.md)
+- [Architecture](docs/architecture.md)
+- [Feature Snapshot](docs/FEATURE_SNAPSHOT.md)
+- [Skill Library](docs/SKILL_LIBRARY.md)
+- [Case Library](docs/CASE_LIBRARY.md)
+- [Training Workflow](docs/TRAINING_WORKFLOW.md)
+- [Runbook](docs/runbook.md)
+- [Handoff Guide](docs/HANDOFF.md)
 
-### 8. Delivery Requirements
+### 11. Delivery Requirements
 
 Every meaningful change must synchronize four layers:
 

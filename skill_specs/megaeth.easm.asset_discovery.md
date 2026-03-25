@@ -37,7 +37,7 @@
 
 ### 7. 训练与参考资产
 
-- [Case 003 - EASM 多层综合评估](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_003_easm_multilayer/README.md)
+- [Case 003 - EASM 多层综合评估](../training_cases/case_003_easm_multilayer/README.md)
 
 ### 8. 当前实现说明
 
@@ -86,7 +86,7 @@ This Skill is selected when the input is primarily an external asset inventory a
 
 ### 7. Training and Reference Assets
 
-- [Case 003 - EASM Multi-Layer Composite Assessment](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_003_easm_multilayer/README.md)
+- [Case 003 - EASM Multi-Layer Composite Assessment](../training_cases/case_003_easm_multilayer/README.md)
 
 ### 8. Current Implementation Notes
 
