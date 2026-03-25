@@ -30,12 +30,20 @@
 
 ```mermaid
 flowchart LR
-    A["文件 / 文本 / 平台导入"] --> B["输入解析"]
+    A["文件 / 文本 / 平台导入"] --> B["输入解析 / 文件识别"]
     B --> C["归一化事件"]
     C --> D["Planner"]
-    D --> E["Skills"]
-    E --> F["Reports"]
-    F --> G["History / Learning"]
+    D --> E1["单文件 Skill 路由"]
+    D --> E2["多文件聚合器"]
+    E2 --> E3["JumpServer / EASM 综合事件"]
+    E1 --> F["Findings / 事实层"]
+    E3 --> F
+    F --> G["Report Engine"]
+    G --> H1["规则版报告"]
+    G --> H2["受控模型增强段落"]
+    H1 --> I["页面 / 导出"]
+    H2 --> I
+    I --> J["History / Learning"]
 ```
 
 ### 3. 前端架构
@@ -75,7 +83,7 @@ flowchart LR
 - ingest
 - normalize
 - plan
-- execute skills
+- execute single-source skills or composite aggregators
 - score risk
 - generate reports
 
@@ -89,8 +97,10 @@ flowchart LR
 -> 文件摄取与识别
 -> 归一化
 -> Planner 选择事件类型与 Skills
--> Skill 输出 findings
--> 报告生成
+-> 单文件 Skill 或多文件聚合
+-> findings / 综合事件
+-> 报告结构生成
+-> 受控模型增强（可选）
 -> 历史与学习沉淀
 ```
 
@@ -99,7 +109,7 @@ flowchart LR
 可以把当前架构概括为以下关系：
 
 ```text
-输入源 -> 归一化事件 -> Planner -> Skill -> Findings -> Reports -> History / Learning
+输入源 -> 归一化事件 -> Planner -> 单文件 Skill / 多文件聚合 -> Findings / 综合事件 -> Report Engine -> 页面与导出 -> History / Learning
 ```
 
 这些层之间的职责不要混淆：
@@ -117,9 +127,16 @@ flowchart TD
     API --> INGEST["文件摄取 / 导入"]
     INGEST --> NORMALIZE["归一化"]
     NORMALIZE --> PLAN["Planner"]
-    PLAN --> SKILLS["Skill 执行"]
-    SKILLS --> REPORT["Report Engine"]
-    REPORT --> STORE["History / Investigation / Learning"]
+    PLAN --> SINGLE["单文件 Skill"]
+    PLAN --> COMPOSITE["多文件聚合器"]
+    COMPOSITE --> SYNTH["综合事件"]
+    SINGLE --> FACTS["事实层 / Findings"]
+    SYNTH --> FACTS
+    FACTS --> REPORT["Report Engine"]
+    REPORT --> RULE["规则版报告"]
+    REPORT --> MODEL["受控 Gemini 增强"]
+    RULE --> STORE["History / Investigation / Learning"]
+    MODEL --> STORE
 ```
 
 ### 8. 当前分析域在架构中的落点
@@ -137,6 +154,12 @@ flowchart TD
 - 单文件可以独立触发对应 Skill
 - 多文件会附加生成 `easm_asset_assessment`
 - 综合结论与专业判断允许 Gemini 增强
+
+JumpServer 当前同样体现为两层路径：
+
+- 登录、命令、文件传输、管理平面支持单文件分析
+- 多文件同批次输入会聚合成综合审计事件
+- 综合判断可在固定结构下由 Gemini 增强
 
 ### 9. 页面与后端关系
 
