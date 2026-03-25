@@ -265,11 +265,11 @@ They enter a shared analysis pipeline and eventually produce:
 
 The frontend is a single static workbench served by the backend. It has five fixed pages:
 
-- `概览`
-- `输入`
-- `技能`
-- `连接`
-- `学习`
+- `Overview`
+- `Intake`
+- `Skills`
+- `Integrations`
+- `Learning`
 
 The frontend is responsible for:
 
@@ -292,7 +292,7 @@ The core analysis pipeline runs in this order:
 - ingest
 - normalize
 - plan
-- execute skills
+- execute single-source Skills or composite aggregators
 - score risk
 - generate reports
 
@@ -304,15 +304,17 @@ upload file / text input
 -> file ingest and recognition
 -> normalization
 -> Planner selects event types and Skills
--> Skills produce findings
--> report generation
+-> single-source Skill or composite aggregation
+-> findings / composite event generation
+-> report structure generation
+-> controlled Gemini enhancement (optional)
 -> history and learning retention
 ```
 
 ### 6. Key Structural Relationship
 
 ```text
-input sources -> normalized events -> Planner -> Skills -> findings -> reports -> history / learning
+input sources -> normalized events -> Planner -> single-source Skills / composite aggregators -> findings / composite events -> Report Engine -> page + export -> history / learning
 ```
 
 Responsibilities must stay separate:
@@ -331,7 +333,7 @@ The current architecture can also be summarized as:
 - ingest/import layer
 - normalization
 - Planner
-- Skills
+- single-source Skills and composite aggregators
 - Report Engine
 - History / Investigation / Learning
 
@@ -350,6 +352,12 @@ EASM currently supports:
 - standalone single-file Skill routing
 - composite multi-file `easm_asset_assessment`
 - Gemini enhancement for composite judgment sections
+
+JumpServer currently follows the same dual-path pattern:
+
+- standalone login, command, transfer, and control-plane analysis
+- same-batch composite audit generation
+- Gemini enhancement only on fixed and explicitly allowed judgment sections
 
 ### 9. Page-to-Backend Relationship
 

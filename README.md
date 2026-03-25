@@ -324,13 +324,21 @@ EASM is already beyond a scaffold stage. It currently supports:
 
 ```mermaid
 flowchart LR
-    A["Security Material / Platform Import"] --> B["Intake Parsing"]
+    A["Security Material / Platform Import"] --> B["Intake Parsing / File Detection"]
     B --> C["Normalization"]
-    C --> D["Planner Classification"]
-    D --> E["Skill Execution"]
-    E --> F["Risk Judgment"]
-    F --> G["Report Generation"]
-    G --> H["History / Investigation / Learning Retention"]
+    C --> D["Planner Classification and Routing"]
+    D --> E1["Single-Source Skill"]
+    D --> E2["Composite Aggregator"]
+    E2 --> E3["JumpServer / EASM Composite Event"]
+    E1 --> F["Fact Extraction / Findings"]
+    E3 --> F
+    F --> G["Risk Judgment"]
+    G --> H["Report Structure Generation"]
+    H --> I["Controlled Gemini Enhancement (allowed sections only)"]
+    H --> J["Rule-Only Report"]
+    I --> K["Page / Export Reports"]
+    J --> K
+    K --> L["History / Investigation / Learning Retention"]
 ```
 
 Key design principles:
@@ -340,6 +348,12 @@ Key design principles:
 - page output and exported reports must stay structurally aligned
 - real-sample training must update docs and GitHub together
 
+Pay special attention to the following:
+
+- single-file material usually routes directly to the matching Skill
+- JumpServer and EASM multi-file batches pass through an aggregator and become composite events
+- Gemini only enhances explicitly permitted sections such as composite conclusion and professional judgment
+
 ### 6. Primary Runtime Path
 
 ```text
@@ -347,9 +361,11 @@ raw security material / platform data
 -> intake parsing
 -> normalization
 -> Planner classification
--> Skill execution
+-> single-source Skill or composite aggregation
+-> Skill execution / composite event generation
 -> risk judgment
--> report generation
+-> report structure generation
+-> controlled model enhancement (optional)
 -> history / investigation / learning retention
 ```
 
@@ -359,11 +375,11 @@ This is the most important engineering path in the repository.
 
 The frontend is a fixed five-page workbench:
 
-- `概览`
-- `输入`
-- `技能`
-- `连接`
-- `学习`
+- `Overview`
+- `Intake`
+- `Skills`
+- `Integrations`
+- `Learning`
 
 Any shared frontend change must be regressed against all five pages.
 

@@ -162,24 +162,24 @@ The system currently supports:
 
 The five pages currently serve:
 
-- `概览`
+- `Overview`
   - platform state
   - recent reports
   - runtime signals
   - capability overview
-- `输入`
+- `Intake`
   - file upload
   - text input
   - normalize-and-analyze trigger
   - current investigation outputs
-- `技能`
+- `Skills`
   - Skill catalog
   - module distribution
   - training coverage
-- `连接`
+- `Integrations`
   - external integration entry points
   - import actions
-- `学习`
+- `Learning`
   - recent learning feedback
   - training retention
 

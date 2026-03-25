@@ -194,10 +194,10 @@ No capability should be considered fully landed without either a formal case or 
 
 Training cases ultimately influence:
 
-- `技能`
-- `学习`
-- `输入`
-- `概览`
+- `Skills`
+- `Learning`
+- `Intake`
+- `Overview`
 
 through training coverage, learning retention, routing quality, and overall capability state.
 

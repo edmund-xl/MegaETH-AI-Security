@@ -142,11 +142,11 @@ The core of this case is cross-file synthesis, not line-by-line explanation. The
 
 The composite report must preserve this structure:
 
-- `综合结论`
-- `主要依据如下`
-- `重点高危操作账户与命令汇总`
-- `证据来源与导出链`
-- `综合判断`
+- `Composite Conclusion`
+- `Key Supporting Evidence`
+- `High-Risk Accounts and Commands Summary`
+- `Evidence Sources and Export Chain`
+- `Professional Judgment`
 
 ### 7. Training Focus
 

@@ -241,7 +241,7 @@ In short:
 
 ### 7. Relationship Between Skills and the UI
 
-The `技能` page is a visualization layer for the Skill catalog, not an independent control plane.
+The `Skills` page is a visualization layer for the Skill catalog, not an independent control plane.
 
 It currently shows:
 
