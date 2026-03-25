@@ -3,144 +3,404 @@
 
 ## 中文
 
-### 1. 目的
+### 1. 文档目的
 
-本文档说明当前主线的接入面、执行面和受控增强边界。
+本文档说明当前主线中的：
 
-### 2. 接入面
+- 输入接入面
+- 统一执行链
+- Skill 与模型增强的分工
+- 当前已接入数据源与典型映射
 
-当前可见接入面包括：
+本文档的目标不是描述未来理想架构，而是说明当前仓库里真实存在、真实可用的接入和执行能力。
+
+### 2. 当前接入面的定义
+
+在当前主线中，接入面指的是安全材料进入系统的入口。它们全部服务于安全日志分析主线，不构成独立产品或第二控制面。
+
+当前接入面包括：
 
 - 文件上传
 - 文本输入
-- Bitdefender 输入
+- Bitdefender 材料导入
 - Whitebox AppSec 材料输入
+- JumpServer 审计材料输入
 - EASM CSV 输入
 
-这些接入面全部服务于安全日志分析，不构成独立产品。
+### 3. 接入面的职责边界
 
-### 3. 标准执行链
+接入面负责：
 
-默认执行链为：
+- 接收原始输入
+- 基础文件识别
+- 初步材料分流
+- 形成调查批次
+
+接入面不负责：
+
+- 最终事件分类
+- 报告结构定义
+- 风险判断
+- 页面持久化逻辑
+
+### 4. 当前标准执行链
+
+当前主线的标准执行链如下：
 
 ```text
-ingest -> normalize -> plan -> skill -> risk -> report
+ingest -> normalize -> plan -> skill -> risk -> report -> retain
 ```
 
-各阶段作用如下：
+各阶段职责如下：
 
-- ingest
-  - 识别文件、文本和输入形态
-- normalize
-  - 标准化为统一事件模型
-- plan
-  - 选择事件类型与 Skill
-- skill
-  - 产生 findings 和结构化判断
-- risk
-  - 给出风险等级和标签
-- report
-  - 生成页面与导出报告
+#### 4.1 ingest
 
-### 4. 受控增强
+负责：
 
-部分 Skill 可接入受控模型增强，但原则是：
+- 识别文件、文本和输入形态
+- 读取 CSV、Excel、Markdown、文本等材料
+- 给出文件层级提示
 
-- 事实提取由系统完成
-- 结构与 schema 由系统控制
-- 模型只增强特定叙述段落
+#### 4.2 normalize
 
-当前已接入的代表性模式包括：
+负责：
 
-- JumpServer 综合判断增强
-- EASM 多文件综合 `assessment / professional_judgment` 增强
+- 标准化为统一事件模型
+- 处理表头、字段、编码与基础聚合
+- 为 Planner 提供路由信息
 
-### 5. 当前可见输入到 Skill 的映射方向
+#### 4.3 plan
 
-典型映射包括：
+负责：
+
+- 选择事件类型
+- 选择 Skill
+- 必要时生成综合事件
+
+#### 4.4 skill
+
+负责：
+
+- 领域分析
+- findings 生成
+- 结构化判断
+- 报告片段输入
+
+#### 4.5 risk
+
+负责：
+
+- 风险分
+- 风险标签
+- 严重性和优先级收口
+
+#### 4.6 report
+
+负责：
+
+- 页面报告
+- Markdown 导出
+- 段落结构统一
+- 模型增强段落收口
+
+#### 4.7 retain
+
+负责：
+
+- 历史记录
+- 调查批次
+- 学习反馈
+- 训练案例沉淀
+
+### 5. 当前已支持的输入类型
+
+#### 5.1 Host baseline
+
+典型输入：
+
+- 主机基线检查结果
+- 合规检查输出
+
+主要去向：
+
+- Host baseline Skills
+
+#### 5.2 Endpoint / Bitdefender
+
+典型输入：
+
+- 安全平台导出材料
+- 终端事件材料
+
+主要去向：
+
+- Endpoint 相关 Skills
+
+#### 5.3 JumpServer
+
+典型输入：
+
+- 登录审计
+- 命令审计
+- 文件传输审计
+- 管理平面操作记录
+
+主要去向：
+
+- JumpServer 单文件 Skills
+- JumpServer 多源综合 Skill
+
+#### 5.4 Whitebox AppSec
+
+典型输入：
+
+- 源码审计材料
+- 白盒验证材料
+- 综合报告输入
+
+主要去向：
+
+- Whitebox Recon
+- Whitebox Exploit Validation
+- Whitebox Report Synthesis
+
+#### 5.5 EASM
+
+典型输入：
+
+- 服务面 CSV
+- DNS CSV
+- TLS / 证书 CSV
+- ASN CSV
+- IP 段 CSV
+
+主要去向：
+
+- EASM 单样本 Skills
+- EASM 多文件综合 Skill
+
+### 6. 当前典型输入到 Skill 的映射
+
+当前典型映射方向如下：
 
 - Host baseline 材料 -> Host baseline Skills
-- JumpServer 单文件或多文件材料 -> JumpServer 系列 Skills
+- JumpServer 单文件 -> 对应单文件 Skill
+- JumpServer 多文件 -> 单文件 Skills + 多源综合 Skill
 - Whitebox 材料 -> Whitebox AppSec Skills
-- EASM CSV 材料 -> EASM 单样本或综合评估 Skill
+- EASM 单文件 -> 对应 EASM 单样本 Skill
+- EASM 多文件 -> 单样本 Skills + `easm_asset_assessment`
 
-### 6. 管理边界
+### 7. 模型增强边界
 
-必须遵守以下边界：
+当前系统允许受控模型增强，但边界严格受限。
 
-- 接入面不能扩展成第二产品域
-- 模型增强不能替代结构化事实提取
-- 共享执行链改动必须回归五个页面
-- 新输入源接入必须同步文档、测试和训练案例
+#### 7.1 模型增强允许做的事情
+
+- 增强综合结论
+- 增强专业判断
+- 在固定结构内改善高层表达
+
+#### 7.2 模型增强不允许做的事情
+
+- 自由定义报告结构
+- 取代事实抽取
+- 改写字段 schema
+- 决定数据去重或主键逻辑
+
+### 8. 当前已接入的代表性增强场景
+
+当前已接入的代表性场景包括：
+
+- JumpServer 多源综合判断增强
+- EASM 多文件综合 `assessment / professional_judgment` 增强
+
+这些增强都遵循同一原则：
+
+- 规则拥有事实
+- 模型增强语言
+- 失败时回退到规则版
+
+### 9. 当前仓库中的“Agent / MCP”现实
+
+尽管历史文档曾使用过更广的 `Agent / MCP` 说法，但在当前主线里，真正保留下来的现实是：
+
+- 输入接入面
+- Planner 与 Skill 执行链
+- 受控模型增强
+
+也就是说，当前仓库中的“能力执行”应被理解为：
+
+- 接入面负责输入
+- 主分析链负责分类与 Skill 执行
+- 模型增强只作为报告层补充
+
+### 10. 接入与执行治理规则
+
+新增输入源或执行能力时，必须同步完成：
+
+- 文件识别逻辑
+- 归一化规则
+- Planner 路由
+- Skill 规格文档
+- 页面验证
+- 导出验证
+- 测试
+- 文档
+
+### 11. 当前已知风险
+
+当前接入与执行链的高风险点包括：
+
+- 大文件只分析前几百行
+- 表头异常导致字段取空
+- 综合输入没有正确落到综合 Skill
+- 页面与导出结构不一致
+- 能力变更没有同步更新文档
+
+### 12. 结论
+
+当前接入与执行能力体系的正确理解方式是：
+
+- 输入面只做材料进入
+- 分析链负责事实、分类和结构
+- Skill 负责领域能力
+- 模型只增强允许增强的段落
+- 所有变化都必须通过训练、测试和文档沉淀下来
+
+---
 
 ## English
 
 ### 1. Purpose
 
-This document explains the current integration surfaces, execution surfaces, and controlled-augmentation boundaries.
+This document explains the current mainline's:
 
-### 2. Integration Surfaces
+- intake surfaces
+- unified execution chain
+- Skill and model-augmentation boundary
+- landed data-source mappings
 
-The visible intake surfaces currently include:
+It describes the real capabilities that exist in the repository today.
+
+### 2. Current Intake Surfaces
+
+An intake surface is any entry point through which security materials enter the system. All of them serve the security-log-analysis mainline and do not constitute an independent product surface.
+
+Current intake surfaces include:
 
 - file upload
 - text input
-- Bitdefender input
-- Whitebox AppSec material input
-- EASM CSV input
+- Bitdefender imports
+- Whitebox AppSec materials
+- JumpServer audit materials
+- EASM CSV inputs
 
-All of these serve the security-log-analysis mainline and do not form an independent product surface.
+### 3. Intake-Surface Boundaries
 
-### 3. Standard Execution Path
+Intake is responsible for:
 
-The default execution chain is:
+- receiving raw inputs
+- basic file recognition
+- initial material routing
+- creating investigation batches
+
+It is not responsible for:
+
+- final event classification
+- report-structure definition
+- risk judgment
+- persistence ownership
+
+### 4. Standard Execution Chain
+
+The current standard execution chain is:
 
 ```text
-ingest -> normalize -> plan -> skill -> risk -> report
+ingest -> normalize -> plan -> skill -> risk -> report -> retain
 ```
 
-Each phase currently serves this role:
+Each phase has a distinct responsibility boundary.
 
-- ingest
-  - recognize file, text, and intake form
-- normalize
-  - convert inputs into a common event model
-- plan
-  - select event types and Skills
-- skill
-  - produce findings and structured judgments
-- risk
-  - assign risk labels and levels
-- report
-  - generate page and export reports
+### 5. Supported Input Categories
 
-### 4. Controlled Augmentation
+The current mainline supports:
 
-Some Skills may use controlled model augmentation, with these rules:
+- Host baseline materials
+- Endpoint / Bitdefender materials
+- JumpServer audit materials
+- Whitebox AppSec materials
+- EASM CSV materials
 
-- factual extraction remains system-owned
-- structure and schema remain system-owned
-- the model only enhances specific narrative sections
-
-Current examples include:
-
-- JumpServer composite judgment enhancement
-- EASM composite `assessment / professional_judgment` enhancement
-
-### 5. Representative Intake-to-Skill Mapping
+### 6. Representative Intake-to-Skill Mapping
 
 Typical mappings include:
 
 - Host baseline materials -> Host baseline Skills
-- JumpServer single-source or multi-source materials -> JumpServer Skills
+- JumpServer single files -> single-file JumpServer Skills
+- JumpServer multi-file batches -> single-file Skills plus the multi-source composite Skill
 - Whitebox materials -> Whitebox AppSec Skills
-- EASM CSV materials -> EASM single-source or composite assessment Skills
+- EASM single files -> EASM single-source Skills
+- EASM multi-file batches -> EASM single-source Skills plus `easm_asset_assessment`
 
-### 6. Governance Boundary
+### 7. Model-Augmentation Boundary
 
-The following boundaries must hold:
+Controlled model augmentation may:
 
-- integrations must not become a second product surface
-- model augmentation must not replace structured factual extraction
-- shared execution-chain changes must regress all five pages
-- any new input source must land together with docs, tests, and training cases
+- enhance composite conclusions
+- enhance professional judgment
+- improve high-level wording inside a fixed structure
+
+It may not:
+
+- redefine report structure
+- replace factual extraction
+- redefine schema ownership
+- take over identity or dedupe logic
+
+### 8. Current Landed Augmentation Cases
+
+Current examples include:
+
+- JumpServer multi-source composite judgment enhancement
+- EASM composite `assessment / professional_judgment` enhancement
+
+### 9. Current Reality of Agent/MCP Language
+
+Historically the project experimented with broader `Agent / MCP` vocabulary, but the current mainline should be understood more concretely as:
+
+- intake surfaces
+- the Planner-to-Skill execution chain
+- controlled model augmentation at report time
+
+### 10. Governance Rules
+
+Any new intake surface or execution capability must land with:
+
+- file recognition
+- normalization
+- Planner routing
+- Skill specifications
+- page validation
+- export validation
+- tests
+- docs
+
+### 11. Known Risks
+
+Current high-risk areas include:
+
+- truncating large files
+- header failures causing empty fields
+- composite inputs not reaching composite Skills
+- page/export structure drift
+- capability changes without doc updates
+
+### 12. Summary
+
+The current intake-and-execution system should be understood as:
+
+- intake receives material
+- the analysis chain owns facts, classification, and structure
+- Skills own domain logic
+- models only enhance explicitly allowed report sections
+- durable changes must be retained through tests, cases, and docs
