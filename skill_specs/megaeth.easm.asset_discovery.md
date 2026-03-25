@@ -9,50 +9,46 @@
 - 所属模块：`EASM`
 - 适用产品域：`安全日志分析`
 - 对应事件类型：`external_asset`
-- 当前执行模式：以规则主链为主，必要时可叠加受控增强
+- 当前执行模式：规则主链
 
 ### 2. 能力目的
 
-整理外部暴露资产、域名、IP 和服务入口。
+整理外部暴露资产、域名、IP、ASN 和入口面，为后续外部攻击面评估提供资产基础。
 
 ### 3. 典型输入
 
-- 资产清单
-- 外部探测结果
+- 资产清单、DNS、IP 段、ASN 或基础发现材料
+- 能够描述外部归属关系和暴露范围的原始导出
 
-### 4. 主要输出
+### 4. 输出契约
 
 - 资产范围摘要
-- 待关注目标
-- 后续扫描建议
+- 待关注目标与可疑归属关系
+- 后续服务、TLS 或漏洞检查建议
 
 ### 5. 触发与路由
 
-该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- 本 Skill 规格说明
-- 对应训练案例文档
+当输入以外部资产盘点为主，尚未进入服务、TLS 或漏洞结论时命中本 Skill。
 
 ### 6. 判断边界
 
-- 属于暴露面盘点，不直接下漏洞结论
+- 属于暴露面盘点，不直接下漏洞结论。
+- 资产归属与暴露范围应基于材料事实，不应超范围外推。
 
 ### 7. 训练与参考资产
 
-- 当前正式对应案例为 `training_cases/case_003_easm_multilayer/README.md`。
+- [Case 003 - EASM 多层综合评估](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_003_easm_multilayer/README.md)
 
-### 8. 当前限制
+### 8. 当前实现说明
 
-- 当前实现以本地规则与样本驱动为主
-- 输出质量受输入材料完整度影响
-- 重要边界应优先由案例和目标输出驱动收敛
+- 当前实现以规则主链为主，必要时仅对允许的叙述段落叠加受控增强。
+- 输出质量依赖输入材料完整度、字段质量和目标样本的约束程度。
+- 分类、模板、风险语义或训练资产变化时，必须同步更新本规格。
 
 ### 9. 维护要求
 
-- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
-- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+- 当分类、路由条件、输出结构、风险语义或训练资产发生变化时，必须同步更新本文件。
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档，并确保页面展示与下载报告口径一致。
 
 ## English
 
@@ -62,47 +58,43 @@
 - Module: `EASM`
 - Product Surface: `Security Log Analysis`
 - Event Type: `external_asset`
-- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+- Execution Mode: rule-first
 
 ### 2. Purpose
 
-Organize externally exposed assets, domains, IPs, and service entry points.
+Organize externally exposed assets, domains, IPs, ASNs, and entry surfaces to provide the asset foundation for EASM assessment.
 
 ### 3. Typical Inputs
 
-- asset inventories
-- external discovery results
+- asset inventories, DNS, IP ranges, ASN, or foundational discovery material
+- raw exports that describe external ownership and exposure scope
 
-### 4. Primary Outputs
+### 4. Output Contract
 
 - asset-scope summary
-- targets of interest
-- follow-up scan suggestions
+- targets of interest and suspicious ownership relations
+- recommended next checks for services, TLS, or vulnerabilities
 
 ### 5. Trigger and Routing
 
-This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- this Skill specification
-- the linked training-case document
+This Skill is selected when the input is primarily an external asset inventory and has not yet moved into service, TLS, or vulnerability interpretation.
 
 ### 6. Decision Boundaries
 
-- belongs to exposure inventory, not direct vulnerability confirmation
+- It belongs to exposure inventory and must not conclude vulnerabilities directly.
+- Ownership and exposure scope must stay grounded in supplied material without over-expansion.
 
 ### 7. Training and Reference Assets
 
-- The formal linked case is `training_cases/case_003_easm_multilayer/README.md`.
+- [Case 003 - EASM Multi-Layer Composite Assessment](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_003_easm_multilayer/README.md)
 
-### 8. Current Limits
+### 8. Current Implementation Notes
 
-- the current implementation is primarily rule- and sample-driven
-- output quality depends on the completeness of the supplied material
-- important boundaries should be converged through cases and target outputs
+- The current implementation is rule-first, with controlled augmentation only on explicitly allowed narrative sections.
+- Output quality depends on input completeness, field quality, and the tightness of target-sample constraints.
+- Whenever classification, templates, risk semantics, or training assets change, this specification must be updated together.
 
 ### 9. Maintenance Requirements
 
-- update this file whenever classification, output structure, or risk semantics change
-- create or update a matching document under `training_cases/` when new real samples are introduced
+- Update this file whenever classification, routing conditions, output structure, risk semantics, or training assets change.
+- When new real samples are introduced, create or update the matching case document under `training_cases/` and keep page/export behavior aligned.

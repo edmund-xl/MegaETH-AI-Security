@@ -9,18 +9,18 @@
 - 所属模块：`Key Security`
 - 适用产品域：`安全日志分析`
 - 对应事件类型：`kms_access`
-- 当前执行模式：以规则主链为主，必要时可叠加受控增强
+- 当前执行模式：规则主链
 
 ### 2. 能力目的
 
-分析 KMS 访问行为、密钥使用与授权异常。
+分析 KMS 访问行为、密钥使用模式与授权异常，输出密钥控制面风险判断。
 
 ### 3. 典型输入
 
-- KMS 访问记录
-- 密钥使用日志
+- KMS 访问记录、密钥使用日志、授权材料
+- 与密钥调用和授权边界相关的上下文
 
-### 4. 主要输出
+### 4. 输出契约
 
 - 密钥风险摘要
 - 访问模式异常
@@ -28,31 +28,27 @@
 
 ### 5. 触发与路由
 
-该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- 本 Skill 规格说明
-- 对应训练案例文档
+当输入属于 KMS 访问、密钥使用或授权边界材料时命中本 Skill。
 
 ### 6. 判断边界
 
-- 不直接推断密钥泄露，需要结合更多访问上下文
+- 不直接推断密钥泄露，需要更多访问上下文。
+- 需要结合资产角色和调用背景解释风险。
 
 ### 7. 训练与参考资产
 
-- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
+- 暂无正式案例。
 
-### 8. 当前限制
+### 8. 当前实现说明
 
-- 当前实现以本地规则与样本驱动为主
-- 输出质量受输入材料完整度影响
-- 重要边界应优先由案例和目标输出驱动收敛
+- 当前实现以规则主链为主，必要时仅对允许的叙述段落叠加受控增强。
+- 输出质量依赖输入材料完整度、字段质量和目标样本的约束程度。
+- 分类、模板、风险语义或训练资产变化时，必须同步更新本规格。
 
 ### 9. 维护要求
 
-- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
-- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+- 当分类、路由条件、输出结构、风险语义或训练资产发生变化时，必须同步更新本文件。
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档，并确保页面展示与下载报告口径一致。
 
 ## English
 
@@ -62,18 +58,18 @@
 - Module: `Key Security`
 - Product Surface: `Security Log Analysis`
 - Event Type: `kms_access`
-- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+- Execution Mode: rule-first
 
 ### 2. Purpose
 
-Analyze KMS access behavior, key usage, and authorization anomalies.
+Analyze KMS access behavior, key-usage patterns, and authorization anomalies to produce key-control-plane risk judgments.
 
 ### 3. Typical Inputs
 
-- KMS access records
-- key usage logs
+- KMS access records, key-usage logs, and authorization materials
+- context related to key invocation and authorization boundaries
 
-### 4. Primary Outputs
+### 4. Output Contract
 
 - key-risk summary
 - abnormal access patterns
@@ -81,28 +77,24 @@ Analyze KMS access behavior, key usage, and authorization anomalies.
 
 ### 5. Trigger and Routing
 
-This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- this Skill specification
-- the linked training-case document
+This Skill is selected when the input belongs to KMS access, key usage, or authorization-boundary material.
 
 ### 6. Decision Boundaries
 
-- does not directly infer key compromise without broader access context
+- It must not directly conclude key leakage without broader access context.
+- Risk should be interpreted with asset role and invocation background.
 
 ### 7. Training and Reference Assets
 
-- No formal case is linked yet. Future real samples should create or update a case document.
+- No formal case yet.
 
-### 8. Current Limits
+### 8. Current Implementation Notes
 
-- the current implementation is primarily rule- and sample-driven
-- output quality depends on the completeness of the supplied material
-- important boundaries should be converged through cases and target outputs
+- The current implementation is rule-first, with controlled augmentation only on explicitly allowed narrative sections.
+- Output quality depends on input completeness, field quality, and the tightness of target-sample constraints.
+- Whenever classification, templates, risk semantics, or training assets change, this specification must be updated together.
 
 ### 9. Maintenance Requirements
 
-- update this file whenever classification, output structure, or risk semantics change
-- create or update a matching document under `training_cases/` when new real samples are introduced
+- Update this file whenever classification, routing conditions, output structure, risk semantics, or training assets change.
+- When new real samples are introduced, create or update the matching case document under `training_cases/` and keep page/export behavior aligned.

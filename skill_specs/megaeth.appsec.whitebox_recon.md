@@ -9,50 +9,47 @@
 - 所属模块：`AppSec`
 - 适用产品域：`安全日志分析`
 - 对应事件类型：`whitebox_recon_assessment`
-- 当前执行模式：以规则主链为主，必要时可叠加受控增强
+- 当前执行模式：规则主链，必要时可增强侦察结论文案
 
 ### 2. 能力目的
 
-对白盒应用安全侦察材料做结构化解读，形成侦察结论与后续验证方向。
+对白盒侦察材料做结构化解读，形成可供后续验证的候选问题、攻击面摘要和验证方向。
 
 ### 3. 典型输入
 
-- 白盒侦察记录
-- 结构图或代码片段
+- 代码片段、目录树、配置文件或接口定义
+- 侦察记录、模块说明、架构草图
+- 与业务逻辑相关的关键路径说明
 
-### 4. 主要输出
+### 4. 输出契约
 
-- 侦察结论
-- 候选问题
-- 验证建议
+- 侦察结论与候选问题列表
+- 需要进入验证阶段的关键路径
+- 针对验证阶段的优先检查建议
 
 ### 5. 触发与路由
 
-该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- 本 Skill 规格说明
-- 对应训练案例文档
+当输入被归类为白盒侦察材料，且核心信息仍处于“待验证”状态时命中本 Skill。它不负责生成最终交付报告，而是为验证和综合报告提供上游结论。
 
 ### 6. 判断边界
 
-- 侦察阶段不直接下最终漏洞结论
+- 侦察阶段不直接确认最终漏洞成立。
+- 没有证据的推断只能作为候选线索，不能直接升级为 confirmed finding。
 
 ### 7. 训练与参考资产
 
-- [Whitebox AppSec 案例模板](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/templates/appsec_whitebox_case_template/README.md)
+- [Whitebox AppSec 模板](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/templates/appsec_whitebox_case_template/README.md)
 
-### 8. 当前限制
+### 8. 当前实现说明
 
-- 当前实现以本地规则与样本驱动为主
-- 输出质量受输入材料完整度影响
-- 重要边界应优先由案例和目标输出驱动收敛
+- 当前实现以规则主链为主，必要时仅对允许的叙述段落叠加受控增强。
+- 输出质量依赖输入材料完整度、字段质量和目标样本的约束程度。
+- 分类、模板、风险语义或训练资产变化时，必须同步更新本规格。
 
 ### 9. 维护要求
 
-- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
-- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+- 当分类、路由条件、输出结构、风险语义或训练资产发生变化时，必须同步更新本文件。
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档，并确保页面展示与下载报告口径一致。
 
 ## English
 
@@ -62,47 +59,44 @@
 - Module: `AppSec`
 - Product Surface: `Security Log Analysis`
 - Event Type: `whitebox_recon_assessment`
-- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+- Execution Mode: rule-first, with optional enhancement for reconnaissance narrative only
 
 ### 2. Purpose
 
-Interpret whitebox application-security reconnaissance material and produce reconnaissance conclusions plus follow-up validation directions.
+Interpret whitebox reconnaissance material into candidate issues, attack-surface summaries, and follow-up validation directions.
 
 ### 3. Typical Inputs
 
-- whitebox reconnaissance notes
-- diagrams or code snippets
+- code snippets, directory trees, configuration files, or API definitions
+- recon notes, module descriptions, and architecture sketches
+- business-logic path explanations
 
-### 4. Primary Outputs
+### 4. Output Contract
 
-- recon conclusions
-- candidate issues
-- validation suggestions
+- recon conclusions and candidate issues
+- priority paths that should move into validation
+- recommended next checks for the validation stage
 
 ### 5. Trigger and Routing
 
-This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- this Skill specification
-- the linked training-case document
+This Skill is selected when the input is classified as whitebox reconnaissance and the core findings are still in a pre-validation state. It does not generate the final delivery report; it feeds validation and synthesis stages.
 
 ### 6. Decision Boundaries
 
-- the reconnaissance stage does not produce final vulnerability confirmation
+- The reconnaissance stage must not confirm final vulnerabilities on its own.
+- Unverified reasoning may remain as candidate signals but must not be upgraded into confirmed findings.
 
 ### 7. Training and Reference Assets
 
-- [Whitebox AppSec Case Template](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/templates/appsec_whitebox_case_template/README.md)
+- [Whitebox AppSec template](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/templates/appsec_whitebox_case_template/README.md)
 
-### 8. Current Limits
+### 8. Current Implementation Notes
 
-- the current implementation is primarily rule- and sample-driven
-- output quality depends on the completeness of the supplied material
-- important boundaries should be converged through cases and target outputs
+- The current implementation is rule-first, with controlled augmentation only on explicitly allowed narrative sections.
+- Output quality depends on input completeness, field quality, and the tightness of target-sample constraints.
+- Whenever classification, templates, risk semantics, or training assets change, this specification must be updated together.
 
 ### 9. Maintenance Requirements
 
-- update this file whenever classification, output structure, or risk semantics change
-- create or update a matching document under `training_cases/` when new real samples are introduced
+- Update this file whenever classification, routing conditions, output structure, risk semantics, or training assets change.
+- When new real samples are introduced, create or update the matching case document under `training_cases/` and keep page/export behavior aligned.

@@ -9,52 +9,47 @@
 - 所属模块：`CI/CD`
 - 适用产品域：`安全日志分析`
 - 对应事件类型：`github_pr`
-- 当前执行模式：以规则主链为主，必要时可叠加受控增强
+- 当前执行模式：规则主链
 
 ### 2. 能力目的
 
-审查拉取请求或代码变更中可能引入的高风险执行路径、命令调用与供应链风险。
+审查 Pull Request 或代码 diff 中可能引入的危险执行路径、敏感操作和供应链风险。
 
 ### 3. 典型输入
 
-- Pull request 文本
-- 代码 diff
-- 仓库上下文
+- PR 描述、代码 diff 和关键文件上下文
+- 构建、部署、脚本或配置改动
+- 与依赖、命令执行相关的变更
 
-### 4. 主要输出
+### 4. 输出契约
 
-- 危险执行链
 - 高风险代码片段
-- 复核建议
+- 危险执行链摘要
+- 人工复核建议
 
 ### 5. 触发与路由
 
-该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- 本 Skill 规格说明
-- 对应训练案例文档
+当输入被识别为 PR 文本、代码 diff 或审查上下文时命中本 Skill，重点用于发布前安全复核。
 
 ### 6. 判断边界
 
-- 不直接替代人工 Code Review
-- 不对未提供代码上下文的仓库做推断
+- 不替代人工 Code Review。
+- 未提供关键代码上下文时，不应虚构仓库行为。
 
 ### 7. 训练与参考资产
 
-- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
+- 暂无正式案例。
 
-### 8. 当前限制
+### 8. 当前实现说明
 
-- 当前实现以本地规则与样本驱动为主
-- 输出质量受输入材料完整度影响
-- 重要边界应优先由案例和目标输出驱动收敛
+- 当前实现以规则主链为主，必要时仅对允许的叙述段落叠加受控增强。
+- 输出质量依赖输入材料完整度、字段质量和目标样本的约束程度。
+- 分类、模板、风险语义或训练资产变化时，必须同步更新本规格。
 
 ### 9. 维护要求
 
-- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
-- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+- 当分类、路由条件、输出结构、风险语义或训练资产发生变化时，必须同步更新本文件。
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档，并确保页面展示与下载报告口径一致。
 
 ## English
 
@@ -64,49 +59,44 @@
 - Module: `CI/CD`
 - Product Surface: `Security Log Analysis`
 - Event Type: `github_pr`
-- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+- Execution Mode: rule-first
 
 ### 2. Purpose
 
-Review pull requests and code changes for dangerous execution paths, command invocation, and supply-chain risk.
+Review pull requests or code diffs for dangerous execution paths, sensitive operations, and supply-chain risk.
 
 ### 3. Typical Inputs
 
-- Pull request text
-- code diff
-- repository context
+- PR descriptions, code diffs, and key file context
+- build, deploy, script, or configuration changes
+- dependency and command-execution changes
 
-### 4. Primary Outputs
+### 4. Output Contract
 
-- dangerous execution chains
-- high-risk code fragments
-- review recommendations
+- high-risk code segments
+- dangerous execution-chain summaries
+- manual review recommendations
 
 ### 5. Trigger and Routing
 
-This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- this Skill specification
-- the linked training-case document
+This Skill is selected for PR text, code diffs, and review context, especially for release-gating security review.
 
 ### 6. Decision Boundaries
 
-- does not replace human code review
-- does not infer risk without relevant code context
+- It does not replace human code review.
+- When critical code context is missing, the Skill must not invent repository behavior.
 
 ### 7. Training and Reference Assets
 
-- No formal case is linked yet. Future real samples should create or update a case document.
+- No formal case yet.
 
-### 8. Current Limits
+### 8. Current Implementation Notes
 
-- the current implementation is primarily rule- and sample-driven
-- output quality depends on the completeness of the supplied material
-- important boundaries should be converged through cases and target outputs
+- The current implementation is rule-first, with controlled augmentation only on explicitly allowed narrative sections.
+- Output quality depends on input completeness, field quality, and the tightness of target-sample constraints.
+- Whenever classification, templates, risk semantics, or training assets change, this specification must be updated together.
 
 ### 9. Maintenance Requirements
 
-- update this file whenever classification, output structure, or risk semantics change
-- create or update a matching document under `training_cases/` when new real samples are introduced
+- Update this file whenever classification, routing conditions, output structure, risk semantics, or training assets change.
+- When new real samples are introduced, create or update the matching case document under `training_cases/` and keep page/export behavior aligned.

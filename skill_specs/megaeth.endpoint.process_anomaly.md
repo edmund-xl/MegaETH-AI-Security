@@ -8,52 +8,47 @@
 - Skill ID：`megaeth.endpoint.process_anomaly`
 - 所属模块：`Endpoint`
 - 适用产品域：`安全日志分析`
-- 对应事件类型：`endpoint_process`
-- 当前执行模式：以规则主链为主，必要时可叠加受控增强
+- 对应事件类型：`process_alert`
+- 当前执行模式：规则主链
 
 ### 2. 能力目的
 
-分析端点平台事件、恶意软件检测、网络攻击检测和可疑进程行为。
+分析进程异常、端点告警和可疑执行行为，输出可复核的主机侧风险判断。
 
 ### 3. 典型输入
 
-- Bitdefender 事件导出
-- 端点事件行记录
+- 端点平台告警、进程树、命令行与父子进程信息
+- 与主机可疑执行行为相关的事件材料
 
-### 4. 主要输出
+### 4. 输出契约
 
-- 端点异常结论
-- 影响主机列表
-- 后续排查建议
+- 异常进程摘要
+- 高风险执行线索
+- 复核和处置建议
 
 ### 5. 触发与路由
 
-该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- 本 Skill 规格说明
-- 对应训练案例文档
+当材料核心重心是进程行为、执行链、父子进程或端点异常告警时命中本 Skill。
 
 ### 6. 判断边界
 
-- 以平台事件为主，不替代主机取证
-- 需要结合时间窗和同主机关联
+- 异常进程不自动等于入侵成立。
+- 需要结合宿主机角色、时间窗和其他证据解释异常性。
 
 ### 7. 训练与参考资产
 
-- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
+- 暂无正式案例。
 
-### 8. 当前限制
+### 8. 当前实现说明
 
-- 当前实现以本地规则与样本驱动为主
-- 输出质量受输入材料完整度影响
-- 重要边界应优先由案例和目标输出驱动收敛
+- 当前实现以规则主链为主，必要时仅对允许的叙述段落叠加受控增强。
+- 输出质量依赖输入材料完整度、字段质量和目标样本的约束程度。
+- 分类、模板、风险语义或训练资产变化时，必须同步更新本规格。
 
 ### 9. 维护要求
 
-- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
-- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+- 当分类、路由条件、输出结构、风险语义或训练资产发生变化时，必须同步更新本文件。
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档，并确保页面展示与下载报告口径一致。
 
 ## English
 
@@ -62,49 +57,44 @@
 - Skill ID: `megaeth.endpoint.process_anomaly`
 - Module: `Endpoint`
 - Product Surface: `Security Log Analysis`
-- Event Type: `endpoint_process`
-- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+- Event Type: `process_alert`
+- Execution Mode: rule-first
 
 ### 2. Purpose
 
-Analyze endpoint-platform events, malware detections, network-attack detections, and suspicious process activity.
+Analyze process anomalies, endpoint alerts, and suspicious execution behavior to produce reviewable host-side risk judgments.
 
 ### 3. Typical Inputs
 
-- Bitdefender event exports
-- endpoint event rows
+- endpoint alerts, process trees, command lines, and parent-child process data
+- event material related to suspicious execution behavior on endpoints
 
-### 4. Primary Outputs
+### 4. Output Contract
 
-- endpoint anomaly conclusions
-- affected host list
-- follow-up investigation recommendations
+- anomalous-process summary
+- high-risk execution signals
+- review and containment recommendations
 
 ### 5. Trigger and Routing
 
-This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- this Skill specification
-- the linked training-case document
+This Skill is selected when the material centers on process behavior, execution chains, parent-child process relations, or endpoint anomaly alerts.
 
 ### 6. Decision Boundaries
 
-- platform events are primary evidence but not full host forensics
-- requires time-window and same-host correlation
+- An anomalous process does not automatically prove a confirmed intrusion.
+- The anomaly should be interpreted together with host role, time window, and corroborating evidence.
 
 ### 7. Training and Reference Assets
 
-- No formal case is linked yet. Future real samples should create or update a case document.
+- No formal case yet.
 
-### 8. Current Limits
+### 8. Current Implementation Notes
 
-- the current implementation is primarily rule- and sample-driven
-- output quality depends on the completeness of the supplied material
-- important boundaries should be converged through cases and target outputs
+- The current implementation is rule-first, with controlled augmentation only on explicitly allowed narrative sections.
+- Output quality depends on input completeness, field quality, and the tightness of target-sample constraints.
+- Whenever classification, templates, risk semantics, or training assets change, this specification must be updated together.
 
 ### 9. Maintenance Requirements
 
-- update this file whenever classification, output structure, or risk semantics change
-- create or update a matching document under `training_cases/` when new real samples are introduced
+- Update this file whenever classification, routing conditions, output structure, risk semantics, or training assets change.
+- When new real samples are introduced, create or update the matching case document under `training_cases/` and keep page/export behavior aligned.

@@ -9,51 +9,46 @@
 - 所属模块：`Cloud`
 - 适用产品域：`安全日志分析`
 - 对应事件类型：`cloud_config_change`
-- 当前执行模式：以规则主链为主，必要时可叠加受控增强
+- 当前执行模式：规则主链
 
 ### 2. 能力目的
 
-分析云配置变更与配置基线偏离，识别高风险安全配置问题。
+分析云配置变更、基线偏离和高风险安全配置问题，输出治理优先级。
 
 ### 3. 典型输入
 
-- 云配置清单
-- 配置变更材料
+- 云配置清单、差异快照或变更材料
+- 安全控制配置、网络暴露配置、存储与身份配置
 
-### 4. 主要输出
+### 4. 输出契约
 
 - 配置风险摘要
-- 高风险项
-- 治理建议
+- 高风险项与影响面
+- 治理建议与复核优先级
 
 ### 5. 触发与路由
 
-该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- 本 Skill 规格说明
-- 对应训练案例文档
+当输入被识别为云配置变更、配置审计或基线对比材料时命中本 Skill。
 
 ### 6. 判断边界
 
-- 不替代云原生取证
-- 需要结合环境属性解释风险
+- 不替代云原生取证。
+- 需要结合环境角色、暴露面和资产重要性解释风险。
 
 ### 7. 训练与参考资产
 
-- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
+- 暂无正式案例。
 
-### 8. 当前限制
+### 8. 当前实现说明
 
-- 当前实现以本地规则与样本驱动为主
-- 输出质量受输入材料完整度影响
-- 重要边界应优先由案例和目标输出驱动收敛
+- 当前实现以规则主链为主，必要时仅对允许的叙述段落叠加受控增强。
+- 输出质量依赖输入材料完整度、字段质量和目标样本的约束程度。
+- 分类、模板、风险语义或训练资产变化时，必须同步更新本规格。
 
 ### 9. 维护要求
 
-- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
-- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+- 当分类、路由条件、输出结构、风险语义或训练资产发生变化时，必须同步更新本文件。
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档，并确保页面展示与下载报告口径一致。
 
 ## English
 
@@ -63,48 +58,43 @@
 - Module: `Cloud`
 - Product Surface: `Security Log Analysis`
 - Event Type: `cloud_config_change`
-- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+- Execution Mode: rule-first
 
 ### 2. Purpose
 
-Analyze cloud-configuration changes and baseline drift to identify risky security misconfigurations.
+Analyze cloud configuration changes, baseline drift, and risky security misconfigurations, producing governance priorities.
 
 ### 3. Typical Inputs
 
-- cloud configuration inventories
-- configuration change materials
+- cloud inventories, diff snapshots, or change material
+- security-control, network-exposure, storage, and identity configuration
 
-### 4. Primary Outputs
+### 4. Output Contract
 
 - configuration-risk summary
-- high-risk items
-- governance recommendations
+- high-risk items and impact surface
+- governance recommendations and review priority
 
 ### 5. Trigger and Routing
 
-This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- this Skill specification
-- the linked training-case document
+This Skill is selected for cloud configuration changes, audit inventories, or baseline-comparison materials.
 
 ### 6. Decision Boundaries
 
-- does not replace cloud-native forensics
-- risk should be interpreted with environment context
+- It does not replace cloud-native forensics.
+- Risk must be interpreted together with environment role, exposure surface, and asset criticality.
 
 ### 7. Training and Reference Assets
 
-- No formal case is linked yet. Future real samples should create or update a case document.
+- No formal case yet.
 
-### 8. Current Limits
+### 8. Current Implementation Notes
 
-- the current implementation is primarily rule- and sample-driven
-- output quality depends on the completeness of the supplied material
-- important boundaries should be converged through cases and target outputs
+- The current implementation is rule-first, with controlled augmentation only on explicitly allowed narrative sections.
+- Output quality depends on input completeness, field quality, and the tightness of target-sample constraints.
+- Whenever classification, templates, risk semantics, or training assets change, this specification must be updated together.
 
 ### 9. Maintenance Requirements
 
-- update this file whenever classification, output structure, or risk semantics change
-- create or update a matching document under `training_cases/` when new real samples are introduced
+- Update this file whenever classification, routing conditions, output structure, risk semantics, or training assets change.
+- When new real samples are introduced, create or update the matching case document under `training_cases/` and keep page/export behavior aligned.

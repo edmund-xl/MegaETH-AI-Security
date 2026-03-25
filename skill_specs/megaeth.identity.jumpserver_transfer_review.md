@@ -9,49 +9,46 @@
 - 所属模块：`Identity`
 - 适用产品域：`安全日志分析`
 - 对应事件类型：`jumpserver_transfer_review`
-- 当前执行模式：以规则主链为主，必要时可叠加受控增强
+- 当前执行模式：规则主链，必要时可增强 transfer-chain judgment
 
 ### 2. 能力目的
 
-分析 JumpServer 文件传输日志，识别上传落地与执行前链路。
+分析 JumpServer 文件传输日志，识别上传、落地、放权与后续执行前链路。
 
 ### 3. 典型输入
 
 - JumpServer 文件传输导出
+- 与文件路径、账号、资产和时间相关的传输材料
 
-### 4. 主要输出
+### 4. 输出契约
 
 - 传输摘要
-- 高风险文件路径
-- 后续复核建议
+- 高风险文件路径与文件名
+- 与命令侧联动的复核建议
 
 ### 5. 触发与路由
 
-该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- 本 Skill 规格说明
-- 对应训练案例文档
+当输入来源于 JumpServer 文件传输导出或被识别为文件传输单文件样本时命中本 Skill。
 
 ### 6. 判断边界
 
-- 文件传输本身不等于恶意，需要结合命令与时间窗
+- 文件传输本身不等于恶意。
+- 需要结合命令、时间窗和执行链判断风险。
 
 ### 7. 训练与参考资产
 
 - [Case 002 - JumpServer 多源综合审计](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_002_jumpserver_multisource/README.md)
 
-### 8. 当前限制
+### 8. 当前实现说明
 
-- 当前实现以本地规则与样本驱动为主
-- 输出质量受输入材料完整度影响
-- 重要边界应优先由案例和目标输出驱动收敛
+- 当前实现以规则主链为主，必要时仅对允许的叙述段落叠加受控增强。
+- 输出质量依赖输入材料完整度、字段质量和目标样本的约束程度。
+- 分类、模板、风险语义或训练资产变化时，必须同步更新本规格。
 
 ### 9. 维护要求
 
-- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
-- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+- 当分类、路由条件、输出结构、风险语义或训练资产发生变化时，必须同步更新本文件。
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档，并确保页面展示与下载报告口径一致。
 
 ## English
 
@@ -61,46 +58,43 @@
 - Module: `Identity`
 - Product Surface: `Security Log Analysis`
 - Event Type: `jumpserver_transfer_review`
-- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+- Execution Mode: rule-first, with optional enhancement for transfer-chain judgment
 
 ### 2. Purpose
 
-Analyze JumpServer file-transfer logs and identify upload, landing, and pre-execution chains.
+Analyze JumpServer file-transfer logs to identify upload, landing, permission-change, and pre-execution chains.
 
 ### 3. Typical Inputs
 
 - JumpServer file-transfer exports
+- transfer material tied to file paths, accounts, assets, and timestamps
 
-### 4. Primary Outputs
+### 4. Output Contract
 
 - transfer summary
-- high-risk file paths
-- follow-up review recommendations
+- high-risk file names and paths
+- review guidance linked to command-side activity
 
 ### 5. Trigger and Routing
 
-This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
-
-- `app/core/planner.py`
-- `app/skills/implementations.py`
-- this Skill specification
-- the linked training-case document
+This Skill is selected for JumpServer file-transfer exports or other material classified as a transfer-side single-source sample.
 
 ### 6. Decision Boundaries
 
-- file transfer alone is not malicious and must be correlated with commands and time windows
+- File transfer alone does not prove malicious behavior.
+- Risk should be judged together with commands, time windows, and execution chains.
 
 ### 7. Training and Reference Assets
 
 - [Case 002 - JumpServer Multi-Source Audit](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_002_jumpserver_multisource/README.md)
 
-### 8. Current Limits
+### 8. Current Implementation Notes
 
-- the current implementation is primarily rule- and sample-driven
-- output quality depends on the completeness of the supplied material
-- important boundaries should be converged through cases and target outputs
+- The current implementation is rule-first, with controlled augmentation only on explicitly allowed narrative sections.
+- Output quality depends on input completeness, field quality, and the tightness of target-sample constraints.
+- Whenever classification, templates, risk semantics, or training assets change, this specification must be updated together.
 
 ### 9. Maintenance Requirements
 
-- update this file whenever classification, output structure, or risk semantics change
-- create or update a matching document under `training_cases/` when new real samples are introduced
+- Update this file whenever classification, routing conditions, output structure, risk semantics, or training assets change.
+- When new real samples are introduced, create or update the matching case document under `training_cases/` and keep page/export behavior aligned.
