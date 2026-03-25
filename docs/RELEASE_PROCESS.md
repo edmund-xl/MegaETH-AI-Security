@@ -3,45 +3,94 @@
 
 ## 中文
 
-### 1. 文档目的
+### 1. 目的
 
-说明如何以标准方式发布当前主线。
+本文档定义当前主线的标准发布流程。
 
-### 2. 发布前准备
+### 2. 适用范围
 
-完成功能、回归页面、确认 Skill 与案例文档是否需要更新。
+适用于：
 
-### 3. 本地验证
+- 功能迭代
+- 文档更新
+- 样本训练更新
+- 页面修正
 
-发布前必须通过前端语法检查、pytest 与健康检查。
+### 3. 标准发布顺序
 
-### 4. 发布步骤
+推荐顺序如下：
 
-检查工作树、提交、推送分支、同步 main 并核查 GitHub。
+1. 完成功能或修复
+2. 回归页面
+3. 跑测试
+4. 更新文档
+5. 提交当前分支
+6. 推送当前分支
+7. 需要时同步 `main`
+8. 检查 GitHub 页面与运行态
+
+### 4. 发布前必须同步的内容
+
+发布前应检查：
+
+- 代码
+- 测试
+- 文档
+- 训练案例
+- GitHub 远端
 
 ### 5. 发布后检查
 
-确认运行态正常、文档可读、近期样本链路仍可分析。
+发布后至少检查：
 
+- 页面正常
+- 服务正常
+- 文档可读
+- GitHub 口径一致
 
 ## English
 
 ### 1. Purpose
 
-Describe the standard release flow for the current mainline.
+This document defines the standard release process for the current mainline.
 
-### 2. Pre-Release Preparation
+### 2. Scope
 
-Finish the feature, regress the pages, and confirm whether Skill or case documentation must be updated.
+It applies to:
 
-### 3. Local Validation
+- feature iterations
+- documentation updates
+- sample-training updates
+- UI corrections
 
-Frontend syntax checks, pytest, and health checks must pass before release.
+### 3. Standard Release Order
 
-### 4. Release Steps
+Recommended order:
 
-Check the worktree, commit, push the branch, sync main, and verify GitHub.
+1. complete the feature or fix
+2. regress the UI
+3. run tests
+4. update documentation
+5. commit the working branch
+6. push the working branch
+7. synchronize `main` when needed
+8. verify GitHub and runtime state
+
+### 4. Items That Must Be Synchronized
+
+Before release, review:
+
+- code
+- tests
+- documentation
+- training cases
+- GitHub remote state
 
 ### 5. Post-Release Checks
 
-Confirm runtime health, readable docs, and that recent sample workflows still work.
+After release, verify at least:
+
+- UI usability
+- service health
+- readable documentation
+- GitHub consistency

@@ -3,45 +3,86 @@
 
 ## 中文
 
-### 1. 文档目的
+### 1. 目的
 
-提供发布前的最小检查项。
+本文档提供发布前的最小但可执行检查项。
 
 ### 2. 代码与运行
 
-确认 8011 服务、健康检查和 smoke endpoint 正常。
+发布前确认：
+
+- 工作树状态清楚
+- 关键改动已提交
+- `8011` 服务可启动
+- `/health` 正常
+- `/pipeline/overview` 正常
 
 ### 3. 页面与体验
 
-确认五个页面均可用。
+发布前确认以下五页可正常使用：
+
+- 概览
+- 输入
+- 技能
+- 连接
+- 学习
 
 ### 4. 回归验证
 
-确认前端语法检查与 pytest 回归通过。
+发布前至少完成：
 
-### 5. 文档与远端同步
+- `node --check app/static/app.js`
+- `pytest tests/test_api.py -q`
+- 关键样本烟测
 
-确认代码、文档、训练案例和 GitHub 已同步。
+### 5. 文档与同步
 
+发布前确认：
+
+- 受影响文档已同步更新
+- 训练案例与 Skill 说明已同步
+- GitHub 分支已推送
+- 需要时已同步 `main`
 
 ## English
 
 ### 1. Purpose
 
-Provide the minimum pre-release checklist.
+This document provides the minimum executable pre-release checklist.
 
 ### 2. Code and Runtime
 
-Confirm the 8011 service, health endpoint, and smoke endpoint are healthy.
+Before release, confirm:
+
+- the worktree is understood
+- key changes are committed
+- the `8011` service starts correctly
+- `/health` is healthy
+- `/pipeline/overview` is healthy
 
 ### 3. UI Checks
 
-Confirm that all five pages are usable.
+Before release, confirm these five pages are usable:
+
+- Overview
+- Intake
+- Skills
+- Integrations
+- Learning
 
 ### 4. Regression
 
-Confirm the frontend syntax check and pytest regression both pass.
+Before release, complete at least:
+
+- `node --check app/static/app.js`
+- `pytest tests/test_api.py -q`
+- a smoke run on representative samples
 
 ### 5. Documentation and Sync
 
-Confirm that code, docs, training cases, and GitHub are synchronized.
+Before release, confirm:
+
+- affected docs are updated
+- training cases and Skill specs are synchronized
+- GitHub branches are pushed
+- `main` is synchronized when appropriate

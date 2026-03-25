@@ -3,53 +3,184 @@
 
 ## 中文
 
-### 1. 文档目的
+### 1. 目的
 
-本文档说明当前主线已经具备的输入源、页面能力和分析域。
+本文档提供当前主线的能力快照，用于快速回答：
 
-### 2. 输入源
+- 系统目前支持什么输入
+- 页面上能做什么
+- 已经落地哪些分析域
+- 当前不应该误解成什么
 
-当前输入源包括本地文件与文本输入，以及 Bitdefender、Whitebox AppSec 与 EASM CSV 材料。
+### 2. 当前输入源
 
-### 3. 页面能力
+当前系统已支持以下输入源：
 
-当前五个页面分别承载总览、输入、技能、连接和学习反馈。
+- 本地文件上传
+- 文本输入
+- Bitdefender 材料
+- Whitebox AppSec 材料
+- EASM CSV 材料
 
-### 4. 分析域
+### 3. 当前页面能力
 
-当前已覆盖 Host、Endpoint、Identity/JumpServer、AppSec、Cloud、CI/CD、EASM、Key Security。
+五个页面分别承担以下职责：
 
-### 5. 训练资产
+- `概览`
+  - 平台总览
+  - 最近报告
+  - 当前状态信号
+- `输入`
+  - 文件上传
+  - 文本输入
+  - 归一化后分析
+- `技能`
+  - 能力目录
+  - 模块分布
+  - 训练覆盖
+- `连接`
+  - 外部平台接入入口
+  - 导入动作入口
+- `学习`
+  - 学习反馈
+  - 最近训练沉淀
 
-当前已落地 Host baseline、JumpServer 多源案例，以及 EASM 多层综合案例。
+### 4. 当前分析域
 
-### 6. 当前限制
+当前已覆盖的分析域包括：
 
-系统更适合分析、审计和学习沉淀，不以自动处置或大规模编排为目标。
+- Host
+- Endpoint
+- Identity / JumpServer
+- AppSec
+- Cloud
+- CI/CD
+- EASM
+- Key Security
 
+### 5. 当前已落地训练资产
+
+当前正式落地的案例包括：
+
+- Host baseline
+- JumpServer 多源综合审计
+- EASM 多层综合评估
+
+当前模板型资产包括：
+
+- Whitebox AppSec 模板
+
+### 6. EASM 当前状态
+
+EASM 当前已经不是骨架状态，而是：
+
+- 单一样本可独立分析
+- 多样本可综合分析
+- 可生成 `easm_asset_assessment`
+- 综合报告中的 `综合结论 / 专业判断` 可由 Gemini 增强
+
+### 7. 当前限制
+
+当前系统更适合：
+
+- 材料分析
+- 报告生成
+- 训练与校准
+
+当前系统不应被误解为：
+
+- 自动攻击平台
+- 自动处置中心
+- 大规模任务编排系统
 
 ## English
 
 ### 1. Purpose
 
-This document summarizes the active inputs, pages, and analysis domains of the current mainline.
+This document provides a capability snapshot of the current mainline and answers:
 
-### 2. Input Sources
+- what inputs the system supports
+- what each page is meant to do
+- which analysis domains are currently landed
+- what the system should not be mistaken for
 
-Current input sources include local files and text, plus Bitdefender, Whitebox AppSec, and EASM CSV material.
+### 2. Current Input Sources
 
-### 3. UI Capabilities
+The system currently supports:
 
-The five active pages cover overview, intake, skills, integrations, and learning feedback.
+- local file upload
+- text input
+- Bitdefender materials
+- Whitebox AppSec materials
+- EASM CSV materials
 
-### 4. Analysis Domains
+### 3. Current UI Capabilities
 
-The current capability set covers Host, Endpoint, Identity/JumpServer, AppSec, Cloud, CI/CD, EASM, and Key Security.
+The five pages currently serve these roles:
 
-### 5. Training Assets
+- `概览`
+  - platform overview
+  - recent reports
+  - current status signals
+- `输入`
+  - file upload
+  - text input
+  - normalize-and-analyze trigger
+- `技能`
+  - capability catalog
+  - module distribution
+  - training coverage
+- `连接`
+  - external integration entry points
+  - import actions
+- `学习`
+  - learning feedback
+  - recent training retention
 
-Current training assets include the Host baseline case, the JumpServer multi-source case, and the EASM multi-layer composite case.
+### 4. Current Analysis Domains
 
-### 6. Current Limits
+The current analysis domains include:
 
-The system is optimized for analysis, review, and training retention rather than auto-remediation or large-scale orchestration.
+- Host
+- Endpoint
+- Identity / JumpServer
+- AppSec
+- Cloud
+- CI/CD
+- EASM
+- Key Security
+
+### 5. Current Landed Training Assets
+
+The formally landed cases are:
+
+- Host baseline
+- JumpServer multi-source audit review
+- EASM multi-layer composite assessment
+
+Template assets currently include:
+
+- the Whitebox AppSec template
+
+### 6. Current EASM Status
+
+EASM is no longer only a scaffold. It currently supports:
+
+- single-source analysis
+- composite multi-file analysis
+- generation of `easm_asset_assessment`
+- Gemini enhancement for composite `assessment` and `professional_judgment`
+
+### 7. Current Limits
+
+The system is currently best suited for:
+
+- material analysis
+- report generation
+- training and calibration
+
+It should not be mistaken for:
+
+- an automated attack platform
+- an auto-remediation center
+- a large-scale orchestration system
