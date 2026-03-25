@@ -3,9 +3,9 @@
 
 ## 中文
 
-### 1. 目的
+### 1. 文档目的
 
-本文档用于快速说明当前主线状态、运行基线和已确认能力。
+本文档用于快速说明当前主线状态、运行基线、已确认能力与当前优先事项。
 
 ### 2. 当前主线
 
@@ -13,50 +13,93 @@
 
 - 安全日志分析
 
-### 3. 运行基线
+任何其它产品域都不在当前主线范围内。
 
-当前运行基线如下：
+### 3. 当前运行基线
+
+当前本地运行基线如下：
 
 - 默认端口：`8011`
-- 主要健康接口：`/health`
-- 主要烟测接口：`/pipeline/overview`
-- 测试入口：`tests/test_api.py`
+- 健康检查：`/health`
+- 主要概览接口：`/pipeline/overview`
+- 主要测试入口：`tests/test_api.py`
 
 ### 4. 当前已确认能力
 
-当前已确认能力包括：
+当前已经确认可用的能力包括：
 
-- 五页面前端主线
-- Host baseline
-- JumpServer 单文件与多源审计
-- Bitdefender 输入分析
+- 五页面前端工作台
+- Host baseline 分析
+- JumpServer 单文件分析
+- JumpServer 多源综合审计
+- Bitdefender 平台材料分析
 - Whitebox AppSec 三段式分析
-- EASM 单样本与多样本综合分析
+- EASM 单样本分析
+- EASM 多样本综合分析
 - 学习反馈链
 
-### 5. 当前运行方式
+### 5. 当前 EASM 运行状态
 
-当前系统以本地运行和本地持久化为主，适合：
+EASM 当前已经具备：
+
+- 单文件 EASM 样本独立分析
+- 多文件 EASM 样本综合分析
+- `easm_asset_assessment` 综合结果生成
+- 受控 Gemini 增强的综合结论与专业判断
+
+### 6. 当前适用场景
+
+当前系统适合：
 
 - 样本驱动训练
 - 页面复核
-- 报告导出
-- 交互式校准
+- 中文报告导出
+- 交互式分析与校准
 
-### 6. 当前维护原则
+当前系统不适合：
+
+- 自动处置
+- 多租户管理
+- 高并发远程任务调度
+
+### 7. 当前优先事项
+
+当前维护和开发优先顺序为：
+
+1. 安全日志样本训练
+2. Skill 路由和报告质量校准
+3. 页面与导出一致性验证
+4. 文档与 GitHub 同步
+
+### 8. 当前维护原则
 
 当前维护必须遵守：
 
 - 不新增第二产品域
-- 改共享层必须回归五个页面
+- 改共享前端逻辑必须回归五个页面
+- 大文件输入必须验证全量聚合
 - 能力变化必须同步更新文档
-- GitHub 主线和本地主线必须保持一致
+- 本地主线与 GitHub 主线保持一致
+
+### 9. 当前交接结论
+
+如果今天开始接手项目，应默认理解：
+
+- 这是一个安全日志分析工作台
+- 当前最有价值的训练域是 JumpServer、Whitebox AppSec、EASM
+- 所有能力改动都必须同时看：
+  - 代码
+  - 页面
+  - 报告导出
+  - 文档
+
+---
 
 ## English
 
 ### 1. Purpose
 
-This document gives a quick view of the current mainline state, runtime baseline, and confirmed capabilities.
+This document provides a quick status view of the active mainline, runtime baseline, confirmed capabilities, and current priorities.
 
 ### 2. Active Mainline
 
@@ -64,13 +107,15 @@ The repository currently preserves only:
 
 - security log analysis
 
+No other product surface is part of the active mainline.
+
 ### 3. Runtime Baseline
 
-The current runtime baseline is:
+The current local runtime baseline is:
 
 - default port: `8011`
-- primary health endpoint: `/health`
-- primary smoke endpoint: `/pipeline/overview`
+- health endpoint: `/health`
+- overview endpoint: `/pipeline/overview`
 - regression entry: `tests/test_api.py`
 
 ### 4. Confirmed Capabilities
@@ -78,27 +123,66 @@ The current runtime baseline is:
 Confirmed capabilities currently include:
 
 - the five-page frontend workbench
-- Host baseline
-- JumpServer single-source and multi-source audit analysis
-- Bitdefender input analysis
+- Host baseline analysis
+- JumpServer single-file analysis
+- JumpServer multi-source composite auditing
+- Bitdefender material analysis
 - Whitebox AppSec three-stage analysis
-- EASM single-source and composite analysis
+- EASM single-source analysis
+- EASM composite multi-file analysis
 - the learning-feedback pipeline
 
-### 5. Current Operating Style
+### 5. Current EASM Status
 
-The system is currently local-first and file-backed, suitable for:
+EASM currently supports:
+
+- standalone single-file analysis
+- composite multi-file analysis
+- generation of `easm_asset_assessment`
+- controlled Gemini enhancement for composite judgment sections
+
+### 6. Intended Usage
+
+The current system is suitable for:
 
 - sample-driven training
 - UI review
-- report export
-- interactive calibration
+- Chinese report export
+- interactive analysis and calibration
 
-### 6. Maintenance Rules
+It is not suitable for:
+
+- auto-remediation
+- multi-tenant operation
+- high-concurrency remote task orchestration
+
+### 7. Current Priorities
+
+Current maintenance and development priorities are:
+
+1. security-log sample training
+2. Skill routing and report-quality calibration
+3. page/export consistency validation
+4. documentation and GitHub synchronization
+
+### 8. Maintenance Rules
 
 Current maintenance must preserve:
 
 - no second product surface
-- all five pages regressed after shared-layer changes
-- docs updated together with capability changes
-- local and GitHub mainline kept aligned
+- five-page regression after shared frontend changes
+- full-data validation for large-file inputs
+- document updates alongside capability changes
+- alignment between local mainline and GitHub mainline
+
+### 9. Status Summary
+
+Anyone taking over the project today should assume:
+
+- this is a security log analysis workbench
+- JumpServer, Whitebox AppSec, and EASM are the most valuable training domains
+- every capability change must be verified across:
+  - code
+  - UI
+  - report export
+  - documentation
