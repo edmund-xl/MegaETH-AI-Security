@@ -1,39 +1,39 @@
 # 重建指南
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文档说明当项目目录损坏、环境丢失或需要在新目录中重建时，如何恢复到可运行状态。
+### 1. 文档目的
 
-## 2. 重建步骤
+说明如何从 GitHub 重建当前项目。
 
-```bash
-cd '/Users/lei/Documents/New project'
-git clone https://github.com/edmund-xl/MegaETH-AI-Security.git megaeth-ai-security-rebuild
-cd megaeth-ai-security-rebuild
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-./start.sh
-```
+### 2. 重建步骤
 
-## 3. 必做验证
+标准步骤包括 clone、建虚拟环境、安装依赖和启动。
 
-```bash
-curl -sSf http://127.0.0.1:8011/health
-curl -sSf http://127.0.0.1:8011/pipeline/overview
-./.venv/bin/python -m pytest tests/test_api.py -q
-```
+### 3. 必做验证
 
-## 4. 可选恢复项
+必须验证 /health、/pipeline/overview 和 pytest。
 
-如果需要恢复历史运行态，可在确认代码无误后再拷回：
+### 4. 恢复原则
 
-- `data/`
-- `.env.local`
+先恢复代码与测试，再恢复旧数据。
 
-## 5. 原则
 
-- 先恢复代码与测试通过
-- 再恢复历史数据
-- 不要在代码未校验时直接恢复旧运行态
+## English
+
+### 1. Purpose
+
+Explain how to rebuild the project from GitHub.
+
+### 2. Rebuild Steps
+
+The standard steps are clone, virtual environment setup, dependency install, and startup.
+
+### 3. Required Validation
+
+You must validate /health, /pipeline/overview, and pytest.
+
+### 4. Recovery Rule
+
+Restore code and passing tests first, then restore old runtime data.

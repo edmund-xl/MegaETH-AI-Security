@@ -1,34 +1,47 @@
 # 发布检查清单
 <!-- security-log-analysis mainline -->
 
-## 1. 代码与运行
+## 中文
 
-- [ ] 服务可在 `8011` 正常启动
-- [ ] `curl -sSf http://127.0.0.1:8011/health` 正常
-- [ ] `curl -sSf http://127.0.0.1:8011/pipeline/overview` 正常
+### 1. 文档目的
 
-## 2. 页面与体验
+提供发布前的最小检查项。
 
-- [ ] `概览` 正常加载
-- [ ] `输入` 正常上传与分析
-- [ ] `技能` 正常展示模块与能力
-- [ ] `连接` 正常展示接入状态
-- [ ] `学习` 正常展示最近反馈
+### 2. 代码与运行
 
-## 3. 回归验证
+确认 8011 服务、健康检查和 smoke endpoint 正常。
 
-- [ ] `node --check app/static/app.js` 通过
-- [ ] `./.venv/bin/python -m pytest tests/test_api.py -q` 通过
+### 3. 页面与体验
 
-## 4. 文档同步
+确认五个页面均可用。
 
-- [ ] README 已更新
-- [ ] 相关 docs 已更新
-- [ ] 相关 `skill_specs/` 已更新
-- [ ] 相关 `training_cases/` 已更新
+### 4. 回归验证
 
-## 5. GitHub 同步
+确认前端语法检查与 pytest 回归通过。
 
-- [ ] 本地提交已完成
-- [ ] 远端 `main` 已同步
-- [ ] 需要保留的工作分支已同步
+### 5. 文档与远端同步
+
+确认代码、文档、训练案例和 GitHub 已同步。
+
+
+## English
+
+### 1. Purpose
+
+Provide the minimum pre-release checklist.
+
+### 2. Code and Runtime
+
+Confirm the 8011 service, health endpoint, and smoke endpoint are healthy.
+
+### 3. UI Checks
+
+Confirm that all five pages are usable.
+
+### 4. Regression
+
+Confirm the frontend syntax check and pytest regression both pass.
+
+### 5. Documentation and Sync
+
+Confirm that code, docs, training cases, and GitHub are synchronized.

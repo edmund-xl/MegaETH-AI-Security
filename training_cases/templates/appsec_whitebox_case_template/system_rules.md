@@ -1,19 +1,27 @@
 # Whitebox AppSec 系统规则模板
 <!-- security-log-analysis mainline -->
 
-## 1. 分类规则
+## 中文
 
-- 侦察类样本 -> `whitebox_recon_assessment`
-- 验证类样本 -> `whitebox_exploit_validation`
-- 综合报告类样本 -> `whitebox_security_report`
+### 1. 说明
 
-## 2. 技能规则
+本文件用于定义白盒样本的分类规则、技能规则和报告规则。
 
-- `whitebox_recon_assessment` -> `megaeth.appsec.whitebox_recon`
-- `whitebox_exploit_validation` -> `megaeth.appsec.whitebox_exploit_validation`
-- `whitebox_security_report` -> `megaeth.appsec.whitebox_report_synthesis`
+### 2. 规则要点
 
-## 3. 报告规则
+- 按阶段区分侦察、验证和综合报告
+- Skill 路由应与事件类型严格对应
+- 报告必须贴近目标示例
 
-- 输出必须贴近目标报告示例
-- 不得混淆侦察线索、已确认问题和综合治理建议
+
+## English
+
+### 1. Description
+
+This file defines classification, Skill, and reporting rules for whitebox samples.
+
+### 2. Rule Highlights
+
+- separate reconnaissance, validation, and synthesis by stage
+- keep Skill routing strictly aligned with event types
+- keep reports aligned with the target example

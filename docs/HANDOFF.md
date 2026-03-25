@@ -1,73 +1,47 @@
 # 交接文档
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文档用于在新机器、新 Codex 会话或新协作者接手时，快速恢复当前上下文，而不依赖旧对话记录。
+### 1. 文档目的
 
-## 2. 当前唯一产品域
+用于新机器、新 Codex 会话或新协作者快速恢复上下文。
 
-当前仓库只服务于：
+### 2. 当前唯一产品域
 
-- 安全日志分析
+仓库当前只服务于安全日志分析。
 
-任何已经废弃的实验产品线都不应重新引入。
+### 3. 当前产品形态
 
-## 3. 当前产品形态
+系统应被理解为可训练、可复核、可持续校准的安全日志分析工作台。
 
-当前系统应被理解为：
+### 4. 当前工作模式
 
-- 一个可训练、可复核、可持续校准的安全日志分析工作台
+推荐续接顺序是样本、目标输出、分类、报告、文档和 GitHub 同步。
 
-不应被理解为：
+### 5. 已知教训
 
-- 多产品平台
-- 自动攻击或处置系统
-- 第二独立控制面
+跨项目材料、大文件处理、共享层越界和浏览器大输入缓存都是高风险坑。
 
-## 4. 当前页面
 
-有效页面只有五个：
+## English
 
-- 概览
-- 输入
-- 技能
-- 连接
-- 学习
+### 1. Purpose
 
-## 5. 当前工作模式
+Allow a new machine, Codex session, or collaborator to recover context quickly.
 
-继续工作时，应遵循以下顺序：
+### 2. Single Active Product Surface
 
-1. 接收样本文件
-2. 接收目标输出示例
-3. 对齐分类与 Skill 路由
-4. 对齐报告结构与判断边界
-5. 回写案例文档、Skill 文档、测试和 GitHub
+The repository currently serves only security log analysis.
 
-## 6. 已知教训
+### 3. Current Product Shape
 
-- 不要用其他项目文件复现当前项目问题
-- 大文件不能只验证能否解析，还要验证表头、行数和聚合是否准确
-- 新输入前要清理旧原始输入状态
-- 浏览器端不要保存大块原始输入到 local storage
-- 当用户只要求改一个模块时，不能顺手改其他模块
+The system should be treated as a trainable, reviewable, continuously calibratable security-log-analysis workbench.
 
-## 7. 新机器续接方式
+### 4. Continuation Pattern
 
-推荐顺序：
+The recommended continuation order is samples, target outputs, classification, reporting, documentation, and GitHub sync.
 
-1. clone 仓库
-2. 阅读本文件
-3. 阅读 README
-4. 启动服务
-5. 用真实样本做一次烟测
+### 5. Known Pitfalls
 
-## 8. 快速命令
-
-```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
-./start.sh
-curl http://127.0.0.1:8011/health
-./.venv/bin/python -m pytest tests/test_api.py -q
-```
+Cross-project data, large-file handling, shared-layer overreach, and large browser-stored raw inputs are all recurring risks.

@@ -1,20 +1,29 @@
 # Whitebox AppSec 目标报告模板
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文件用于定义未来白盒 AppSec 样本希望系统生成的目标报告样式。
+### 1. 说明
 
-## 2. 建议结构
+本文件用于定义白盒样本希望系统生成的目标报告样式。
+
+### 2. 建议结构
 
 - 综合结论
 - 关键发现
 - 验证结果
-- 影响说明
 - 优先行动建议
 
-## 3. 语义要求
 
-- 中文输出
-- 区分侦察线索与已确认问题
-- 综合报告应强调优先级与治理路径
+## English
+
+### 1. Description
+
+This file defines the target reporting style expected for whitebox samples.
+
+### 2. Suggested Structure
+
+- overall conclusion
+- key findings
+- validation results
+- priority actions

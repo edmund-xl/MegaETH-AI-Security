@@ -1,20 +1,27 @@
 # Whitebox AppSec 样本解释模板
 <!-- security-log-analysis mainline -->
 
-## 1. 样本背景
+## 中文
 
-- 样本来源：
-- 样本阶段：`whitebox_recon_assessment / whitebox_exploit_validation / whitebox_security_report`
-- 关联系统或服务：
+### 1. 说明
 
-## 2. 关键观察
+本文件用于记录白盒样本的背景、观察点与初步结论。
 
-- 观察 1：
-- 观察 2：
-- 观察 3：
+### 2. 建议结构
 
-## 3. 初步结论
+- 样本背景
+- 关键观察
+- 初步结论
 
-- 样本应被归类为：
-- 主要风险语义：
-- 需要系统重点学习的表达：
+
+## English
+
+### 1. Description
+
+This file is used to record background, observations, and initial conclusions for a whitebox sample.
+
+### 2. Suggested Structure
+
+- sample background
+- key observations
+- initial conclusion

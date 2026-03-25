@@ -1,42 +1,39 @@
 # 跨设备迁移说明
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文档说明如何在另一台电脑上继续使用当前项目，并尽量保留上下文和运行状态。
+### 1. 文档目的
 
-## 2. 最小迁移内容
+说明如何在另一台电脑继续当前项目。
 
-若只需要迁移代码：
+### 2. 最小迁移内容
 
-- GitHub 仓库代码
-- `.env.local` 等本地配置
+最小迁移包括 GitHub 代码和本地配置；如需延续状态，额外迁移 data/。
 
-若还需要迁移当前工作状态，建议额外迁移：
+### 3. 标准迁移步骤
 
-- `data/`
-- 本地学习与运行相关文件
+标准步骤是 clone、建虚拟环境、安装依赖并启动服务。
 
-## 3. 标准迁移步骤
+### 4. 注意事项
 
-```bash
-git clone https://github.com/edmund-xl/MegaETH-AI-Security.git
-cd MegaETH-AI-Security
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-./start.sh
-```
+新机器上的 Codex 会话应先读 HANDOFF 文档。
 
-## 4. 新机器启动后应做的事
 
-- 先阅读 `docs/HANDOFF.md`
-- 再阅读 `README.md`
-- 检查 `8011` 是否正常启动
-- 用一组真实安全日志样本做一次烟测
+## English
 
-## 5. 注意事项
+### 1. Purpose
 
-- GitHub 中保存的是代码与文档，不自动包含本机运行数据
-- 如果希望迁移历史记录，需要额外迁移 `data/`
-- 若需要跨机器保持工作上下文，新的 Codex 会话应先读 handoff 文档
+Explain how to continue the project on another machine.
+
+### 2. Minimum Transfer Set
+
+The minimum transfer includes the GitHub code and local configuration; move data/ as well if you need runtime continuity.
+
+### 3. Standard Procedure
+
+The standard procedure is clone, create a virtual environment, install dependencies, and start the service.
+
+### 4. Important Note
+
+A new Codex session on another machine should read the HANDOFF document first.

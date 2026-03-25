@@ -1,64 +1,39 @@
 # 接入与执行能力库
 <!-- security-log-analysis mainline -->
 
-## 1. 文档目的
+## 中文
 
-本文档说明当前主线中可用的接入面、执行面和扩展面，帮助开发者理解系统如何接收材料、触发分析以及与外部能力衔接。
+### 1. 文档目的
 
-## 2. 当前接入面
+说明当前主线可用的接入面、执行面和扩展边界。
 
-### 2.1 内置输入面
+### 2. 接入面
 
-- 文件上传
-- 文本输入
-- 批次分析触发
+当前可见接入面包括文件上传、文本输入、Bitdefender 与 Whitebox AppSec 输入骨架。
 
-### 2.2 平台接入面
+### 3. 执行面
 
-- Bitdefender GravityZone
-- Whitebox AppSec 输入骨架
+默认执行链为归一化、Planner、Skill、风险判断和报告输出；部分 Skill 可使用受控增强。
 
-## 3. 当前执行面
+### 4. 边界
 
-### 3.1 规则主链
+所有接入与执行能力都必须服务于安全日志分析主线，不得扩展成第二产品域。
 
-系统默认执行链为：
 
-- 归一化
-- Planner 路由
-- Skill 执行
-- 风险判断
-- 报告输出
+## English
 
-### 3.2 Agent 增强
+### 1. Purpose
 
-部分 Skill 可以在固定模板与边界内使用模型增强，但：
+Explain the currently available intake surfaces, execution surfaces, and extension boundaries.
 
-- Skill 仍定义边界与输出要求
-- Agent 只在允许的范围内增强总结或判断
-- 规则主链仍是保底执行模式
+### 2. Integration Surfaces
 
-## 4. 当前接入与执行边界
+Visible integration surfaces include file upload, text input, Bitdefender, and the Whitebox AppSec scaffold.
 
-- 当前仓库不再承载第二产品域
-- 不再保留独立控制面类实验结构
-- 所有接入与执行能力都应服务于安全日志分析主线
+### 3. Execution Model
 
-## 5. 典型映射关系
+The default execution path is normalization, planning, Skills, risk judgment, and reporting. Some Skills may use controlled augmentation.
 
-### 5.1 平台导入
+### 4. Boundary
 
-- Bitdefender -> Endpoint 事件分析
-- Whitebox 材料 -> AppSec 三段式分析
-
-### 5.2 本地样本
-
-- Host baseline -> Host 相关 Skill
-- JumpServer 多文件批次 -> Identity / JumpServer 相关 Skill
-- 代码与报告类材料 -> CI/CD、AppSec 或通用输出链
-
-## 6. 维护原则
-
-- 新接入面必须先进入文档、再进入实现
-- 不允许在未定义边界前向主线加入新产品域
-- 所有接入必须可被归一化为当前统一事件模型
+All integrations and execution surfaces must serve the security-log-analysis mainline and must not expand into a second product domain.

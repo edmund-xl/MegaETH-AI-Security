@@ -1,69 +1,47 @@
 # 运行手册
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文档说明本地运行、重启、健康检查、常见诊断与恢复方式。
+### 1. 文档目的
 
-## 2. 启动
+说明本地运行、重启、健康检查、常见诊断和恢复方式。
 
-```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
-./start.sh
-```
+### 2. 启动与停止
 
-## 3. 停止
+通过 start.sh 和 stop.sh 管理 8011 端口服务。
 
-```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
-PORT=8011 ./stop.sh
-```
+### 3. 健康检查
 
-## 4. 健康检查
+标准检查包括 /health 与 /pipeline/overview。
 
-```bash
-curl -sSf http://127.0.0.1:8011/health
-curl -sSf http://127.0.0.1:8011/pipeline/overview
-```
+### 4. 常见诊断
 
-## 5. 常见诊断
+重点关注页面持续加载、上传后分析异常和服务掉线。
 
-### 5.1 页面持续加载中
+### 5. 运行原则
 
-优先检查：
+共享层改动必须验证全部五个页面，并避免跨项目材料污染运行态。
 
-- 服务是否已启动
-- `health` 是否正常
-- 静态资源是否强刷
-- 浏览器缓存是否仍在使用旧版本资源
 
-### 5.2 上传后分析异常
+## English
 
-优先检查：
+### 1. Purpose
 
-- 当前样本是否完整上传
-- 历史脏数据是否混入
-- 分类与 Skill 路由是否正确
-- 下载版与页面版是否一致
+Describe local runtime, restart, health checks, common diagnostics, and recovery steps.
 
-### 5.3 服务掉线
+### 2. Start and Stop
 
-优先检查：
+Use start.sh and stop.sh to manage the service on port 8011.
 
-- `start.sh` / `stop.sh` 默认端口是否为 `8011`
-- watchdog 与 launch agent 是否仍在工作
-- 当前机器上的端口是否冲突
+### 3. Health Checks
 
-## 6. 回归验证
+Standard checks include /health and /pipeline/overview.
 
-```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
-node --check app/static/app.js
-./.venv/bin/python -m pytest tests/test_api.py -q
-```
+### 4. Common Diagnostics
 
-## 7. 运行原则
+Focus on endless loading, post-upload analysis issues, and service drops.
 
-- 任何共享层改动都必须验证五个页面
-- 不允许用其他项目文件污染当前运行态
-- 发布前必须确认 GitHub 与本地已同步
+### 5. Operational Rule
+
+Shared-layer changes must be validated across all five pages and must not contaminate runtime state with data from other projects.

@@ -1,13 +1,27 @@
 # Training Case 001：Host Baseline 训练说明
 <!-- security-log-analysis mainline -->
 
-## 1. 案例定位
+## 中文
 
-本案例是 Host 主线的基础训练案例，用于稳定系统对基线报表的分类、风险语义和报告结构。
+### 1. 说明
 
-## 2. 验收标准
+本文件给出 Host baseline 训练案例的定位和验收标准。
 
-- 分类应稳定命中 `host_baseline_assessment`
-- 输出应符合主机基线分析口径
-- 页面版与下载版应保持一致
-- Skill 规格说明应与案例保持同步
+### 2. 验收标准
+
+- 分类稳定命中 `host_baseline_assessment`
+- 页面版与下载版保持一致
+- Skill 规格说明与案例保持同步
+
+
+## English
+
+### 1. Description
+
+This file records the role and acceptance criteria of the Host baseline training case.
+
+### 2. Acceptance Criteria
+
+- classification consistently lands on `host_baseline_assessment`
+- page and download outputs stay aligned
+- the Skill spec remains synchronized with the case

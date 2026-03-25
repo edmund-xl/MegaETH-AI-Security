@@ -1,35 +1,47 @@
 # 发布流程
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文档说明当前主线的标准发布流程，确保代码、文档、测试与远端仓库一致。
+### 1. 文档目的
 
-## 2. 发布前准备
+说明如何以标准方式发布当前主线。
 
-- 完成目标功能或文档修改
-- 回归五个页面
-- 确认训练案例与 Skill 文档是否需要同步更新
+### 2. 发布前准备
 
-## 3. 本地验证
+完成功能、回归页面、确认 Skill 与案例文档是否需要更新。
 
-```bash
-node --check app/static/app.js
-./.venv/bin/python -m pytest tests/test_api.py -q
-curl -sSf http://127.0.0.1:8011/health
-```
+### 3. 本地验证
 
-## 4. 发布步骤
+发布前必须通过前端语法检查、pytest 与健康检查。
 
-1. 检查工作树
-2. 提交代码
-3. 推送当前工作分支
-4. 同步 `main`
-5. 核查 GitHub 文件与文档是否已经一致
+### 4. 发布步骤
 
-## 5. 发布后检查
+检查工作树、提交、推送分支、同步 main 并核查 GitHub。
 
-- GitHub 远端已更新
-- 本地运行态正常
-- 关键文档入口可读
-- 近期样本链路仍可正常分析
+### 5. 发布后检查
+
+确认运行态正常、文档可读、近期样本链路仍可分析。
+
+
+## English
+
+### 1. Purpose
+
+Describe the standard release flow for the current mainline.
+
+### 2. Pre-Release Preparation
+
+Finish the feature, regress the pages, and confirm whether Skill or case documentation must be updated.
+
+### 3. Local Validation
+
+Frontend syntax checks, pytest, and health checks must pass before release.
+
+### 4. Release Steps
+
+Check the worktree, commit, push the branch, sync main, and verify GitHub.
+
+### 5. Post-Release Checks
+
+Confirm runtime health, readable docs, and that recent sample workflows still work.

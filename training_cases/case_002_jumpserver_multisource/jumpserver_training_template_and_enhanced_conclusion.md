@@ -1,28 +1,29 @@
 # JumpServer 目标模板与增强版结论
 <!-- security-log-analysis mainline -->
 
-## 1. 用途
+## 中文
 
-本文件是 JumpServer 综合报告的目标模板与语言基准，用于约束系统输出结构与判断边界。
+### 1. 说明
 
-## 2. 模板要求
+本文件是 JumpServer 综合报告的目标模板与语言基准。
 
-系统在输出 JumpServer 综合报告时，应优先遵守以下原则：
+### 2. 使用规则
 
 - 保持固定章节结构
 - 允许综合结论基于真实数据动态生成
 - 不得把模板压缩为通用摘要
 - 页面版与下载版必须一致
 
-## 3. 关键结构
 
-- 综合结论
-- 主要依据如下
-- 重点高危操作账户与命令汇总
-- 证据来源与导出链
-- 综合判断
+## English
 
-## 4. 使用规则
+### 1. Description
 
-- 这是 JumpServer 综合报告的唯一模板基准
-- 后续真实样本应围绕这个模板继续强化，而不是替换为新的自由结构
+This file is the target template and language baseline for JumpServer composite reporting.
+
+### 2. Usage Rules
+
+- preserve the fixed section structure
+- allow the composite conclusion to vary with real data
+- do not compress the template into a generic summary
+- keep page and download outputs identical

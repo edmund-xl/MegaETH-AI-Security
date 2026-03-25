@@ -1,98 +1,47 @@
 # 架构说明
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文档提供系统的结构化架构视图，用于帮助开发、测试和交接快速理解当前主线。
+### 1. 文档目的
 
-## 2. 系统上下文
+本文档提供系统结构视图，帮助开发、测试和交接快速理解当前主线。
 
-```mermaid
-flowchart LR
-    A["安全材料 / 平台导入"] --> B["输入与解析"]
-    B --> C["归一化"]
-    C --> D["Planner"]
-    D --> E["Skill 执行"]
-    E --> F["风险判断"]
-    F --> G["报告生成"]
-    G --> H["历史 / 调查 / 学习"]
-```
+### 2. 系统上下文
 
-## 3. 前后端关系
+当前系统将安全材料和平台导入统一送入输入解析、归一化、Planner、Skill、风险判断和报告链。
 
-```mermaid
-flowchart TB
-    UI["静态前端 UI\n概览 / 输入 / 技能 / 连接 / 学习"] --> API["FastAPI 路由层"]
-    API --> CORE["核心分析层\nNormalizer / Planner / Skills / Risk / Report"]
-    CORE --> STORE["留存与学习层\nHistory / Memory / JSON Store"]
-    API --> INTEGRATION["外部接入层\nBitdefender / Whitebox AppSec"]
-```
+### 3. 前后端关系
 
-## 4. 运行关键路径
+前端是单一静态工作台，后端由 FastAPI、核心分析链和本地持久化组成。
 
-### 4.1 单次分析路径
+### 4. 运行关键路径
 
-```text
-用户上传材料
--> 输入解析
--> 归一化
--> 分类
--> Skill 执行
--> 生成 Findings
--> 生成安全报告
--> 写入历史与学习反馈
-```
+用户上传样本或平台导入后，系统按统一链路生成 Findings、报告和学习反馈。
 
-### 4.2 平台导入路径
+### 5. 运行边界
 
-```text
-点击连接页导入
--> 平台接口拉取
--> 标准化为统一事件
--> 进入与本地上传相同的分析链
-```
+当前只保留安全日志分析一个产品域，修改共享前端逻辑时必须验证五个页面。
 
-## 5. 模块边界
 
-### 5.1 输入与接入层
+## English
 
-职责：
+### 1. Purpose
 
-- 接收本地文件与文本
-- 发起平台导入
-- 产生原始输入对象
+This document provides a structural view of the system for development, testing, and handoff.
 
-### 5.2 归一化与分类层
+### 2. System Context
 
-职责：
+The current system routes uploaded materials and platform imports through intake parsing, normalization, planning, Skills, risk judgment, and reporting.
 
-- 识别材料类型
-- 统一字段结构
-- 生成 `source_type` 与 `event_type`
-- 根据事件类型选择 Skill
+### 3. Frontend and Backend
 
-### 5.3 执行与报告层
+The frontend is a single static workbench. The backend consists of FastAPI routes, the core analysis pipeline, and local persistence.
 
-职责：
+### 4. Runtime Path
 
-- 执行 Skill
-- 输出 Findings
-- 计算风险标签
-- 生成安全报告与下载内容
+After local upload or platform import, the system follows a single pipeline to produce Findings, reports, and learning feedback.
 
-### 5.4 留存与学习层
+### 5. Boundary
 
-职责：
-
-- 保存历史报告与调查记录
-- 保存学习反馈与规则
-- 为后续样本训练提供回写基础
-
-## 6. 运行边界
-
-当前主线必须遵守以下边界：
-
-- 只保留安全日志分析一个产品域
-- 不再引入其他顶级产品域
-- 修改共享前端文件时必须验证全部五个页面
-- 不使用其他项目材料污染当前运行态
+Only the security-log-analysis product surface remains. Any shared frontend change must be validated across all five pages.

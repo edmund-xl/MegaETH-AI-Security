@@ -1,66 +1,47 @@
 # 训练工作流
 <!-- security-log-analysis mainline -->
 
-## 1. 目的
+## 中文
 
-本文档描述如何基于真实样本持续训练和校准安全日志分析主线。
+### 1. 文档目的
 
-## 2. 训练输入
+说明如何基于真实样本持续训练和校准安全日志分析主线。
 
-推荐一次训练至少具备以下信息：
+### 2. 训练输入
 
-- 原始样本文件
-- 目标输出示例
-- 期望分类
-- 风险判断边界
-- 报告结构要求
+训练应至少具备原始样本、目标输出、分类边界和报告结构要求。
 
-## 3. 标准训练流程
+### 3. 标准流程
 
-### 3.1 样本进入
+标准流程包括样本进入、分类校准、报告校准和学习沉淀。
 
-- 上传样本文件或导入平台材料
-- 确认输入是否完整
-- 确认同批次材料是否应被联合判断
+### 4. 当前重点
 
-### 3.2 分类与 Skill 路由校准
+当前重点训练主题为 Host baseline、JumpServer 多源审计和 Whitebox AppSec。
 
-- 检查 `source_type`
-- 检查 `event_type`
-- 检查命中的 Skill 是否正确
+### 5. 注意事项
 
-### 3.3 报告结构校准
+必须验证表头、行数、聚合、下载与页面一致性，不能只验证解析成功。
 
-- 页面版是否符合目标结构
-- 下载版是否与页面版一致
-- 结论是否符合目标样本的边界与口径
 
-### 3.4 学习沉淀
+## English
 
-- 将案例写入 `training_cases/`
-- 更新对应 `skill_specs/`
-- 更新必要的测试和说明文档
+### 1. Purpose
 
-## 4. 当前重点训练主题
+Describe how to train and calibrate the security-log-analysis mainline using real samples.
 
-- Host baseline
-- JumpServer 多源审计
-- Whitebox AppSec 三段式
+### 2. Required Inputs
 
-## 5. 训练产出要求
+Training should include raw samples, target outputs, classification boundaries, and report-structure expectations.
 
-每次有效训练至少应带来以下变更中的一项或多项：
+### 3. Standard Flow
 
-- 分类修正
-- Skill 路由修正
-- 报告模板修正
-- 下载内容修正
-- 学习反馈更新
-- 案例文档更新
+The standard flow includes sample ingestion, classification alignment, report alignment, and learning retention.
 
-## 6. 注意事项
+### 4. Current Priorities
 
-- 不要只验证“能解析”，还要验证表头、行数和聚合是否准确
-- 不要让预览层裁剪污染分析层
-- 不要让跨项目材料进入当前项目运行历史
-- 修改共享链路后，应回归检查页面展示、下载与落库的一致性
+Current training priorities are Host baseline, JumpServer multi-source auditing, and Whitebox AppSec.
+
+### 5. Key Cautions
+
+Validate headers, row counts, aggregation, and page/download consistency rather than parser success alone.

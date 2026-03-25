@@ -1,7 +1,9 @@
-# Skill 规格说明：`megaeth.cicd.pr_security_review`
+# Skill Specification: `megaeth.cicd.pr_security_review`
 <!-- security-log-analysis mainline -->
 
-## 1. 基本信息
+## 中文
+
+### 1. 基本信息
 
 - Skill ID：`megaeth.cicd.pr_security_review`
 - 所属模块：`CI/CD`
@@ -9,23 +11,23 @@
 - 对应事件类型：`github_pr`
 - 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-## 2. 能力目的
+### 2. 能力目的
 
 审查拉取请求或代码变更中可能引入的高风险执行路径、命令调用与供应链风险。
 
-## 3. 典型输入
+### 3. 典型输入
 
 - Pull request 文本
 - 代码 diff
 - 仓库上下文
 
-## 4. 主要输出
+### 4. 主要输出
 
 - 危险执行链
 - 高风险代码片段
 - 复核建议
 
-## 5. 触发与路由
+### 5. 触发与路由
 
 该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
@@ -34,22 +36,77 @@
 - 本 Skill 规格说明
 - 对应训练案例文档
 
-## 6. 判断边界
+### 6. 判断边界
 
 - 不直接替代人工 Code Review
 - 不对未提供代码上下文的仓库做推断
 
-## 7. 训练与参考资产
+### 7. 训练与参考资产
 
 - 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-## 8. 当前限制
+### 8. 当前限制
 
 - 当前实现以本地规则与样本驱动为主
 - 输出质量受输入材料完整度影响
 - 重要边界应优先由案例和目标输出驱动收敛
 
-## 9. 维护要求
+### 9. 维护要求
 
 - 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
 - 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档
+
+## English
+
+### 1. Basics
+
+- Skill ID: `megaeth.cicd.pr_security_review`
+- Module: `CI/CD`
+- Product Surface: `Security Log Analysis`
+- Event Type: `github_pr`
+- Execution Mode: rule-first, with controlled augmentation only where explicitly allowed
+
+### 2. Purpose
+
+Review pull requests and code changes for dangerous execution paths, command invocation, and supply-chain risk.
+
+### 3. Typical Inputs
+
+- Pull request text
+- code diff
+- repository context
+
+### 4. Primary Outputs
+
+- dangerous execution chains
+- high-risk code fragments
+- review recommendations
+
+### 5. Trigger and Routing
+
+This Skill is routed by the Planner using `event_type` and `source_type`. When a case or learning rule requires routing changes, update all of the following together:
+
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- this Skill specification
+- the linked training-case document
+
+### 6. Decision Boundaries
+
+- does not replace human code review
+- does not infer risk without relevant code context
+
+### 7. Training and Reference Assets
+
+- No formal case is linked yet. Future real samples should create or update a case document.
+
+### 8. Current Limits
+
+- the current implementation is primarily rule- and sample-driven
+- output quality depends on the completeness of the supplied material
+- important boundaries should be converged through cases and target outputs
+
+### 9. Maintenance Requirements
+
+- update this file whenever classification, output structure, or risk semantics change
+- create or update a matching document under `training_cases/` when new real samples are introduced

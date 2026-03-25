@@ -1,22 +1,29 @@
 # Host Baseline 目标报告说明
 <!-- security-log-analysis mainline -->
 
-## 1. 目标
+## 中文
+
+### 1. 说明
 
 本文件描述 Host baseline 类材料在系统中的目标输出风格。
 
-## 2. 输出要求
-
-报告应至少包含：
+### 2. 输出要求
 
 - 总体合规结论
 - 主要高风险缺口
 - 风险分层
 - 关键整改建议
-- 需要优先复核的控制项
 
-## 3. 语义要求
 
-- 用中文输出
-- 更像主机基线审计与整改建议，而不是入侵结论
-- 不夸大风险，不将单一配置缺口等同于攻击成功
+## English
+
+### 1. Description
+
+This file defines the target reporting style for Host baseline material.
+
+### 2. Output Requirements
+
+- overall compliance conclusion
+- major high-risk gaps
+- risk layering
+- key remediation guidance

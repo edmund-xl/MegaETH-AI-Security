@@ -1,105 +1,55 @@
 # 功能快照
 <!-- security-log-analysis mainline -->
 
-## 1. 文档目的
+## 中文
 
-本文档用于说明当前主线已经具备的可见能力、输入源、页面能力和实现边界。
+### 1. 文档目的
 
-## 2. 当前输入源盘点
+本文档说明当前主线已经具备的输入源、页面能力和分析域。
 
-### 2.1 本地输入
+### 2. 输入源
 
-- 文件上传
-- 文本输入
-- 混合输入批次
+当前输入源包括本地文件与文本输入，以及 Bitdefender 与 Whitebox AppSec 接入骨架。
 
-### 2.2 外部平台接入
+### 3. 页面能力
 
-- Bitdefender GravityZone
-- Whitebox AppSec 输入骨架
+当前五个页面分别承载总览、输入、技能、连接和学习反馈。
 
-### 2.3 已覆盖的分析域
+### 4. 分析域
 
-- Host
-- Endpoint
-- Identity / JumpServer
-- AppSec Whitebox
-- Cloud
-- CI/CD
-- EASM
-- Key Security
+当前已覆盖 Host、Endpoint、Identity/JumpServer、AppSec、Cloud、CI/CD、EASM、Key Security。
 
-## 3. 当前页面能力
+### 5. 训练资产
 
-### 3.1 概览
+当前已落地 Host baseline、JumpServer 多源案例与 Whitebox AppSec 模板。
 
-- 平台总览
-- 近期报告
-- 历史摘要
-- 能力覆盖简表
+### 6. 当前限制
 
-### 3.2 输入
+系统更适合分析、审计和学习沉淀，不以自动处置或大规模编排为目标。
 
-- 统一输入
-- 文件上传
-- 归一化后分析
-- 上传执行记录
 
-### 3.3 技能
+## English
 
-- 模块总览
-- 全部能力
-- 训练情况展示
+### 1. Purpose
 
-### 3.4 连接
+This document summarizes the active inputs, pages, and analysis domains of the current mainline.
 
-- 平台连接状态
-- Bitdefender 导入入口
-- 连接健康与导入提示
+### 2. Input Sources
 
-### 3.5 学习
+Current input sources include local files and text, plus Bitdefender and Whitebox AppSec integration scaffolds.
 
-- 学习反馈摘要
-- 最近学习反馈列表
+### 3. UI Capabilities
 
-## 4. 当前代表性能力
+The five active pages cover overview, intake, skills, integrations, and learning feedback.
 
-### 4.1 Host
+### 4. Analysis Domains
 
-- 基线合规分析
-- 完整性监测
-- systemd 服务风险
-- 二进制篡改审查
+The current capability set covers Host, Endpoint, Identity/JumpServer, AppSec, Cloud, CI/CD, EASM, and Key Security.
 
-### 4.2 Endpoint
+### 5. Training Assets
 
-- 进程异常与平台事件分析
+Current training assets include the Host baseline case, the JumpServer multi-source case, and the Whitebox AppSec template.
 
-### 4.3 Identity
+### 6. Current Limits
 
-- 登录异常审查
-- JumpServer 命令审计
-- JumpServer 文件传输审计
-- JumpServer 管理平面审计
-- JumpServer 多源综合审计
-
-### 4.4 AppSec
-
-- 白盒侦察
-- 白盒验证
-- 白盒综合报告
-
-## 5. 当前训练资产
-
-已落地或已启用模板的训练资产包括：
-
-- Host baseline 训练案例
-- JumpServer 多源训练案例
-- Whitebox AppSec 案例模板
-
-## 6. 当前限制
-
-- 当前仍以本地单机运行为主
-- 存储层仍为文件型，而非数据库
-- Agent 增强仅是部分能力的辅助方式，不替代规则主链
-- 平台更适合分析、审计和学习沉淀，不是自动处置平台
+The system is optimized for analysis, review, and training retention rather than auto-remediation or large-scale orchestration.
