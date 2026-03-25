@@ -17,7 +17,7 @@
 
 ### 4. 当前能力
 
-已确认能力包括五页面前端主线、JumpServer、Host、Bitdefender、Whitebox AppSec 骨架及学习链。
+已确认能力包括五页面前端主线、JumpServer、Host、Bitdefender、Whitebox AppSec 三段式分析、EASM 单样本与多样本综合分析，以及学习链。
 
 
 ## English
@@ -36,4 +36,4 @@ The default port is 8011, the main smoke endpoint is /pipeline/overview, and the
 
 ### 4. Confirmed Capabilities
 
-Confirmed capabilities include the five-page UI, JumpServer, Host, Bitdefender, the Whitebox AppSec scaffold, and the learning pipeline.
+Confirmed capabilities include the five-page UI, JumpServer, Host, Bitdefender, Whitebox AppSec three-stage analysis, EASM single-source and composite analysis, and the learning pipeline.

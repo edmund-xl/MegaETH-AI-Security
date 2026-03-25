@@ -365,9 +365,9 @@ const engineLabels = {
   private_key_exposure: "MegaETH Key Exposure Engine",
   policy_risk_analysis: "MegaETH Policy Reasoning Engine",
   anomalous_access_review: "MegaETH Access Review Engine",
-  jumpserver_command_review: "MegaETH JumpServer Command Engine",
+  jumpserver_command_review: "MegaETH JumpServer Command Audit Engine",
   jumpserver_transfer_review: "MegaETH JumpServer Transfer Engine",
-  jumpserver_operation_review: "MegaETH JumpServer Control Plane Engine",
+  jumpserver_operation_review: "MegaETH JumpServer Control Plane Audit Engine",
   jumpserver_multi_source_review: "MegaETH JumpServer Correlation Engine",
   identity_surface: "MegaETH Cloud Identity Engine",
   vulnerability_scan: "MegaETH Exposure Verification Engine",
@@ -393,9 +393,9 @@ const skillLabels = {
   "megaeth.key.private_key_exposure": { zh: "MegaETH 私钥暴露检测能力", en: "MegaETH Private Key Exposure Detection" },
   "megaeth.identity.policy_risk_analysis": { zh: "MegaETH 身份策略风险分析能力", en: "MegaETH Identity Policy Risk Analysis" },
   "megaeth.identity.anomalous_access_review": { zh: "MegaETH 异常访问审查能力", en: "MegaETH Anomalous Access Review" },
-  "megaeth.identity.jumpserver_command_review": { zh: "MegaETH JumpServer 命令审计能力", en: "MegaETH JumpServer Command Review" },
+  "megaeth.identity.jumpserver_command_review": { zh: "MegaETH JumpServer 命令审计能力", en: "MegaETH JumpServer Command Audit" },
   "megaeth.identity.jumpserver_transfer_review": { zh: "MegaETH JumpServer 文件传输审计能力", en: "MegaETH JumpServer Transfer Review" },
-  "megaeth.identity.jumpserver_operation_review": { zh: "MegaETH JumpServer 管理平面审计能力", en: "MegaETH JumpServer Operation Review" },
+  "megaeth.identity.jumpserver_operation_review": { zh: "MegaETH JumpServer 管理平面审计能力", en: "MegaETH JumpServer Control Plane Audit" },
   "megaeth.identity.jumpserver_multi_source_review": { zh: "MegaETH JumpServer 多源关联审计能力", en: "MegaETH JumpServer Multi-Source Audit Review" },
   "megaeth.cloud.identity_surface": { zh: "MegaETH 云身份面分析能力", en: "MegaETH Cloud Identity Surface Analysis" },
   "megaeth.easm.vulnerability_scan": { zh: "MegaETH 外部漏洞验证能力", en: "MegaETH External Vulnerability Validation" },
@@ -558,9 +558,9 @@ const eventTypeLabels = {
     identity_policy: "身份策略风险",
     jumpserver_multi_source_audit: "JumpServer 多源审计",
     login_auth_review: "登录认证审查",
-    jumpserver_command_review: "JumpServer 命令审查",
+    jumpserver_command_review: "JumpServer 命令审计",
     jumpserver_transfer_review: "JumpServer 文件传输审查",
-    jumpserver_operation_review: "JumpServer 操作记录审查",
+    jumpserver_operation_review: "JumpServer 管理平面审计",
   },
   en: {
     host_integrity: "Host Integrity Risk",
@@ -576,9 +576,9 @@ const eventTypeLabels = {
     identity_policy: "Identity Policy Risk",
     jumpserver_multi_source_audit: "JumpServer Multi-Source Audit",
     login_auth_review: "Login Authentication Review",
-    jumpserver_command_review: "JumpServer Command Review",
+    jumpserver_command_review: "JumpServer Command Audit",
     jumpserver_transfer_review: "JumpServer File Transfer Review",
-    jumpserver_operation_review: "JumpServer Operation Review",
+    jumpserver_operation_review: "JumpServer Control Plane Audit",
   },
 };
 
@@ -675,7 +675,8 @@ function applyLanguage() {
   if (document.getElementById("import-bitdefender-latest-report")) document.getElementById("import-bitdefender-latest-report").textContent = ui.bitdefenderImportLatestReport;
   if (document.getElementById("import-bitdefender-reports")) document.getElementById("import-bitdefender-reports").textContent = ui.bitdefenderImportReports;
   document.getElementById("section-installed-skills-title").textContent = ui.installedSkillsTitle;
-  document.getElementById("section-skill-matrix-title").textContent = ui.skillMatrixTitle;
+  const skillMatrixTitle = document.getElementById("section-skill-matrix-title");
+  if (skillMatrixTitle) skillMatrixTitle.textContent = ui.skillMatrixTitle;
   if (document.getElementById("section-memory-rules-title")) document.getElementById("section-memory-rules-title").textContent = ui.memoryRulesTitle;
   if (document.getElementById("section-memory-feedback-title")) document.getElementById("section-memory-feedback-title").textContent = ui.memoryFeedbackTitle;
   document.getElementById("refresh-overview").textContent = t("refresh");
@@ -683,7 +684,6 @@ function applyLanguage() {
   document.getElementById("refresh-investigations").textContent = t("refresh");
   document.getElementById("refresh-history").textContent = t("refresh");
   document.getElementById("refresh-skills").textContent = t("refresh");
-  document.getElementById("refresh-matrix").textContent = t("refresh");
   if (document.getElementById("refresh-memory-rules")) document.getElementById("refresh-memory-rules").textContent = t("refresh");
   if (document.getElementById("refresh-memory-feedback")) document.getElementById("refresh-memory-feedback").textContent = t("refresh");
   document.getElementById("skills-directory-note").textContent = ui.skillsDirectoryNote;
@@ -926,7 +926,12 @@ function moduleNarrative(category) {
 }
 
 function skillMetaFor(skill) {
-  return skillMeta[skill.skill_id] || {maturity: "L1", trainedCases: 0};
+  const base = skillMeta[skill.skill_id] || {maturity: "L1", trainedCases: 0};
+  return {
+    ...base,
+    trainedCases: Number.isFinite(skill.trained_case_count) ? skill.trained_case_count : base.trainedCases,
+    trainedCaseIds: Array.isArray(skill.trained_cases) ? skill.trained_cases : [],
+  };
 }
 
 function executionModeLabel(mode) {
@@ -1030,57 +1035,34 @@ function bucketSkillsByFamily(skills) {
 
 function buildSkillBucket(items) {
   const wrapper = el("div", "skill-bucket");
-  const featured = items.slice(0, Math.min(2, items.length));
-  const remaining = items.slice(featured.length);
+  const grid = el("div", "module-feature-grid module-feature-grid-unified");
+  items.forEach((skill) => {
+    const metaInfo = skillMetaFor(skill);
+    const card = el("article", "skill-feature-card skill-feature-card-unified");
+    const top = el("div", "skill-card-top");
+    const title = el("div", "");
+    title.appendChild(el("h5", "", skill.skill_name));
+    title.appendChild(el("p", "card-copy", skill.description));
+    top.appendChild(title);
+    top.appendChild(linkEl(skillSpecUrl(skill.skill_id), "spec-link", uiState.language === "zh" ? "查看规格" : "Open Spec"));
+    card.appendChild(top);
 
-  if (featured.length) {
-    const featureGrid = el("div", "module-feature-grid");
-    featured.forEach((skill, index) => {
-      const metaInfo = skillMetaFor(skill);
-      const card = el("article", `skill-feature-card ${index === 0 ? "primary" : ""}`.trim());
-      const top = el("div", "skill-card-top");
-      const title = el("div", "");
-      title.appendChild(el("h5", "", skill.skill_name));
-      title.appendChild(el("p", "card-copy", skill.description));
-      top.appendChild(title);
-      top.appendChild(linkEl(skillSpecUrl(skill.skill_id), "spec-link", uiState.language === "zh" ? "查看规格" : "Open Spec"));
-      card.appendChild(top);
-      const submeta = el("div", "skill-submeta");
-      const family = skillFamilyId(skill);
-      if (family) submeta.appendChild(el("span", "chip", skillFamilyLabel(family)));
-      submeta.appendChild(el("span", "chip good", skill.stage === "tool-backed" ? (uiState.language === "zh" ? "已接入真实执行" : "Live execution") : (uiState.language === "zh" ? "待接入" : "Pending")));
-      submeta.appendChild(el("span", "chip", maturityLabel(metaInfo.maturity)));
-      submeta.appendChild(el("span", "chip", caseCountLabel(metaInfo.trainedCases)));
-      submeta.appendChild(el("span", "chip", executionModeLabel(skill.execution_mode || "rule_only")));
-      submeta.appendChild(el("span", "chip", uiState.language === "zh" ? `引擎：${engineLabel(skill.adapter)}` : `Engine: ${engineLabel(skill.adapter)}`));
-      card.appendChild(submeta);
-      card.appendChild(el("p", "card-copy", skillStrategySummary(skill)));
-      featureGrid.appendChild(card);
-    });
-    wrapper.appendChild(featureGrid);
-  }
+    const meta = el("div", "skill-submeta skill-submeta-unified");
+    const family = skillFamilyId(skill);
+    if (family) meta.appendChild(el("span", "chip", skillFamilyLabel(family)));
+    meta.appendChild(el("span", "chip good", skill.stage === "tool-backed" ? (uiState.language === "zh" ? "已接入真实执行" : "Live execution") : (uiState.language === "zh" ? "待接入" : "Pending")));
+    meta.appendChild(el("span", "chip", maturityLabel(metaInfo.maturity)));
+    meta.appendChild(el("span", "chip", caseCountLabel(metaInfo.trainedCases)));
+    meta.appendChild(el("span", "chip", executionModeLabel(skill.execution_mode || "rule_only")));
+    meta.appendChild(el("span", "chip", uiState.language === "zh" ? `引擎：${engineLabel(skill.adapter)}` : `Engine: ${engineLabel(skill.adapter)}`));
+    card.appendChild(meta);
 
-  if (remaining.length) {
-    const compactList = el("div", "skill-compact-list");
-    remaining.forEach((skill) => {
-      const metaInfo = skillMetaFor(skill);
-      const row = el("div", "skill-row");
-      row.appendChild(el("div", "skill-row-name", skill.skill_name));
-      row.appendChild(el("div", "skill-row-copy", skill.description));
-      const meta = el("div", "skill-row-meta");
-      const family = skillFamilyId(skill);
-      if (family) meta.appendChild(el("span", "chip", skillFamilyLabel(family)));
-      meta.appendChild(el("span", "chip", maturityLabel(metaInfo.maturity)));
-      meta.appendChild(el("span", "chip", caseCountLabel(metaInfo.trainedCases)));
-      meta.appendChild(el("span", "chip", executionModeLabel(skill.execution_mode || "rule_only")));
-      meta.appendChild(el("span", "chip", engineLabel(skill.adapter)));
-      meta.appendChild(linkEl(skillSpecUrl(skill.skill_id), "spec-link", uiState.language === "zh" ? "规格" : "Spec"));
-      row.appendChild(meta);
-      row.appendChild(el("div", "skill-row-copy", skillStrategySummary(skill)));
-      compactList.appendChild(row);
-    });
-    wrapper.appendChild(compactList);
-  }
+    const footer = el("div", "skill-card-footer");
+    footer.appendChild(el("p", "skill-row-copy", skillStrategySummary(skill)));
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+  wrapper.appendChild(grid);
 
   return wrapper;
 }
@@ -1185,6 +1167,43 @@ function renderSkills(skills) {
   });
   directory.appendChild(summary);
 
+  const maxCount = Math.max(...categories.map((category) => (grouped[category] || []).length), 1);
+
+  const sidebarRoot = document.getElementById("skills-module-output");
+  if (sidebarRoot) {
+    sidebarRoot.innerHTML = "";
+    const sidebarOverview = el("div", "skills-module-overview skills-module-overview-sidebar");
+    const sidebarHead = el("div", "module-subhead");
+    sidebarHead.appendChild(el("h5", "", uiState.language === "zh" ? "模块分布" : "Module Distribution"));
+    sidebarHead.appendChild(el("span", "module-pill", uiState.language === "zh" ? `${filtered.length} 个能力` : `${filtered.length} capabilities`));
+    sidebarOverview.appendChild(sidebarHead);
+    const sidebarBars = el("div", "signal-list");
+    categories.forEach((category) => {
+      const count = (grouped[category] || []).length;
+      const trained = (grouped[category] || []).filter((skill) => skillMetaFor(skill).trainedCases > 0).length;
+      const tone =
+        category === "host" ? "amber" :
+        category === "endpoint" ? "green" :
+        category === "appsec" || category === "cicd" || category === "key" ? "violet" :
+        "cyan";
+      const row = el("div", "signal-row");
+      row.appendChild(el("span", "meta-label", moduleLabel(category)));
+      const track = el("div", "signal-track");
+      const fill = el("span", `signal-fill ${tone}`);
+      fill.style.width = `${Math.max(14, Math.round((count / maxCount) * 100))}%`;
+      track.appendChild(fill);
+      row.appendChild(track);
+      row.appendChild(el("span", "signal-value", String(count)));
+      sidebarBars.appendChild(row);
+    });
+    sidebarOverview.appendChild(sidebarBars);
+    const sidebarMeta = el("p", "mini-copy", uiState.language === "zh"
+      ? `已训练能力 ${trainedCount} 个；模块数 ${categories.length}。`
+      : `${trainedCount} case-trained skills across ${categories.length} modules.`);
+    sidebarOverview.appendChild(sidebarMeta);
+    sidebarRoot.appendChild(sidebarOverview);
+  }
+
   categories.forEach((category) => {
     const items = [...(grouped[category] || [])].sort((a, b) => rankSkill(b) - rankSkill(a));
     const trainedInModule = items.filter((skill) => skillMetaFor(skill).trainedCases > 0).length;
@@ -1239,48 +1258,6 @@ function populateCorrectionSkillOptions(selected = []) {
     option.selected = current.has(skill.skill_id);
     select.appendChild(option);
   });
-}
-
-function renderMatrix(matrix) {
-  uiState.matrix = matrix;
-  const root = document.getElementById("matrix-output");
-  root.innerHTML = "";
-  const filter = document.getElementById("skills-filter")?.value || "all";
-  const entries = orderedCategories(Object.keys(matrix).filter((category) => filter === "all" || category === filter))
-    .map((category) => [category, matrix[category]]);
-  if (!entries.length) {
-    root.appendChild(createEmptyState(t("ui").noMatrix));
-    return;
-  }
-  const wrapper = el("div", "module-map");
-  const totalSkills = entries.reduce((sum, [, skills]) => sum + skills.length, 0) || 1;
-  entries.forEach(([category, skills]) => {
-    const relevant = skills.filter(() => true);
-    if (!relevant.length) return;
-    const trainedCount = relevant.filter((skill) => skillMetaFor(skill).trainedCases > 0).length;
-    const card = el("article", "module-map-card");
-    const head = el("div", "module-map-head");
-    head.appendChild(el("h4", "", moduleLabel(category)));
-    head.appendChild(el("span", "matrix-count", uiState.language === "zh" ? `${relevant.length} 个能力` : `${relevant.length} capabilities`));
-    card.appendChild(head);
-    card.appendChild(el("p", "mini-copy", moduleNarrative(category)));
-    card.appendChild(el("p", "mini-copy", uiState.language === "zh" ? `已训练能力 ${trainedCount} 个` : `${trainedCount} case-trained skill(s)`));
-    const list = el("div", "module-map-list");
-    [...relevant].sort((a, b) => rankSkill(b) - rankSkill(a)).slice(0, 3).forEach((skill, index) => {
-      const item = el("div", "module-map-item");
-      item.appendChild(el("span", "", `${index + 1}. ${skill.skill_name}`));
-      item.appendChild(el("span", "", uiState.language === "zh" ? (skill.stage === "tool-backed" ? "已接入" : "待接入") : (skill.stage === "tool-backed" ? "Live" : "Pending")));
-      list.appendChild(item);
-    });
-    card.appendChild(list);
-    const bar = el("div", "module-map-bar");
-    const fill = el("span", "");
-    fill.style.width = `${Math.max(18, Math.round((relevant.length / totalSkills) * 100))}%`;
-    bar.appendChild(fill);
-    card.appendChild(bar);
-    wrapper.appendChild(card);
-  });
-  root.appendChild(wrapper);
 }
 
 function renderMemoryRules(rules) {
@@ -2778,10 +2755,6 @@ async function loadSkills() {
   renderSkills(await request("/skills"));
 }
 
-async function loadMatrix() {
-  renderMatrix(await request("/skills/matrix"));
-}
-
 async function loadMemoryRules() {
   renderMemoryRules(await request("/memory/rules"));
 }
@@ -2991,7 +2964,6 @@ document.getElementById("refresh-reports").addEventListener("click", () => withR
 document.getElementById("refresh-investigations").addEventListener("click", () => withRefreshState("refresh-investigations", loadInvestigations));
 document.getElementById("refresh-history").addEventListener("click", () => withRefreshState("refresh-history", loadHistory));
 document.getElementById("refresh-skills").addEventListener("click", () => withRefreshState("refresh-skills", loadSkills));
-document.getElementById("refresh-matrix").addEventListener("click", () => withRefreshState("refresh-matrix", loadMatrix));
 if (document.getElementById("refresh-memory-rules")) document.getElementById("refresh-memory-rules").addEventListener("click", () => withRefreshState("refresh-memory-rules", loadMemoryRules));
 if (document.getElementById("refresh-memory-feedback")) document.getElementById("refresh-memory-feedback").addEventListener("click", () => withRefreshState("refresh-memory-feedback", loadMemoryFeedback));
 document.getElementById("run-bitdefender-test").addEventListener("click", () => runBitdefender("/integrations/bitdefender/test", uiState.language === "zh" ? "正在测试 Bitdefender 连接..." : "Testing Bitdefender connection..."));
@@ -3024,7 +2996,6 @@ document.getElementById("file-upload").addEventListener("change", (event) => {
 });
 document.getElementById("raw-input").addEventListener("input", persistRawInput);
 document.getElementById("skills-filter").addEventListener("change", () => renderSkills(uiState.skills));
-document.getElementById("skills-filter").addEventListener("change", () => renderMatrix(uiState.matrix));
 if (document.getElementById("memory-search")) document.getElementById("memory-search").addEventListener("input", () => renderMemoryRules(uiState.memoryRules));
 document.getElementById("lang-zh").addEventListener("click", () => {
   uiState.language = "zh";
@@ -3058,7 +3029,6 @@ loadReports();
 loadInvestigations();
 loadHistory();
 loadSkills();
-loadMatrix();
 loadMemoryRules();
 loadMemoryFeedback();
 window.addEventListener("hashchange", () => setView(currentViewFromLocation()));

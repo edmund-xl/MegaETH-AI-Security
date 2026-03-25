@@ -9,7 +9,7 @@
 
 ### 2. 接入面
 
-当前可见接入面包括文件上传、文本输入、Bitdefender 与 Whitebox AppSec 输入骨架。
+当前可见接入面包括文件上传、文本输入、Bitdefender 输入、Whitebox AppSec 材料输入，以及 EASM CSV 输入。
 
 ### 3. 执行面
 
@@ -28,7 +28,7 @@ Explain the currently available intake surfaces, execution surfaces, and extensi
 
 ### 2. Integration Surfaces
 
-Visible integration surfaces include file upload, text input, Bitdefender, and the Whitebox AppSec scaffold.
+Visible integration surfaces include file upload, text input, Bitdefender input, Whitebox AppSec material input, and EASM CSV input.
 
 ### 3. Execution Model
 

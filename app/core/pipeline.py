@@ -5,6 +5,8 @@ from __future__ import annotations
 import time
 from collections import deque
 from datetime import datetime, timezone
+from pathlib import Path
+import re
 from uuid import uuid4
 
 from app.core.agent_model_binding import AGENT_ID, AgentModelBindingService
@@ -53,6 +55,7 @@ class SecurityPipeline:
         }
 
     def list_skills(self) -> list[dict]:
+        training_index = self._training_case_index()
         return [
             {
                 "skill_id": skill.skill_id,
@@ -66,9 +69,21 @@ class SecurityPipeline:
                 "agent_trigger_conditions": skill.agent_trigger_conditions,
                 "rule_fallback_conditions": skill.rule_fallback_conditions,
                 "max_context_policy": skill.max_context_policy,
+                "trained_case_count": len(training_index.get(skill.skill_id, [])),
+                "trained_cases": training_index.get(skill.skill_id, []),
             }
             for skill in SKILLS.values()
         ]
+
+    def _training_case_index(self) -> dict[str, list[str]]:
+        case_root = Path(__file__).resolve().parents[2] / "training_cases"
+        skill_to_cases: dict[str, list[str]] = {}
+        for readme in sorted(case_root.glob("case_*/README.md")):
+            case_id = readme.parent.name
+            content = readme.read_text(encoding="utf-8")
+            for skill_id in sorted(set(re.findall(r"`(megaeth\.[^`]+)`", content))):
+                skill_to_cases.setdefault(skill_id, []).append(case_id)
+        return skill_to_cases
 
     def skill_matrix(self) -> dict[str, list[dict]]:
         grouped: dict[str, list[dict]] = {}

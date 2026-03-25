@@ -15,6 +15,21 @@
 
 系统应被理解为可训练、可复核、可持续校准的安全日志分析工作台。
 
+当前已经稳定存在的重点分析域包括：
+
+- Host baseline
+- Endpoint 平台事件
+- JumpServer 单文件与多源审计
+- Whitebox AppSec 三段式分析
+- EASM 单样本与多样本综合分析
+
+其中 EASM 当前状态是：
+
+- 单一样本可单独分析
+- 多文件可生成 `easm_asset_assessment` 综合结果
+- 综合报告支持规则事实抽取
+- 综合报告的 `综合结论 / 专业判断` 可由 Gemini 增强
+
 ### 4. 当前工作模式
 
 推荐续接顺序是样本、目标输出、分类、报告、文档和 GitHub 同步。
@@ -37,6 +52,21 @@ The repository currently serves only security log analysis.
 ### 3. Current Product Shape
 
 The system should be treated as a trainable, reviewable, continuously calibratable security-log-analysis workbench.
+
+The main implemented analysis domains currently include:
+
+- Host baseline
+- Endpoint platform events
+- JumpServer single-source and multi-source audit analysis
+- Whitebox AppSec three-stage analysis
+- EASM single-source and composite analysis
+
+Current EASM status:
+
+- Single-source files can be analyzed independently
+- Multi-file inputs can produce a composite `easm_asset_assessment`
+- Composite reporting keeps rule-based factual extraction
+- The composite `assessment` and `professional_judgment` can be Gemini-enhanced
 
 ### 4. Continuation Pattern
 

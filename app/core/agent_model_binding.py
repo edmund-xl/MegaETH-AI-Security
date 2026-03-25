@@ -25,6 +25,11 @@ AGENT_MODEL_BINDINGS: dict[str, dict[str, Any]] = {
             "megaeth.identity.jumpserver_command_review",
             "megaeth.identity.jumpserver_transfer_review",
             "megaeth.identity.jumpserver_operation_review",
+            "megaeth.easm.asset_discovery",
+            "megaeth.easm.service_scan",
+            "megaeth.easm.tls_analysis",
+            "megaeth.easm.vulnerability_scan",
+            "megaeth.easm.external_intelligence",
         ],
     }
 }
@@ -214,6 +219,59 @@ class AgentModelBindingService:
             return {
                 "assessment": assessment,
                 "key_facts": key_facts,
+                "professional_judgment": professional_judgment,
+                "model": model,
+                "provider": "gemini",
+                "agent_id": AGENT_ID,
+            }
+        except Exception:
+            return None
+
+    def generate_easm_composite_narrative(
+        self,
+        *,
+        skill_id: str,
+        event: NormalizedEvent,
+        compact_context: dict[str, Any],
+        fallback_assessment: str,
+        fallback_professional_judgment: str,
+    ) -> dict[str, Any] | None:
+        if not self.enabled_for_skill(skill_id):
+            return None
+        model = self.model_name()
+        if not model:
+            return None
+        prompt_payload = {
+            "source_type": event.source_type,
+            "event_type": event.event_type,
+            "asset_context": event.asset_context,
+            "compact_context": compact_context,
+            "fallback_assessment": fallback_assessment,
+            "fallback_professional_judgment": fallback_professional_judgment,
+        }
+        system_prompt = (
+            "你是 MegaETH Agent 的安全分析模型。"
+            "你只负责增强 EASM 多文件综合报告中的两部分内容："
+            "1) assessment 2) professional_judgment。"
+            "不要改动结构化事实、评分、标签、资产清单或 key_facts。"
+            "语气专业、克制、中文输出。"
+            "不要编造不存在的数据，也不要把暴露面线索直接写成已确认入侵。"
+            "输出必须是 JSON 对象，字段只有 assessment、professional_judgment。"
+        )
+        user_prompt = (
+            "请根据以下 EASM 多文件综合结构化数据，增强报告的 assessment 和 professional_judgment。"
+            "重点说明高风险功能面资产、源站暴露、第三方委派、历史资产线索与治理优先级。"
+            "\n\n"
+            f"{json.dumps(prompt_payload, ensure_ascii=False)}"
+        )
+        parsed = self._generate_json(model=model, system_prompt=system_prompt, user_prompt=user_prompt)
+        if not parsed:
+            return None
+        try:
+            assessment = str(parsed.get("assessment") or "").strip() or fallback_assessment
+            professional_judgment = str(parsed.get("professional_judgment") or "").strip() or fallback_professional_judgment
+            return {
+                "assessment": assessment,
                 "professional_judgment": professional_judgment,
                 "model": model,
                 "provider": "gemini",

@@ -700,7 +700,7 @@ SKILLS = {
     ),
     "megaeth.identity.jumpserver_command_review": Skill(
         "megaeth.identity.jumpserver_command_review",
-        "JumpServer Command Review",
+        "JumpServer Command Audit",
         "identity",
         "Reviews JumpServer command audit material and high-risk command chains.",
         execution_mode="agent_optional",
@@ -733,7 +733,7 @@ SKILLS = {
     ),
     "megaeth.identity.jumpserver_operation_review": Skill(
         "megaeth.identity.jumpserver_operation_review",
-        "JumpServer Operation Review",
+        "JumpServer Control Plane Audit",
         "identity",
         "Reviews JumpServer control-plane actions such as export, authorization, and host/account creation.",
         execution_mode="agent_optional",

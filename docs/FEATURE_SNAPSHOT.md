@@ -9,7 +9,7 @@
 
 ### 2. 输入源
 
-当前输入源包括本地文件与文本输入，以及 Bitdefender 与 Whitebox AppSec 接入骨架。
+当前输入源包括本地文件与文本输入，以及 Bitdefender、Whitebox AppSec 与 EASM CSV 材料。
 
 ### 3. 页面能力
 
@@ -21,7 +21,7 @@
 
 ### 5. 训练资产
 
-当前已落地 Host baseline、JumpServer 多源案例与 Whitebox AppSec 模板。
+当前已落地 Host baseline、JumpServer 多源案例，以及 EASM 多层综合案例。
 
 ### 6. 当前限制
 
@@ -36,7 +36,7 @@ This document summarizes the active inputs, pages, and analysis domains of the c
 
 ### 2. Input Sources
 
-Current input sources include local files and text, plus Bitdefender and Whitebox AppSec integration scaffolds.
+Current input sources include local files and text, plus Bitdefender, Whitebox AppSec, and EASM CSV material.
 
 ### 3. UI Capabilities
 
@@ -48,7 +48,7 @@ The current capability set covers Host, Endpoint, Identity/JumpServer, AppSec, C
 
 ### 5. Training Assets
 
-Current training assets include the Host baseline case, the JumpServer multi-source case, and the Whitebox AppSec template.
+Current training assets include the Host baseline case, the JumpServer multi-source case, and the EASM multi-layer composite case.
 
 ### 6. Current Limits
 

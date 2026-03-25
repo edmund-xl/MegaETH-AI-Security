@@ -614,80 +614,6 @@ class ReportEngine:
             "professional_judgment": "从主机安全视角看，这更像一份需要分批治理的高风险基线缺口清单，而不是误报。",
         }
 
-    def _easm_analysis(self, event: NormalizedEvent, findings: list[Finding]) -> dict[str, object]:
-        assessments = event.normalized_data.get("asset_assessments", []) if isinstance(event.normalized_data.get("asset_assessments"), list) else []
-        surface_summary = event.normalized_data.get("surface_summary", {}) if isinstance(event.normalized_data.get("surface_summary"), dict) else {}
-        layer_findings = event.normalized_data.get("layer_findings", []) if isinstance(event.normalized_data.get("layer_findings"), list) else []
-        high_assets = [item for item in assessments if str((item.get("scores") or {}).get("severity") or "") in {"High", "Critical"}]
-        historical_assets = [item for item in assessments if "historical_asset_hint" in item.get("tags", [])]
-        delegation_assets = [item for item in assessments if "third_party_dns_delegation" in item.get("tags", [])]
-        key_assets = high_assets[:5] if high_assets else assessments[:5]
-
-        structured_sections = [
-            {
-                "title": "综合结论",
-                "paragraphs": [
-                    (
-                        f"本批 EASM 样本共关联出 {len(assessments)} 个外部资产，当前重点风险集中在功能性域名的公网暴露、"
-                        "CDN 与直连源站并存、第三方 DNS/托管委派，以及证书层揭示的历史资产残留。"
-                    )
-                ],
-                "bullets": [],
-                "subsections": [],
-            },
-            {
-                "title": "主要依据",
-                "paragraphs": [],
-                "bullets": [
-                    f"当前样本覆盖 {surface_summary.get('asset_count', 0)} 个资产，层次分布为 {surface_summary.get('layer_counts', {})}。",
-                    *layer_findings[:4],
-                ],
-                "subsections": [],
-            },
-            {
-                "title": "重点资产评估",
-                "paragraphs": [],
-                "bullets": [
-                    f"{item.get('asset')}：{(item.get('scores') or {}).get('severity')}，标签 {', '.join(item.get('tags', [])[:4])}"
-                    for item in key_assets
-                ],
-                "subsections": [],
-            },
-        ]
-
-        return {
-            "report_title": "EASM 外部攻击面综合评估报告",
-            "report_template": "easm_asset_assessment_v1",
-            "assessment": "这批外部攻击面材料已经能够支撑按资产输出结构化风险评估，当前重点不是发现数量，而是找出功能性域名、源站暴露、第三方委派和历史资产残留之间的治理优先级。",
-            "likely_issue": bool(high_assets),
-            "verdict": "easm_asset_assessment",
-            "key_facts": [
-                f"系统已跨文件关联出 {len(assessments)} 个外部资产，其中高风险资产 {len(high_assets)} 个。",
-                f"当前至少有 {len(delegation_assets)} 个资产涉及第三方 DNS/托管委派，另有 {len(historical_assets)} 个资产只在证书层留下历史线索。",
-                f"重点资产包括：{', '.join(str(item.get('asset')) for item in key_assets[:5])}。",
-            ],
-            "probable_causes": [
-                "同一功能面同时暴露 CDN 边缘与直连源站，导致边界治理不清晰。",
-                "部分资产存在第三方委派或历史遗留托管痕迹，说明生命周期治理仍有缺口。",
-            ],
-            "why_flagged": "系统把服务、DNS、证书、IP 段和 ASN 数据做了跨文件关联，并按资产输出了事实与推断分离的外部攻击面评估结果。",
-            "report_gaps": [
-                "当前仍需补充更完整的真实原始 CSV 样本，持续校准字段映射与跨层关联逻辑。",
-                "当前结论仍偏向暴露面治理与边界复核，不能替代后续验证扫描或人工确认。",
-            ],
-            "quick_checks": [
-                "优先核实 API、Dashboard、RPC 等功能面资产是否存在直连源站暴露。",
-                "优先确认第三方 DNS/托管委派资产的所有权、必要性和下线路径。",
-                "对仅在证书层出现的历史资产继续核查 DNS、托管与证书清理状态。",
-            ],
-            "escalation_conditions": [
-                "如果后续验证确认直连源站可绕过 CDN/WAF，应升级为高优先级外部暴露问题。",
-                "如果功能性公网资产同时存在明文 HTTP、未限制回源或敏感接口，应继续升级处置。",
-            ],
-            "professional_judgment": "我的判断是：这批 EASM 材料已经足够作为资产治理和验证优先级排序的输入。当前最重要的是围绕高风险功能面资产构建后续验证计划，而不是把所有外部资产一视同仁。",
-            "structured_sections": structured_sections,
-        }
-
     def _generic_analysis(self, event: NormalizedEvent, findings: list[Finding]) -> dict[str, object]:
         if event.source_type == "easm" or event.event_type in {"external_asset", "service_exposure", "tls_analysis", "easm_asset_assessment"}:
             assessments = event.normalized_data.get("asset_assessments", []) if isinstance(event.normalized_data.get("asset_assessments"), list) else []
@@ -1094,6 +1020,109 @@ class ReportEngine:
             "quick_checks": [],
             "escalation_conditions": [],
             "professional_judgment": "建议结合更多上下文继续判断。",
+        }
+
+    def _easm_analysis(self, event: NormalizedEvent, findings: list[Finding]) -> dict[str, object]:
+        data = event.normalized_data
+        assessments = data.get("asset_assessments", []) if isinstance(data.get("asset_assessments"), list) else []
+        surface_summary = data.get("surface_summary", {}) if isinstance(data.get("surface_summary"), dict) else {}
+        key_assets = [item for item in assessments if str((item.get("scores") or {}).get("severity") or "") in {"Critical", "High"}][:8]
+        high_assets = [item for item in assessments if str((item.get("scores") or {}).get("severity") or "") in {"Critical", "High"}]
+        delegation_assets = [item for item in assessments if "third_party_dns_delegation" in item.get("tags", [])]
+        historical_assets = [item for item in assessments if "historical_asset_hint" in item.get("tags", [])]
+        layer_findings = data.get("layer_findings", []) if isinstance(data.get("layer_findings"), list) else []
+        structured_sections = [
+            {
+                "title": "综合结论",
+                "paragraphs": [],
+                "bullets": [],
+                "subsections": [],
+            },
+            {
+                "title": "主要依据",
+                "paragraphs": [],
+                "bullets": [
+                    f"当前样本覆盖 {surface_summary.get('asset_count', 0)} 个资产，层次分布为 {surface_summary.get('layer_counts', {})}。",
+                    *layer_findings[:4],
+                ],
+                "subsections": [],
+            },
+            {
+                "title": "重点资产评估",
+                "paragraphs": [],
+                "bullets": [
+                    f"{item.get('asset')}：{(item.get('scores') or {}).get('severity')}，标签 {', '.join(item.get('tags', [])[:4])}"
+                    for item in key_assets
+                ],
+                "subsections": [],
+            },
+        ]
+
+        fallback_assessment = "这批外部攻击面材料已经能够支撑按资产输出结构化风险评估，当前重点不是发现数量，而是找出功能性域名、源站暴露、第三方委派和历史资产残留之间的治理优先级。"
+        fallback_professional_judgment = "我的判断是：这批 EASM 材料已经足够作为资产治理和验证优先级排序的输入。当前最重要的是围绕高风险功能面资产构建后续验证计划，而不是把所有外部资产一视同仁。"
+        agent_narrative = None
+        if self.agent_model_binding:
+            compact_context = {
+                "asset_count": len(assessments),
+                "high_risk_asset_count": len(high_assets),
+                "delegation_asset_count": len(delegation_assets),
+                "historical_asset_count": len(historical_assets),
+                "layer_counts": surface_summary.get("layer_counts", {}),
+                "top_assets": [
+                    {
+                        "asset": item.get("asset"),
+                        "severity": (item.get("scores") or {}).get("severity"),
+                        "tags": item.get("tags", [])[:6],
+                    }
+                    for item in key_assets[:6]
+                ],
+                "layer_findings": layer_findings[:6],
+            }
+            agent_narrative = self.agent_model_binding.generate_easm_composite_narrative(
+                skill_id="megaeth.easm.asset_discovery",
+                event=event,
+                compact_context=compact_context,
+                fallback_assessment=fallback_assessment,
+                fallback_professional_judgment=fallback_professional_judgment,
+            )
+
+        assessment = str(agent_narrative.get("assessment")) if agent_narrative and agent_narrative.get("assessment") else fallback_assessment
+        professional_judgment = str(agent_narrative.get("professional_judgment")) if agent_narrative and agent_narrative.get("professional_judgment") else fallback_professional_judgment
+        if structured_sections:
+            structured_sections[0]["paragraphs"] = [assessment]
+
+        return {
+            "report_title": "EASM 外部攻击面综合评估报告",
+            "report_template": "easm_asset_assessment_v1",
+            "assessment": assessment,
+            "likely_issue": bool(high_assets),
+            "verdict": "easm_asset_assessment",
+            "key_facts": [
+                f"系统已跨文件关联出 {len(assessments)} 个外部资产，其中高风险资产 {len(high_assets)} 个。",
+                f"当前至少有 {len(delegation_assets)} 个资产涉及第三方 DNS/托管委派，另有 {len(historical_assets)} 个资产只在证书层留下历史线索。",
+                f"重点资产包括：{', '.join(str(item.get('asset')) for item in key_assets[:5])}。",
+            ],
+            "probable_causes": [
+                "同一功能面同时暴露 CDN 边缘与直连源站，导致边界治理不清晰。",
+                "部分资产存在第三方委派或历史遗留托管痕迹，说明生命周期治理仍有缺口。",
+            ],
+            "why_flagged": "系统把服务、DNS、证书、IP 段和 ASN 数据做了跨文件关联，并按资产输出了事实与推断分离的外部攻击面评估结果。",
+            "report_gaps": [
+                "当前仍需补充更完整的真实原始 CSV 样本，持续校准字段映射与跨层关联逻辑。",
+                "当前结论仍偏向暴露面治理与边界复核，不能替代后续验证扫描或人工确认。",
+            ],
+            "quick_checks": [
+                "优先核实 API、Dashboard、RPC 等功能面资产是否存在直连源站暴露。",
+                "优先确认第三方 DNS/托管委派资产的所有权、必要性和下线路径。",
+                "对仅在证书层出现的历史资产继续核查 DNS、托管与证书清理状态。",
+            ],
+            "escalation_conditions": [
+                "如果后续验证确认直连源站可绕过 CDN/WAF，应升级为高优先级外部暴露问题。",
+                "如果功能性公网资产同时存在明文 HTTP、未限制回源或敏感接口，应继续升级处置。",
+            ],
+            "professional_judgment": professional_judgment,
+            "structured_sections": structured_sections,
+            "agent_context": dict(agent_narrative or {}),
         }
 
     def build(

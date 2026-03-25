@@ -28,8 +28,9 @@ MegaETH AI Security Platform 是一套面向 **安全日志分析** 的本地化
 - Host baseline 与主机基线合规分析
 - Endpoint 进程异常与安全平台事件分析
 - JumpServer 单文件与多源审计分析
-- Whitebox AppSec 三段式分析骨架
-- Cloud、Identity、Key、EASM、CI/CD 相关能力骨架
+- Whitebox AppSec 三段式分析
+- EASM 单样本与多样本综合分析
+- Cloud、Identity、Key、CI/CD 相关能力
 
 ### 3. 运行方式
 
@@ -162,8 +163,9 @@ Implemented analysis domains include:
 - Host baseline and host compliance analysis
 - Endpoint anomaly and security-platform event analysis
 - JumpServer single-source and multi-source audit analysis
-- Whitebox AppSec three-stage scaffold
-- Cloud, Identity, Key, EASM, and CI/CD capability scaffolds
+- Whitebox AppSec three-stage analysis
+- EASM single-source and composite analysis
+- Cloud, Identity, Key, and CI/CD capabilities
 
 ### 3. Runtime
 

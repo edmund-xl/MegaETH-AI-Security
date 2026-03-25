@@ -17,7 +17,7 @@
 
 ### 4. 当前重点
 
-当前重点训练主题为 Host baseline、JumpServer 多源审计和 Whitebox AppSec。
+当前重点训练主题为 Host baseline、JumpServer 多源审计、Whitebox AppSec，以及 EASM 单样本与多样本综合分析。
 
 ### 5. 注意事项
 
@@ -40,7 +40,7 @@ The standard flow includes sample ingestion, classification alignment, report al
 
 ### 4. Current Priorities
 
-Current training priorities are Host baseline, JumpServer multi-source auditing, and Whitebox AppSec.
+Current training priorities are Host baseline, JumpServer multi-source auditing, Whitebox AppSec, and EASM single-source plus composite analysis.
 
 ### 5. Key Cautions
 
