@@ -1,260 +1,164 @@
-# System Design / 系统设计
+# 系统设计说明
 <!-- security-log-analysis mainline -->
 
-## 中文版
+## 1. 文档目的
 
-这份文档我更建议你在两种情况下看：
-- 服务已经跑起来了，但你想知道一份材料到底是怎么走到报告里的
-- 结果不对，你准备开始查是哪一层跑偏了
+本文档定义 MegaETH AI Security Platform 当前主线的系统设计边界、运行方式、核心模块职责与数据流转方式。
 
-如果你还没跑起来，先回 [README.md](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/README.md)。那边是上手路线，这边更像排障地图。
+本文档回答以下问题：
 
-### 一句话理解这套架构
+- 系统解决什么问题
+- 当前范围与非范围是什么
+- 请求如何在系统中流动
+- 哪些模块承担哪些职责
+- 数据如何落库与保留
 
-这套系统不是“一个大模型前端”，而是三层配合：
-- `MCP` 负责把外部材料或外部平台数据带进来
-- `Agent` 负责判断、分流、编排
-- `Skill` 负责做具体分析
+## 2. 系统范围
 
-对应关系大概是：
+### 2.1 当前范围
 
-```mermaid
-flowchart LR
-  U["用户 / 文件 / 外部平台"] --> M["MCP"]
-  U --> A["Agent"]
-  M --> A
-  A --> S["Skill"]
-  S --> A
-  A --> R["报告 / 历史 / 学习"]
-```
+平台当前服务于分析师可见、可复核的安全日志分析工作流，覆盖：
 
-### 一次分析是怎么跑的
+- 文件与文本输入
+- 外部安全平台导入
+- 安全材料归一化
+- Planner 分类与 Skill 路由
+- Finding 生成与风险判断
+- 中文安全报告生成
+- 历史记录、调查会话与学习反馈保留
 
-最常见的一条链是：
+### 2.2 非当前范围
 
-```text
-材料进来
--> memory 先补经验
--> normalizer 归一化
--> planner 选 Skill
--> skills 执行
--> risk engine 定级
--> report engine 出报告
--> history / memory 落盘
-```
+以下能力明确不在当前主线范围内：
 
-这里有两个坑我已经踩过很多次了：
-- 看起来像 Skill 分析错了，其实是 `normalizer` 一开始就分错类了
-- 代码本地改对了，但运行服务没切过去，或者前端还在吃旧资源
+- 自动处置与自动封禁
+- 分布式任务调度
+- 多租户隔离
+- 大规模企业编排
+- 独立第二产品域
 
-后面查问题时，我一般按这个顺序看：
-1. `normalized_event`
-2. `planner_preview`
-3. `report`
-4. 最新落库
-5. 页面实际展示
+## 3. 总体架构
 
-### 目录怎么对应到运行链
+系统分为三层：
 
-真正的主线在这些位置：
-
-- [app/main.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/main.py)
-  - FastAPI 入口和静态资源挂载
-- [app/api/core_routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/core_routes.py)
-  - 核心分析入口、历史、学习相关接口
-- [app/api/integration_routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/integration_routes.py)
-  - MCP 入口
-- [app/core/normalizer.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/normalizer.py)
-  - 原始材料转成统一事件
-- [app/core/planner.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/planner.py)
-  - 按材料类型和经验规则选 Skill
-- [app/skills/implementations.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/skills/implementations.py)
-  - Skill 执行实现
-- [app/core/risk_engine.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/risk_engine.py)
-  - 风险标签和分数
-- [app/core/report_engine.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/report_engine.py)
-  - 中文报告生成
-- [app/core/memory_service.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/memory_service.py)
-  - 学习规则和反馈
-- [app/core/history.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/history.py)
-  - 最近结果、历史和调查会话
-
-### Memory 在这里到底干嘛
-
-Memory 最有价值的不是“存很多”，而是“让下一次少走弯路”。
-
-它现在主要记这些：
-- 文件名特征
-- 表头特征
-- 内容特征
-- parser profile
-- 期望的 `source_type`
-- 期望的 `event_type`
-- 偏好的 Skills
-
-我现在会特别留意一件事：Memory 改了，不代表用户马上就能看到对的结果。还得一起确认：
-- 服务已经重启
-- 最新落库确实是新逻辑
-- 前端不是旧缓存
-
-这个坑前面已经踩过多次了，所以现在已经当成默认检查项。
-
-### 现在已经接上的 MCP
-
-当前有两条主线：
-
-- Bitdefender
-  - 适合做接入验证、最新可分析内容判断、导入报表到平台分析
-- Whitebox AppSec
-  - 现在是骨架 + 训练模板，适合后面按 case 继续训
-
-重点不是“接了多少接口”，而是：
-- 接进来的数据能不能被 Agent 消化
-- 最终能不能产出有用的中文报告
-
-### 现在先别指望它做什么
-
-有些事这套系统还不是目标：
-- 分布式执行器
-- 企业级租户隔离
-- 生产自动处置
-- 完整 OCR 流水线
-- 数据库级持久层
-
-它现在最合适的定位还是：
-- 单机可运行
-- 可持续训练
-- 可解释
-- 可审计的安全分析工作台
-
-### 我一般怎么验证一条链是通的
-
-如果我要确认“这套没坏”，通常不会先点很多页面，而是直接跑：
-
-```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
-curl -s http://127.0.0.1:8010/health
-curl -s http://127.0.0.1:8010/pipeline/overview
-curl -s http://127.0.0.1:8010/skills
-```
-
-然后再用一份最小样本走一遍 `/ingest/files`。这样比纯看 UI 更快定位问题到底是在后端还是前端。
-
----
-
-## English Version
-
-This document is best used in two situations:
-- the service is already running and you want to understand how material becomes a report
-- something looks wrong and you need to know which layer to inspect first
-
-If you have not started the project yet, use [README.md](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/README.md) first. That file gets the system running. This one explains how the moving parts fit together.
-
-### The shortest way to think about the architecture
-
-The system is really three layers working together:
-- `MCP` brings in external data or outside platform content
-- `Agent` decides how to route and orchestrate the analysis
-- `Skill` performs the actual analysis
-
-```mermaid
-flowchart LR
-  U["User / Files / External Platforms"] --> M["MCP"]
-  U --> A["Agent"]
-  M --> A
-  A --> S["Skill"]
-  S --> A
-  A --> R["Report / History / Learning"]
-```
-
-### What one analysis run looks like
-
-The most common path is:
+- 输入与接入层
+- 分析与报告层
+- 留存与学习层
 
 ```text
-material arrives
--> memory adds prior hints
--> normalizer builds a typed event
--> planner selects Skills
--> skills execute
--> risk engine scores the result
--> report engine builds the report
--> history and memory persist the outcome
+输入 / 平台导入
+-> 解析与归一化
+-> Planner 分类
+-> Skill 执行
+-> 风险判断
+-> 报告生成
+-> 历史 / 调查 / 学习沉淀
 ```
 
-Two failure modes are common:
-- what looks like a Skill problem is often already a classification problem in `normalizer`
-- local code is fixed, but the running service or frontend assets are still old
+## 4. 核心模块
 
-When I troubleshoot, I usually inspect:
-1. `normalized_event`
-2. `planner_preview`
-3. `report`
-4. latest persisted output
-5. actual UI rendering
+### 4.1 API 层
 
-### Which files matter most
+关键文件：
 
-The main flow lives here:
-- [app/main.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/main.py)
-- [app/api/core_routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/core_routes.py)
-- [app/api/integration_routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/integration_routes.py)
-- [app/core/normalizer.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/normalizer.py)
-- [app/core/planner.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/planner.py)
-- [app/skills/implementations.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/skills/implementations.py)
-- [app/core/risk_engine.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/risk_engine.py)
-- [app/core/report_engine.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/report_engine.py)
-- [app/core/memory_service.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/memory_service.py)
-- [app/core/history.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/history.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/main.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/main.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/api/routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/routes.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/api/core_routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/core_routes.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/api/integration_routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/integration_routes.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/api/ui_routes.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/api/ui_routes.py)
 
-### What Memory is really for
+职责：
 
-Memory is not about storing everything. Its value is in making the next similar material take a better path.
+- 暴露输入、历史、调查、学习、连接等接口
+- 承载平台接入入口
+- 输出静态前端页面
 
-It currently remembers:
-- filename tokens
-- header tokens
-- content tokens
-- parser profile
-- expected `source_type`
-- expected `event_type`
-- preferred Skills
+### 4.2 分析层
 
-One lesson we had to learn the hard way: changing Memory logic is not enough. You also need to confirm:
-- the service restarted
-- the latest persisted output reflects the new logic
-- the frontend is not serving stale assets
+关键文件：
 
-### Current MCP lines
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/core/normalizer.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/normalizer.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/core/planner.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/planner.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/skills/implementations.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/skills/implementations.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/core/risk_engine.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/risk_engine.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/core/report_engine.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/report_engine.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/core/pipeline.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/pipeline.py)
 
-The main MCP lines right now are:
-- Bitdefender
-- Whitebox AppSec
+职责：
 
-The point is not “how many APIs are connected.” The real question is:
-- can the imported data be consumed by the Agent
-- can it lead to a useful Chinese-first report
+- 将输入材料转为统一事件模型
+- 根据 `source_type` 与 `event_type` 进行分类和 Skill 路由
+- 执行 Skill，生成 Findings
+- 进行风险判断与报告合成
 
-### What this system is not trying to be yet
+### 4.3 留存与学习层
 
-Not the current goal:
-- distributed execution
-- enterprise tenant isolation
-- production auto-remediation
-- full OCR pipeline
-- database-backed persistence
+关键文件：
 
-The current target is a single-machine, trainable, explainable security analysis workbench.
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/core/history.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/history.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/core/memory_service.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/core/memory_service.py)
+- [/Users/lei/Documents/New project/megaeth-ai-security-rebuild/app/utils/store.py](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/app/utils/store.py)
 
-### My quick verification path
+职责：
 
-When I want to confirm the system is still healthy, I usually start here:
+- 保存近期事件、报告和调查记录
+- 维护轻量历史窗口
+- 保存学习反馈与长期规则
+- 将大体积调查快照与在线状态分离
 
-```bash
-cd '/Users/lei/Documents/New project/megaeth-ai-security-rebuild'
-curl -s http://127.0.0.1:8010/health
-curl -s http://127.0.0.1:8010/pipeline/overview
-curl -s http://127.0.0.1:8010/skills
-```
+## 5. 主要对象模型
 
-Then I post one tiny sample to `/ingest/files`. That reveals backend issues faster than clicking around in the UI first.
+当前主线围绕以下对象运作：
+
+- `RawEvent`
+- `NormalizedEvent`
+- `Finding`
+- `SecurityReport`
+- `Investigation`
+- `LearningRule`
+- `LearningFeedback`
+
+当前阶段采用 JSON 文件存储，而不是数据库。
+
+## 6. 接入模型
+
+当前可见接入面包括：
+
+- 文件上传与文本输入
+- Bitdefender 导入
+- Whitebox AppSec 输入骨架
+
+这些接入面是数据来源或补充分析来源，不是独立产品域。
+
+## 7. UI 边界
+
+前端固定为五个页面：
+
+- 概览
+- 输入
+- 技能
+- 连接
+- 学习
+
+共享前端逻辑一旦变更，必须验证这五个页面全部可用。
+
+## 8. 存储与运行策略
+
+### 8.1 运行端口
+
+- 运行端口：`8011`
+- 健康检查：`/health`
+- 主要烟测接口：`/pipeline/overview`
+
+### 8.2 存储策略
+
+- `data/*.json`：近期在线状态
+- `data/archives/`：历史快照与归档
+- 保持轻量在线数据，避免大文本和大对象直接常驻前端
+
+## 9. 设计约束
+
+- 系统必须是可审阅、可复核的分析平台
+- 训练案例是设计资产的一部分，不是附属材料
+- 学习规则不能静默覆盖 case 明确要求
+- 单页或单模块任务不得顺手重构其他模块

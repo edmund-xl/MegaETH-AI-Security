@@ -1,66 +1,54 @@
-# `megaeth.identity.anomalous_access_review`
+# Skill 规格说明：`megaeth.identity.anomalous_access_review`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.identity.anomalous_access_review`
+- 所属模块：`Identity`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`login_auth_review`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 异常访问审查能力
-- 模块：Identity
-- 当前状态：已接入，当前偏辅助
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+分析登录结果、认证失败模式与异常访问行为。
 
-用于异常访问、非常规身份行为和后续人工复核入口。
+## 3. 典型输入
 
-### 典型输入
+- 登录日志
+- 认证事件
 
-- 身份访问日志
-- 异常访问材料
+## 4. 主要输出
 
-### 当前输出重点
+- 登录侧摘要
+- 失败模式
+- 账户风险提示
 
-- 访问异常线索
-- 后续复核重点
+## 5. 触发与路由
 
-### 当前限制
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 当前还没有形成丰富的异常行为模型
-- 更适合作为后续人工分析入口
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 迭代方向
+## 6. 判断边界
 
-- 增加登录地点、时间、行为序列等异常特征
+- 不把代理地址直接当攻击源
+- 不因单次失败直接认定爆破
 
-## English
+## 7. 训练与参考资产
 
-### Basics
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-- Name: MegaETH Anomalous Access Review
-- Module: Identity
-- Status: Active, currently supportive
-- Product Surface: Security Log Analysis
+## 8. 当前限制
 
-### Purpose
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-Provides a review path for anomalous access and unusual identity behavior.
+## 9. 维护要求
 
-### Typical Inputs
-
-- identity access logs
-- anomalous access materials
-
-### Current Outputs
-
-- access anomaly clues
-- areas for deeper manual review
-
-### Current Limits
-
-- no rich anomaly model yet
-- better suited today as a follow-on review entry point
-
-### Iteration Direction
-
-- add features for location, timing, and behavior-sequence anomalies
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

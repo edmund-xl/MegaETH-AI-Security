@@ -1,78 +1,54 @@
-# `megaeth.host.integrity_monitor`
+# Skill 规格说明：`megaeth.host.integrity_monitor`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.host.integrity_monitor`
+- 所属模块：`Host`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`host_integrity / host_baseline_assessment`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 主机完整性分析能力
-- 模块：Host
-- 当前状态：已接入
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+识别主机完整性、关键控制缺失和高风险变更迹象。
 
-识别主机高分风险项和整体完整性缺口，帮助平台形成主机级风险概览。
+## 3. 典型输入
 
-### 典型输入
+- 主机完整性材料
+- 基线缺口材料
 
-- 主机基线风险清单
-- 完整性检查导出
-- 系统风险分析 CSV
+## 4. 主要输出
 
-### 当前触发线索
+- 完整性风险摘要
+- 关键控制缺失
+- 复核建议
 
-- 高分风险项
-- 大量主机控制缺口
+## 5. 触发与路由
 
-### 当前输出重点
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 高风险完整性缺口
-- 主机基线总体风险
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 当前限制
+## 6. 判断边界
 
-- 在 `host_baseline_assessment` 场景下，它更多作为辅助 Skill
-- 还没有覆盖文件级篡改证据链
+- 侧重控制完整性，不直接认定恶意篡改
+- 需要与其他主机证据联合判断
 
-### 迭代方向
+## 7. 训练与参考资产
 
-- 补充文件完整性、AIDE、二进制偏移等更细粒度线索
+- [Case 001 - Host Baseline](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_001_host_baseline/README.md)
 
-## English
+## 8. 当前限制
 
-### Basics
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-- Name: MegaETH Host Integrity Analysis
-- Module: Host
-- Status: Active
-- Product Surface: Security Log Analysis
+## 9. 维护要求
 
-### Purpose
-
-Identifies high-risk host control gaps and provides an overall host integrity posture summary.
-
-### Typical Inputs
-
-- host baseline risk lists
-- integrity exports
-- system risk analytics CSVs
-
-### Current Triggers
-
-- very high score findings
-- clusters of host control gaps
-
-### Current Outputs
-
-- high-risk integrity gaps
-- overall host baseline posture
-
-### Current Limits
-
-- acts mostly as a supporting Skill in `host_baseline_assessment`
-- does not yet reconstruct file-level tampering evidence
-
-### Iteration Direction
-
-- add deeper file integrity, AIDE, and binary-drift evidence
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

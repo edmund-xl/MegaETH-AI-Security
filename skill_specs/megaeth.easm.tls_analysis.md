@@ -1,66 +1,53 @@
-# `megaeth.easm.tls_analysis`
+# Skill 规格说明：`megaeth.easm.tls_analysis`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.easm.tls_analysis`
+- 所属模块：`EASM`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`service_exposure`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH TLS 姿态分析能力
-- 模块：EASM
-- 当前状态：已接入，当前偏骨架
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+分析 TLS 证书、协议版本和密码套件风险。
 
-针对外部服务中的 TLS / 证书问题做专门分析。
-
-### 典型输入
+## 3. 典型输入
 
 - TLS 扫描结果
-- 证书检查结果
+- 证书信息
 
-### 当前输出重点
+## 4. 主要输出
 
-- 证书异常
-- TLS 配置问题
+- TLS 风险摘要
+- 协议与证书问题
+- 治理建议
 
-### 当前限制
+## 5. 触发与路由
 
-- 目前尚无独立强执行逻辑
-- 更多体现为规划覆盖与后续扩展点
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### 迭代方向
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-- 增加证书过期、弱套件、主机名不匹配等专门判断
+## 6. 判断边界
 
-## English
+- 聚焦传输安全，不覆盖应用逻辑缺陷
 
-### Basics
+## 7. 训练与参考资产
 
-- Name: MegaETH TLS Posture Analysis
-- Module: EASM
-- Status: Active, currently closer to a scaffold
-- Product Surface: Security Log Analysis
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-### Purpose
+## 8. 当前限制
 
-Provides a dedicated analysis path for TLS and certificate posture issues in exposed services.
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-### Typical Inputs
+## 9. 维护要求
 
-- TLS scan results
-- certificate check results
-
-### Current Outputs
-
-- certificate anomalies
-- TLS configuration issues
-
-### Current Limits
-
-- no strong dedicated execution branch yet
-- mainly exists as planning coverage and an expansion point
-
-### Iteration Direction
-
-- add checks for expiry, weak ciphers, and hostname mismatch
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

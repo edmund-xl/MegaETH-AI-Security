@@ -1,82 +1,53 @@
-# `megaeth.key.kms_risk`
+# Skill 规格说明：`megaeth.key.kms_risk`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.key.kms_risk`
+- 所属模块：`Key Security`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`kms_access`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH KMS 风险分析能力
-- 模块：Key
-- 当前状态：已接入，启发式实现
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+分析 KMS 访问行为、密钥使用与授权异常。
 
-分析 KMS 签名、调用者、频次和偏离基线的访问行为。
+## 3. 典型输入
 
-### 典型输入
+- KMS 访问记录
+- 密钥使用日志
 
-- KMS 日志
-- 签名调用记录
-- 加密服务事件
+## 4. 主要输出
 
-### 当前触发线索
+- 密钥风险摘要
+- 访问模式异常
+- 治理建议
 
-- `sign`
-- `kms`
-- `caller`
+## 5. 触发与路由
 
-### 当前输出重点
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 异常 KMS 使用
-- 偏离运维基线的签名活动
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 当前限制
+## 6. 判断边界
 
-- 当前对上下文理解仍较轻
-- 还没有按密钥用途、调用链和频率异常做更强建模
+- 不直接推断密钥泄露，需要结合更多访问上下文
 
-### 迭代方向
+## 7. 训练与参考资产
 
-- 增加 signer 行为基线
-- 区分正常业务签名与异常调用
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-## English
+## 8. 当前限制
 
-### Basics
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-- Name: MegaETH KMS Risk Analysis
-- Module: Key
-- Status: Active, heuristic implementation
-- Product Surface: Security Log Analysis
+## 9. 维护要求
 
-### Purpose
-
-Analyzes KMS signing activity, callers, frequency, and deviations from expected operational baseline.
-
-### Typical Inputs
-
-- KMS logs
-- signing call records
-- crypto-service events
-
-### Current Triggers
-
-- `sign`
-- `kms`
-- `caller`
-
-### Current Outputs
-
-- abnormal KMS usage
-- signing activity deviating from operational baseline
-
-### Current Limits
-
-- context understanding is still light
-- no stronger model for key purpose, call chains, or rate anomalies yet
-
-### Iteration Direction
-
-- add signer behavior baselines
-- distinguish normal service signing from suspicious calls
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

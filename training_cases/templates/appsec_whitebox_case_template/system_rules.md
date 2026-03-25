@@ -1,50 +1,19 @@
-# System Rules Template
+# Whitebox AppSec 系统规则模板
 <!-- security-log-analysis mainline -->
 
-## 中文版
+## 1. 分类规则
 
-### 分类规则
+- 侦察类样本 -> `whitebox_recon_assessment`
+- 验证类样本 -> `whitebox_exploit_validation`
+- 综合报告类样本 -> `whitebox_security_report`
 
-- `source_type = appsec`
-- `event_type = `
-- `primary_skill = `
-- `secondary_skill = `
+## 2. 技能规则
 
-### 风险规则
+- `whitebox_recon_assessment` -> `megaeth.appsec.whitebox_recon`
+- `whitebox_exploit_validation` -> `megaeth.appsec.whitebox_exploit_validation`
+- `whitebox_security_report` -> `megaeth.appsec.whitebox_report_synthesis`
 
-- 什么情况下只是侦察线索
-- 什么情况下属于候选问题
-- 什么情况下属于已确认问题
-- 什么情况下要升级为高优先级治理项
+## 3. 报告规则
 
-### 报告规则
-
-- 中文输出
-- 不暴露第三方产品名
-- 不暴露外部 prompt / agent 语言
-- 使用 MegaETH 自有 AppSec 术语
-
----
-
-## English Version
-
-### Classification Rules
-
-- `source_type = appsec`
-- `event_type = `
-- `primary_skill = `
-- `secondary_skill = `
-
-### Risk Rules
-
-- when it is only a recon lead
-- when it is a candidate issue
-- when it is a confirmed issue
-- when it should be escalated into a high-priority remediation item
-
-### Report Rules
-
-- Chinese output
-- do not expose third-party product names
-- do not expose external prompt / agent language
-- use MegaETH-native AppSec terminology
+- 输出必须贴近目标报告示例
+- 不得混淆侦察线索、已确认问题和综合治理建议

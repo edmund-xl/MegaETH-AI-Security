@@ -1,88 +1,54 @@
-# `megaeth.host.systemd_service_risk`
+# Skill 规格说明：`megaeth.host.systemd_service_risk`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.host.systemd_service_risk`
+- 所属模块：`Host`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`systemd_service_change / host_integrity`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 服务姿态分析能力
-- 模块：Host
-- 当前状态：已接入
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+审查 systemd 服务、开放服务和运维侧服务变更风险。
 
-从主机风险材料中识别 SSH、telnet、rsync、ICMP、打印机服务等远程访问和服务暴露风险。
+## 3. 典型输入
 
-### 典型输入
+- 服务列表
+- 主机风险材料
 
-- Unix / Linux 主机基线清单
-- 服务暴露类主机报告
+## 4. 主要输出
 
-### 当前触发线索
+- 高风险服务项
+- 暴露面说明
+- 治理建议
 
-- `ssh`
-- `telnet`
-- `rsync`
-- `icmp`
-- `openssh`
-- `printer`
+## 5. 触发与路由
 
-### 当前输出重点
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 服务暴露
-- 远程访问风险
-- 管理边界收敛建议
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 当前限制
+## 6. 判断边界
 
-- 目前主要基于标题文本关键词
-- 对 systemd 单元配置本身还没有做深度解析
+- 不对单个服务名直接给出入侵结论
+- 需要结合端口、资产角色和变更背景
 
-### 迭代方向
+## 7. 训练与参考资产
 
-- 加入 systemd service 配置级审计
-- 区分管理面服务与业务面服务的优先级
+- [Case 001 - Host Baseline](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_001_host_baseline/README.md)
 
-## English
+## 8. 当前限制
 
-### Basics
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-- Name: MegaETH Service Posture Analysis
-- Module: Host
-- Status: Active
-- Product Surface: Security Log Analysis
+## 9. 维护要求
 
-### Purpose
-
-Detects SSH, telnet, rsync, ICMP, printer, and other remote-access or service exposure risks in host posture material.
-
-### Typical Inputs
-
-- Unix / Linux baseline checklists
-- host service posture reports
-
-### Current Triggers
-
-- `ssh`
-- `telnet`
-- `rsync`
-- `icmp`
-- `openssh`
-- `printer`
-
-### Current Outputs
-
-- service exposure
-- remote-access risk
-- boundary-tightening guidance
-
-### Current Limits
-
-- currently title-keyword driven
-- does not yet deeply parse systemd unit configuration
-
-### Iteration Direction
-
-- add service-unit-level auditing
-- distinguish admin-plane services from business services
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

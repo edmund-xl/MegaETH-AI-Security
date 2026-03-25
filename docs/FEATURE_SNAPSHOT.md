@@ -1,251 +1,105 @@
-# Feature Snapshot / 功能快照
+# 功能快照
 <!-- security-log-analysis mainline -->
 
-## 中文版
+## 1. 文档目的
 
-这份文档不讲理念，只回答一个问题：现在这套系统已经能稳定干什么，哪些还只是方向。
+本文档用于说明当前主线已经具备的可见能力、输入源、页面能力和实现边界。
 
-如果你刚接手项目，我一般建议先看这里，再去看 Skill spec 和具体 case。这样你会先知道“手里有什么”，不会一上来就扎进实现细节。
+## 2. 当前输入源盘点
 
-### 现在已经稳定可用的
+### 2.1 本地输入
 
-#### 输入与分析
-
+- 文件上传
 - 文本输入
-- 批量文件上传
-- `csv / json / log / txt / yaml / yml / md / 文本型 pdf`
-- 上传后先进入待分析状态，不会自动跑；只有点击 `归一化后分析` 才真正开始处理
-- 归一化预览
-- Agent 决策预览
+- 混合输入批次
+
+### 2.2 外部平台接入
+
+- Bitdefender GravityZone
+- Whitebox AppSec 输入骨架
+
+### 2.3 已覆盖的分析域
+
+- Host
+- Endpoint
+- Identity / JumpServer
+- AppSec Whitebox
+- Cloud
+- CI/CD
+- EASM
+- Key Security
+
+## 3. 当前页面能力
+
+### 3.1 概览
+
+- 平台总览
+- 近期报告
+- 历史摘要
+- 能力覆盖简表
+
+### 3.2 输入
+
+- 统一输入
+- 文件上传
 - 归一化后分析
-- 中文安全报告
+- 上传执行记录
 
-#### 性能与存储
+### 3.3 技能
 
-- 历史数据默认只保留最近 2 天
-- 页面只读取最近窗口，不会把全部历史一次性拖进来
-- `raw_events / events / reports` 已切成轻量化落库
-- 大样本训练后，系统保留的是后续页面和调查真正会用到的摘要字段，而不是把大块中间内容重复写入多份历史文件
-- 每次调查批次的完整细节会单独压成 `json.gz` 归档，和页面摘要分开保存
+- 模块总览
+- 全部能力
+- 训练情况展示
 
-#### 页面层
+### 3.4 连接
 
-- `Overview`
-- `Intake`
-- `Skill`
-- `MCP`
-- `Agent Learning`
-- 中英文切换
-- 刷新后保留当前页面
+- 平台连接状态
+- Bitdefender 导入入口
+- 连接健康与导入提示
 
-#### Agent 主链
+### 3.5 学习
 
-- `normalizer`
-- `planner`
-- `skills`
-- `risk_engine`
-- `report_engine`
-- `history`
-- `memory_service`
-- JumpServer Agent 模型试点
-  - 当前只挂在 `megaeth.agent.core`
-  - 当前只用于 `megaeth.identity.jumpserver_multi_source_review`
-  - 没配 `GEMINI_API_KEY` 时自动回退到规则版报告
+- 学习反馈摘要
+- 最近学习反馈列表
 
-#### MCP
+## 4. 当前代表性能力
 
-- Bitdefender
-  - 连接验证
-  - 最新可分析内容
-  - 导入终端资产到平台
-  - 导入最新报表内容
-- Whitebox AppSec
-  - 已有骨架
-  - 已有三段式训练落点
+### 4.1 Host
 
-#### 学习
+- 基线合规分析
+- 完整性监测
+- systemd 服务风险
+- 二进制篡改审查
 
-- 自动 observation
-- 长期学习规则
-- 最近学习反馈
-- 重复规则合并
-- 手工规则优先于自动规则
+### 4.2 Endpoint
 
-### 现在已经落地的训练成果
+- 进程异常与平台事件分析
 
-#### Case 001 - Host Baseline Assessment
+### 4.3 Identity
 
-- 案例目录：
-  [training_cases/case_001_host_baseline/README.md](../training_cases/case_001_host_baseline/README.md)
-- 主 Skill：
-  [megaeth.host.baseline_compliance_analysis.md](../skill_specs/megaeth.host.baseline_compliance_analysis.md)
-- 当前稳定结果：
-  - `riskanalytics` 类文件稳定映射到
-    - `host_risk_analytics`
-    - `host_baseline_assessment`
-  - 默认中文报告
-  - 默认 `medium`
-  - finding 聚合成 4 类，不再逐行直出
+- 登录异常审查
+- JumpServer 命令审计
+- JumpServer 文件传输审计
+- JumpServer 管理平面审计
+- JumpServer 多源综合审计
 
-#### Case 002 - JumpServer Multi-Source Audit Review
+### 4.4 AppSec
 
-- 案例目录：
-  [training_cases/case_002_jumpserver_multisource/README.md](../training_cases/case_002_jumpserver_multisource/README.md)
-- 主 Skill：
-  [megaeth.identity.jumpserver_multi_source_review.md](../skill_specs/megaeth.identity.jumpserver_multi_source_review.md)
-- 当前稳定结果：
-  - 支持多份 JumpServer `xlsx` 审计文件
-  - 能识别登录、命令、文件传输、操作记录四类中间输入
-  - 带 `*` 的 JumpServer 表头会自动归一化成系统字段，不会再因为字段名不一致把 `用户 / 资产 / 命令 / 动作` 读空
-  - 登录与命令审计会基于完整 `xlsx` 行数聚合，不再被错误裁成前 `200` 行
-  - 较早登录快照会降级成补充样本，不再重复计数
-  - 同批上传时生成综合分析结果
-  - 输出高风险账户、跨源操作链、判断边界与复核动作
-  - 综合报告已经切到专属模板：
-    - `综合结论`
-    - `主要依据如下`
-    - `重点高危操作账户与命令汇总`
-    - `证据来源与导出链`
-    - `综合判断`
+- 白盒侦察
+- 白盒验证
+- 白盒综合报告
 
-### 现在已经能看见的 Skill 层信息
+## 5. 当前训练资产
 
-`Skill` 页面现在不再只是平铺卡片，已经能直接看：
-- 模块分组
-- 成熟度
-- 已训练 case 数
-- 对应 spec 入口
+已落地或已启用模板的训练资产包括：
 
-这点很重要，因为它让 Skill 不再只是“代码里有个名字”，而是真正可以持续训练和维护的对象。
+- Host baseline 训练案例
+- JumpServer 多源训练案例
+- Whitebox AppSec 案例模板
 
-### 还在往前推，但别假设已经很成熟
+## 6. 当前限制
 
-这些方向已经有结构，但深度还在继续补：
-- AppSec 白盒综合报告
-- EASM 复合报告
-- 更多外部平台 MCP
-- 更多真实 case 回归
-- 更强的 PDF/OCR 支持
-
-### 我会怎么用这份快照
-
-如果你问我“这版本能不能拿来继续训练”，我会先看三件事：
-- 关键页面是不是都在
-- 主分析链是不是都通
-- 至少一个真实 case 是不是已经被系统稳定吸收
-
-以现在这版来说，这三件事都是满足的。
-
----
-
-## English Version
-
-This document answers one practical question: what is already stable and usable right now, and what is still a work in progress.
-
-If I were onboarding into the project, I would read this before diving into implementation details. It tells you what you actually have in hand.
-
-### Stable and usable now
-
-#### Intake and analysis
-
-- text input
-- batch file upload
-- `csv / json / log / txt / yaml / yml / md / text-based pdf`
-- normalization preview
-- Agent decision preview
-- normalize-and-analyze flow
-- Chinese-first security reporting
-
-#### UI
-
-- `Overview`
-- `Intake`
-- `Skill`
-- `MCP`
-- `Agent Learning`
-- bilingual switch
-- active page preserved after refresh
-
-#### Agent core flow
-
-- `normalizer`
-- `planner`
-- `skills`
-- `risk_engine`
-- `report_engine`
-- `history`
-- `memory_service`
-- JumpServer Agent model pilot
-  - currently bound to `megaeth.agent.core`
-  - currently used only for `megaeth.identity.jumpserver_multi_source_review`
-  - automatically falls back to rule-based reporting when `GEMINI_API_KEY` is missing
-
-#### MCP
-
-- Bitdefender
-  - connection verification
-  - latest analyzable content
-  - import endpoint assets
-  - import latest report content
-- Whitebox AppSec
-  - scaffold exists
-  - three-stage training path exists
-
-#### Learning
-
-- automatic observations
-- long-lived learning rules
-- recent learning feedback
-- duplicate rule merging
-- manual rule priority over auto rules
-
-### Landed training result
-
-#### Case 001 - Host Baseline Assessment
-
-- Case directory:
-  [training_cases/case_001_host_baseline/README.md](../training_cases/case_001_host_baseline/README.md)
-- Primary Skill:
-  [megaeth.host.baseline_compliance_analysis.md](../skill_specs/megaeth.host.baseline_compliance_analysis.md)
-- Stable outcome:
-  - `riskanalytics` materials now map to
-    - `host_risk_analytics`
-    - `host_baseline_assessment`
-  - Chinese-first reports
-  - default `medium`
-  - findings aggregate into four categories instead of raw row-by-row output
-
-### What the Skill layer now exposes
-
-The `Skill` page now shows:
-- module grouping
-- maturity
-- trained case count
-- direct spec links
-
-For JumpServer, the single-source routes are now split instead of forcing everything into the composite review:
-- `megaeth.identity.anomalous_access_review` for login-only material
-- `megaeth.identity.jumpserver_command_review` for command-only material
-- `megaeth.identity.jumpserver_transfer_review` for file-transfer-only material
-- `megaeth.identity.jumpserver_operation_review` for operation-audit material
-- `megaeth.identity.jumpserver_multi_source_review` only when the batch is truly multi-source
-
-That matters because Skills are no longer just names in code. They are becoming trainable, maintainable capability units.
-
-### In progress, but not fully mature yet
-
-These paths exist, but still need more training depth:
-- AppSec whitebox synthesis reporting
-- composite EASM reporting
-- more external MCPs
-- broader real-case regression
-- deeper PDF / OCR support
-
-### How I use this snapshot
-
-If I want to know whether the platform is in a good state for continued training, I check:
-- are the core pages present
-- does the main analysis chain still work
-- has at least one real case been stably absorbed
-
-For the current version, the answer is yes.
+- 当前仍以本地单机运行为主
+- 存储层仍为文件型，而非数据库
+- Agent 增强仅是部分能力的辅助方式，不替代规则主链
+- 平台更适合分析、审计和学习沉淀，不是自动处置平台

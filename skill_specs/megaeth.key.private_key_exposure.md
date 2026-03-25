@@ -1,70 +1,54 @@
-# `megaeth.key.private_key_exposure`
+# Skill 规格说明：`megaeth.key.private_key_exposure`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.key.private_key_exposure`
+- 所属模块：`Key Security`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`secret_exposure`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 私钥暴露检测能力
-- 模块：Key
-- 当前状态：已接入，当前偏基础
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+识别明文私钥、助记词和高敏感密钥材料暴露。
 
-识别私钥、助记词和敏感密钥材料泄露线索。
+## 3. 典型输入
 
-### 典型输入
-
-- 文本
-- 配置
 - 代码
-- 事件导出
+- 命令行参数
+- 配置内容
 
-### 当前输出重点
+## 4. 主要输出
 
-- 私钥暴露
-- 需要轮换的高风险凭据
+- 高风险密钥暴露告警
+- 证据位置
+- 紧急处置建议
 
-### 当前限制
+## 5. 触发与路由
 
-- 目前主要与通用 secret detection 协同
-- 尚未针对链上钱包格式和更多密钥家族做细分
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### 迭代方向
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-- 增加链上钱包、助记词、keystore 等专门规则
+## 6. 判断边界
 
-## English
+- 高敏感输出默认按高风险处理，但仍需人工确认场景真实性
 
-### Basics
+## 7. 训练与参考资产
 
-- Name: MegaETH Private Key Exposure Detection
-- Module: Key
-- Status: Active, currently basic
-- Product Surface: Security Log Analysis
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-### Purpose
+## 8. 当前限制
 
-Detects leaked private keys, seed phrases, and sensitive key material.
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-### Typical Inputs
+## 9. 维护要求
 
-- text
-- configuration
-- code
-- exported event material
-
-### Current Outputs
-
-- private key exposure
-- high-risk credentials that require rotation
-
-### Current Limits
-
-- currently works alongside general secret detection
-- not yet specialized across more wallet formats or key families
-
-### Iteration Direction
-
-- add dedicated rules for wallets, seed phrases, and keystore formats
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

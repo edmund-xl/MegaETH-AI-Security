@@ -1,78 +1,54 @@
-# megaeth.appsec.whitebox_report_synthesis
+# Skill 规格说明：`megaeth.appsec.whitebox_report_synthesis`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
-- Skill ID: `megaeth.appsec.whitebox_report_synthesis`
-- 模块: `appsec`
-- 当前状态: `L2 / 规则与接入骨架已落地`
-- 适用产品域：安全日志分析
+- Skill ID：`megaeth.appsec.whitebox_report_synthesis`
+- 所属模块：`AppSec`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`whitebox_security_report`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-### 作用
-将白盒侦察与验证结果汇总为一份更适合交付的应用安全综合报告，突出结论、验证结果和优先治理动作。
+## 2. 能力目的
 
-### 典型输入
-- 执行摘要
-- 已确认与候选发现
-- 优先行动建议
+将白盒侦察与验证结果汇总为交付级综合报告。
 
-### 当前触发线索
-- `source_type = appsec`
-- `event_type = whitebox_security_report`
+## 3. 典型输入
 
-### 当前输出重点
+- 侦察结论
+- 验证结果
+- 优先整改建议
+
+## 4. 主要输出
+
 - 综合判断
-- 已确认问题摘要
 - 优先行动计划
+- 交付摘要
 
-### 当前限制
-- 目前偏平台化综合摘要，仍需后续 case 训练打磨语言风格
-- 尚未拆分为细粒度漏洞章节
+## 5. 触发与路由
 
-### 迭代方向
-- 结合真实 case 打磨中文交付风格
-- 增加章节化输出与优先级分层
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### 对应训练落点
-- 未来白盒综合报告类案例应同步到这个 Skill
-- 推荐先使用：
-  [training_cases/templates/appsec_whitebox_case_template/README.md](../training_cases/templates/appsec_whitebox_case_template/README.md)
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-## English
+## 6. 判断边界
 
-### Basics
-- Skill ID: `megaeth.appsec.whitebox_report_synthesis`
-- Module: `appsec`
-- Current status: `L2 / heuristic + integration scaffold`
-- Product Surface: Security Log Analysis
+- 当前仍以综合摘要为主，后续可扩展更细章节化结构
 
-### Purpose
-Synthesize whitebox recon and validation outputs into a delivery-grade application security report that highlights conclusions, proof-backed issues, and priority actions.
+## 7. 训练与参考资产
 
-### Typical Inputs
-- Executive summary
-- Confirmed and candidate findings
-- Priority remediation actions
+- [Whitebox AppSec 模板](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/templates/appsec_whitebox_case_template/README.md)
 
-### Current Triggers
-- `source_type = appsec`
-- `event_type = whitebox_security_report`
+## 8. 当前限制
 
-### Current Output Focus
-- Overall judgment
-- Confirmed issue summary
-- Priority action plan
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-### Current Limits
-- Still oriented around platform summaries and needs case-trained phrasing
-- Not yet split into fine-grained vulnerability chapters
+## 9. 维护要求
 
-### Iteration Direction
-- Tune Chinese delivery style with real training cases
-- Add section-based reporting and stronger priority layering
-
-### Training Sync Target
-- Future whitebox synthesis report cases should sync into this Skill
-- Recommended template:
-  [training_cases/templates/appsec_whitebox_case_template/README.md](../training_cases/templates/appsec_whitebox_case_template/README.md)
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

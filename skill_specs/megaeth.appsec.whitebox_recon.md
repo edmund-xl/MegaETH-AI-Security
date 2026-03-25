@@ -1,78 +1,53 @@
-# megaeth.appsec.whitebox_recon
+# Skill 规格说明：`megaeth.appsec.whitebox_recon`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
-- Skill ID: `megaeth.appsec.whitebox_recon`
-- 模块: `appsec`
-- 当前状态: `L2 / 规则与接入骨架已落地`
-- 适用产品域：安全日志分析
+- Skill ID：`megaeth.appsec.whitebox_recon`
+- 所属模块：`AppSec`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`whitebox_recon_assessment`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-### 作用
-对应用代码与运行目标做白盒侦察，提炼潜在攻击面、关键入口、鉴权边界和后续应重点验证的路径。
+## 2. 能力目的
 
-### 典型输入
-- 代码仓库路径
-- 运行中的目标地址
-- 应用级配置文件
+对白盒应用安全侦察材料做结构化解读，形成侦察结论与后续验证方向。
 
-### 当前触发线索
-- `source_type = appsec`
-- `event_type = whitebox_recon_assessment`
+## 3. 典型输入
 
-### 当前输出重点
-- 攻击面摘要
-- 候选验证路径
-- 暴露模式与优先排查线索
+- 白盒侦察记录
+- 结构图或代码片段
 
-### 当前限制
-- 当前是 MegaETH 自有白盒 MCP 骨架，不绑定任何第三方实现细节
-- 尚未接入真实 exploit 执行结果
+## 4. 主要输出
 
-### 迭代方向
-- 增加路由、鉴权边界、输入点的结构化 schema
-- 关联后续 exploit validation 结果形成闭环
+- 侦察结论
+- 候选问题
+- 验证建议
 
-### 对应训练落点
-- 未来白盒侦察类案例应同步到这个 Skill
-- 推荐先使用：
-  [training_cases/templates/appsec_whitebox_case_template/README.md](../training_cases/templates/appsec_whitebox_case_template/README.md)
+## 5. 触发与路由
 
-## English
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### Basics
-- Skill ID: `megaeth.appsec.whitebox_recon`
-- Module: `appsec`
-- Current status: `L2 / heuristic + integration scaffold`
-- Product Surface: Security Log Analysis
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### Purpose
-Perform whitebox reconnaissance against an application codebase and running target to surface attack paths, trust boundaries, and validation priorities.
+## 6. 判断边界
 
-### Typical Inputs
-- Repository path
-- Running target URL
-- Application configuration
+- 侦察阶段不直接下最终漏洞结论
 
-### Current Triggers
-- `source_type = appsec`
-- `event_type = whitebox_recon_assessment`
+## 7. 训练与参考资产
 
-### Current Output Focus
-- Attack surface summary
-- Candidate validation paths
-- Exposure patterns and triage leads
+- [Whitebox AppSec 模板](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/templates/appsec_whitebox_case_template/README.md)
 
-### Current Limits
-- MegaETH-native clean-room scaffold only
-- Does not yet ingest live exploit validation output
+## 8. 当前限制
 
-### Iteration Direction
-- Add structured schemas for routes, auth boundaries, and input sinks
-- Join later validation results into a closed whitebox workflow
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-### Training Sync Target
-- Future whitebox reconnaissance cases should sync into this Skill
-- Recommended template:
-  [training_cases/templates/appsec_whitebox_case_template/README.md](../training_cases/templates/appsec_whitebox_case_template/README.md)
+## 9. 维护要求
+
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

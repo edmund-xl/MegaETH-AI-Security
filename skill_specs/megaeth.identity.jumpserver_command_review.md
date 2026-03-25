@@ -1,109 +1,53 @@
-# `megaeth.identity.jumpserver_command_review`
+# Skill 规格说明：`megaeth.identity.jumpserver_command_review`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.identity.jumpserver_command_review`
+- 所属模块：`Identity`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`jumpserver_command_review`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH JumpServer 命令审计能力
-- 模块：Identity
-- 当前状态：已接入，负责 JumpServer 单文件命令侧审计
-- 适用产品域：安全日志分析
-- 执行方式：`规则版`
+## 2. 能力目的
 
-### 作用
+分析 JumpServer 命令审计日志，识别高风险命令语义与操作链线索。
 
-这条 Skill 专门处理 JumpServer 的命令审计单文件。它不负责做多源综合判断，重点是把命令侧里真正有风险价值的部分提出来，比如提权、服务启停、下载执行、跨主机操作、权限放开和敏感参数暴露。
+## 3. 典型输入
 
-我一般会把它当成“多源综合之前的命令侧分拣器”。如果只传了一份 `command.xlsx`，就该落这条，而不是直接挂到多源综合 Skill。
+- JumpServer 命令审计导出
 
-### 典型输入
+## 4. 主要输出
 
-- `command.xlsx`
-- JumpServer 导出的命令审计 xlsx
+- 高风险命令摘要
+- 操作账户与资产
+- 复核建议
 
-### 当前触发线索
+## 5. 触发与路由
 
-- `命令`
-- `风险等级`
-- `会话`
-- `sudo`
-- `systemctl`
-- `chmod`
-- `chown`
-- `scp`
-- `rsync`
-- `ssh`
-- `wget`
-- `curl`
-- `cast send --private-key`
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### 当前输出重点
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-- 命令总量与去噪后有效命令量
-- 高风险命令语义
-- 重点账户与重点资产
-- 提权 / 服务控制 / 下载执行 / 横向操作 / 敏感参数暴露
+## 6. 判断边界
 
-### 当前规则边界
+- 单条 sudo 或 systemctl 不是最终结论
+- 命令噪声需要去噪处理
 
-- 不因为单条 `sudo` 直接判定入侵
-- 命令侧结论不能替代文件传输和管理平面证据
-- 去噪后的命令链比原始导出计数更重要
+## 7. 训练与参考资产
 
-### 当前限制
+- [Case 002 - JumpServer Multi-Source](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_002_jumpserver_multisource/README.md)
 
-- 还没有完整的会话级图谱
-- 仍然依赖启发式去噪和命令关键词聚合
+## 8. 当前限制
 
-### 迭代方向
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-- 继续强化 tmux / 控制字符 / AI 交互噪声过滤
-- 增加账户-资产-命令链的会话化表达
+## 9. 维护要求
 
-## English
-
-### Basics
-
-- Name: MegaETH JumpServer Command Review
-- Module: Identity
-- Status: Active, for single-source JumpServer command audit
-- Product Surface: Security Log Analysis
-- Execution mode: `Rule only`
-
-### Purpose
-
-This Skill handles JumpServer command-audit files as standalone inputs. It focuses on high-risk command semantics such as privilege escalation, service control, download-and-execute, lateral operations, permission changes, and sensitive parameter exposure.
-
-### Typical inputs
-
-- `command.xlsx`
-- JumpServer exported command-audit xlsx files
-
-### Current triggers
-
-- `命令`
-- `风险等级`
-- `会话`
-- `sudo`
-- `systemctl`
-- `chmod`
-- `chown`
-- `scp`
-- `rsync`
-- `ssh`
-- `wget`
-- `curl`
-- `cast send --private-key`
-
-### Current outputs
-
-- total command volume and effective commands after denoising
-- high-risk command semantics
-- top risky accounts and assets
-- escalation / service control / download-execute / lateral movement / sensitive parameter exposure
-
-### Current limits
-
-- no full session graph yet
-- still relies on heuristic denoising and command-pattern aggregation
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

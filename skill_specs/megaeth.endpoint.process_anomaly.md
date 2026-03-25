@@ -1,94 +1,54 @@
-# `megaeth.endpoint.process_anomaly`
+# Skill 规格说明：`megaeth.endpoint.process_anomaly`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.endpoint.process_anomaly`
+- 所属模块：`Endpoint`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`endpoint_process`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 端点行为分析能力
-- 模块：Endpoint
-- 当前状态：已接入，真实案例已多轮打磨
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+分析端点平台事件、恶意软件检测、网络攻击检测和可疑进程行为。
 
-分析 EDR / XDR / Bitdefender 报表中的恶意软件检测、攻击行为、防钓鱼和阻断记录，并提炼出可读的端点风险结论。
+## 3. 典型输入
 
-### 典型输入
+- Bitdefender 事件导出
+- 端点事件行记录
 
-- Bitdefender 安全审计报表
-- 端点事件 CSV / PDF / JSON
-- 端点 incident 材料
+## 4. 主要输出
 
-### 当前触发线索
+- 端点异常结论
+- 影响主机列表
+- 后续排查建议
 
-- 报表中的 `恶意软件检测`
-- `网络攻击`
-- `阻止的网站`
-- 兼容旧 incident 线索：
-  - `Attack.LocalFileInclusion`
-  - `/.env`
-  - `ShellSpawned`
+## 5. 触发与路由
 
-### 当前输出重点
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 恶意软件检测
-- 网络攻击检测
-- 恶意网站或钓鱼拦截
-- 高频主机与重点终端
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 当前限制
+## 6. 判断边界
 
-- 仍以报表结构化字段和关键词为主
-- 对多步攻击链、进程树和横向移动的还原还不够深
+- 以平台事件为主，不替代主机取证
+- 需要结合时间窗和同主机关联
 
-### 迭代方向
+## 7. 训练与参考资产
 
-- 增加主机级聚合与优先排查列表
-- 结合事件流而不是只看静态报表
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-## English
+## 8. 当前限制
 
-### Basics
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-- Name: MegaETH Endpoint Behavior Analysis
-- Module: Endpoint
-- Status: Active, refined through real report training
-- Product Surface: Security Log Analysis
+## 9. 维护要求
 
-### Purpose
-
-Analyzes EDR/XDR/Bitdefender materials for malware, exploit-style detections, phishing blocks, and suspicious endpoint activity.
-
-### Typical Inputs
-
-- Bitdefender security audit reports
-- endpoint CSV / PDF / JSON exports
-- endpoint incident materials
-
-### Current Triggers
-
-- `恶意软件检测` / malware detections
-- `网络攻击` / network attacks
-- `阻止的网站` / blocked sites
-- legacy incident indicators such as:
-  - `Attack.LocalFileInclusion`
-  - `/.env`
-  - `ShellSpawned`
-
-### Current Outputs
-
-- malware detections
-- network attack detections
-- phishing or malicious web activity
-- top hosts and priority endpoints
-
-### Current Limits
-
-- still centered on structured report fields and keywords
-- not yet deep on process trees, lateral movement, or multi-step attack reconstruction
-
-### Iteration Direction
-
-- add host-level prioritization
-- move toward event-stream analysis instead of static reports only
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

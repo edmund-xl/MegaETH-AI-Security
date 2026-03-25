@@ -1,70 +1,53 @@
-# `megaeth.easm.external_intelligence`
+# Skill 规格说明：`megaeth.easm.external_intelligence`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.easm.external_intelligence`
+- 所属模块：`EASM`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`external_asset`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 外部情报关联能力
-- 模块：EASM
-- 当前状态：已接入，当前偏辅助
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+汇总外部情报、暴露信号和补充上下文，支撑外部面判断。
 
-处理外部情报线索和开放情报结果，补充资产和暴露面的外部视角。
+## 3. 典型输入
 
-### 典型输入
+- 情报材料
+- 开放源信息
 
-- OSINT / intelligence 结果
-- Shodan 类数据
+## 4. 主要输出
+
 - 外部情报摘要
+- 风险提示
+- 后续验证方向
 
-### 当前输出重点
+## 5. 触发与路由
 
-- 外部风险线索
-- 资产可见性补充
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### 当前限制
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-- 目前更像情报补充层
-- 还没有形成成熟的情报可信度评分体系
+## 6. 判断边界
 
-### 迭代方向
+- 情报质量依赖输入来源，需要人工筛选可信度
 
-- 增加来源可信度与冲突处理
-- 与资产、漏洞、服务扫描结果做交叉关联
+## 7. 训练与参考资产
 
-## English
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-### Basics
+## 8. 当前限制
 
-- Name: MegaETH External Intelligence Correlation
-- Module: EASM
-- Status: Active, currently supportive
-- Product Surface: Security Log Analysis
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-### Purpose
+## 9. 维护要求
 
-Processes OSINT and internet intelligence results to enrich the external view of assets and exposure.
-
-### Typical Inputs
-
-- OSINT / intelligence outputs
-- Shodan-like data
-- external intelligence summaries
-
-### Current Outputs
-
-- external risk clues
-- additional visibility for asset exposure
-
-### Current Limits
-
-- currently more of an enrichment layer
-- no mature source-confidence scoring yet
-
-### Iteration Direction
-
-- add source confidence and conflict handling
-- correlate with assets, vulnerabilities, and service-scan results
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

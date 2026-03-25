@@ -1,68 +1,54 @@
-# `megaeth.host.binary_tamper_review`
+# Skill 规格说明：`megaeth.host.binary_tamper_review`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.host.binary_tamper_review`
+- 所属模块：`Host`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`host_integrity`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 二进制完整性审查能力
-- 模块：Host
-- 当前状态：已接入，当前仍偏骨架
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+分析主机二进制替换、文件篡改和高风险落地行为。
 
-为关键二进制或完整性异常场景预留的主机复查能力，后续用于承接更深的文件与二进制篡改分析。
+## 3. 典型输入
 
-### 典型输入
+- 主机完整性记录
+- 二进制差异或替换线索
 
-- 主机完整性材料
-- 二进制篡改线索
-- 文件校验异常
+## 4. 主要输出
 
-### 当前输出重点
+- 篡改风险摘要
+- 可疑文件与路径
+- 复核动作
 
-- 当前更多作为规划补充项
-- 为后续更细粒度审查预留位置
+## 5. 触发与路由
 
-### 当前限制
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 尚无专门的执行分支
-- 目前更多体现为规划与能力占位
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 迭代方向
+## 6. 判断边界
 
-- 加入 hash 漂移、签名变化、关键文件替换等规则
+- 需要结合文件来源与发布时间复核
+- 不自动判定攻击成功
 
-## English
+## 7. 训练与参考资产
 
-### Basics
+- [Case 001 - Host Baseline](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_001_host_baseline/README.md)
 
-- Name: MegaETH Binary Integrity Review
-- Module: Host
-- Status: Active, currently closer to a scaffold
-- Product Surface: Security Log Analysis
+## 8. 当前限制
 
-### Purpose
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-Acts as the reserved host-review capability for binary tampering and deeper file integrity investigation.
+## 9. 维护要求
 
-### Typical Inputs
-
-- host integrity material
-- binary tamper clues
-- file checksum anomalies
-
-### Current Outputs
-
-- currently mostly a planning placeholder
-- leaves room for deeper integrity review later
-
-### Current Limits
-
-- no dedicated execution branch yet
-- mostly present as planning coverage
-
-### Iteration Direction
-
-- add rules for hash drift, signature changes, and critical file replacement
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

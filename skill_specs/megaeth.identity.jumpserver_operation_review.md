@@ -1,81 +1,52 @@
-# `megaeth.identity.jumpserver_operation_review`
+# Skill 规格说明：`megaeth.identity.jumpserver_operation_review`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.identity.jumpserver_operation_review`
+- 所属模块：`Identity`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`jumpserver_operation_review`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH JumpServer 管理平面审计能力
-- 模块：Identity
-- 当前状态：已接入，负责 JumpServer 单文件操作记录审计
-- 适用产品域：安全日志分析
-- 执行方式：`规则版`
+## 2. 能力目的
 
-### 作用
+分析 JumpServer 管理平面操作，如导出、授权、主机与账号变更。
 
-这条 Skill 专门处理 JumpServer 的管理平面操作记录。它的重点不是主机侧执行，而是导出、授权、主机/账号创建、节点更新和会话建立这些高影响控制平面动作。
+## 3. 典型输入
 
-### 典型输入
+- JumpServer 操作记录导出
 
-- `operatelog.xlsx`
-- JumpServer 导出的操作记录审计 xlsx
+## 4. 主要输出
 
-### 当前触发线索
+- 管理平面摘要
+- 关键控制平面动作
+- 复核建议
 
-- `动作`
-- `资源类型`
-- `组织名称`
-- `create`
-- `update`
-- `export`
-- 主机 / 账号 / 授权 / 会话
+## 5. 触发与路由
 
-### 当前输出重点
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 导出动作
-- 授权与更新
-- 主机/账号创建
-- 会话创建
-- 主要操作者与资源类型分布
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 当前规则边界
+## 6. 判断边界
 
-- 管理平面动作是背景证据，不替代主机侧执行证据
-- 不能把日志导出、资产授权直接当成入侵动作
+- 管理平面动作只能作为背景证据，不能替代主机执行证据
 
-### 当前限制
+## 7. 训练与参考资产
 
-- 仍然缺少和主机命令侧的强会话绑定
-- 需要更多真实样本来稳定“高影响管理平面操作”的判断边界
+- [Case 002 - JumpServer Multi-Source](/Users/lei/Documents/New%20project/megaeth-ai-security-rebuild/training_cases/case_002_jumpserver_multisource/README.md)
 
-### 迭代方向
+## 8. 当前限制
 
-- 强化导出来源链和资产授权变更链
-- 更好地区分正常运维管理和异常高影响变更
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-## English
+## 9. 维护要求
 
-### Basics
-
-- Name: MegaETH JumpServer Operation Review
-- Module: Identity
-- Status: Active, for single-source JumpServer operation-audit inputs
-- Product Surface: Security Log Analysis
-- Execution mode: `Rule only`
-
-### Purpose
-
-This Skill handles JumpServer control-plane operation logs. It focuses on export actions, authorization changes, host/account creation, node updates, and session creation rather than host-side execution.
-
-### Typical inputs
-
-- `operatelog.xlsx`
-- JumpServer exported operation-audit xlsx files
-
-### Current outputs
-
-- export actions
-- authorization and update activity
-- host/account creation
-- session creation
-- top operators and resource-type distribution
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

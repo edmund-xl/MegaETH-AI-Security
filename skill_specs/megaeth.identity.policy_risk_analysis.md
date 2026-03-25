@@ -1,70 +1,53 @@
-# `megaeth.identity.policy_risk_analysis`
+# Skill 规格说明：`megaeth.identity.policy_risk_analysis`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.identity.policy_risk_analysis`
+- 所属模块：`Identity`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`login_auth_review / policy context`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 身份策略风险分析能力
-- 模块：Identity
-- 当前状态：已接入，当前偏骨架
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+分析授权策略、账号边界与访问控制风险。
 
-识别身份与访问策略中的提权风险、宽权限和危险策略结构。
+## 3. 典型输入
 
-### 典型输入
+- 策略配置
+- 身份与授权材料
 
-- IAM policy
-- 身份策略 JSON / text
+## 4. 主要输出
 
-### 当前输出重点
+- 策略风险摘要
+- 边界问题
+- 治理建议
 
-- 提权风险
-- 宽权限策略
-- 策略修复建议
+## 5. 触发与路由
 
-### 当前限制
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 当前尚无专门执行分支
-- 需要进一步与真实策略引擎或规则库结合
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 迭代方向
+## 6. 判断边界
 
-- 对接真实 policy lint / reasoning 引擎
-- 增加 privilege escalation 路径分析
+- 属于授权面分析，不替代主机侧执行证据
 
-## English
+## 7. 训练与参考资产
 
-### Basics
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-- Name: MegaETH Identity Policy Risk Analysis
-- Module: Identity
-- Status: Active, currently closer to a scaffold
-- Product Surface: Security Log Analysis
+## 8. 当前限制
 
-### Purpose
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-Detects privilege-escalation risk, overbroad permissions, and dangerous identity policy structure.
+## 9. 维护要求
 
-### Typical Inputs
-
-- IAM policy
-- identity policy JSON / text
-
-### Current Outputs
-
-- privilege-escalation risk
-- broad permissions
-- remediation guidance
-
-### Current Limits
-
-- no dedicated execution branch yet
-- still needs stronger policy linting or reasoning engines
-
-### Iteration Direction
-
-- connect a real policy reasoning engine
-- add privilege-escalation path analysis
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

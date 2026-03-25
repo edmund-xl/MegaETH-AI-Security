@@ -1,38 +1,20 @@
-# Target Report Template
+# Whitebox AppSec 目标报告模板
 <!-- security-log-analysis mainline -->
 
-## 中文版
+## 1. 目的
 
-### 结论判断
+本文件用于定义未来白盒 AppSec 样本希望系统生成的目标报告样式。
 
-### 关键安全发现
+## 2. 建议结构
 
-### 综合风险评估
+- 综合结论
+- 关键发现
+- 验证结果
+- 影响说明
+- 优先行动建议
 
-### 建议行动
+## 3. 语义要求
 
-### 我希望的报告风格
-
-- 更像侦察结论 / 验证结论 / 综合治理报告
-- 中文优先
-- 不要暴露底层第三方产品语言
-- 结论优先，再讲证据，再讲动作
-
----
-
-## English Version
-
-### Verdict
-
-### Key Security Findings
-
-### Overall Risk Assessment
-
-### Recommended Actions
-
-### Desired Report Style
-
-- should read like recon findings / validation findings / synthesis report
-- Chinese-first delivery
-- should not expose third-party product language
-- conclusion first, evidence second, actions third
+- 中文输出
+- 区分侦察线索与已确认问题
+- 综合报告应强调优先级与治理路径

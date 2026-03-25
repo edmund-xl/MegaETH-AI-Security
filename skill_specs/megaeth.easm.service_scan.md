@@ -1,84 +1,54 @@
-# `megaeth.easm.service_scan`
+# Skill 规格说明：`megaeth.easm.service_scan`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.easm.service_scan`
+- 所属模块：`EASM`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`service_exposure`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 服务暴露分析能力
-- 模块：EASM
-- 当前状态：已接入，启发式实现
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+分析开放端口、服务暴露和网络层可访问面。
 
-识别端口、协议、HTTP/SSH 等服务暴露情况。
+## 3. 典型输入
 
-### 典型输入
+- 服务扫描结果
+- 端口与协议信息
 
-- 端口扫描 CSV
-- 服务暴露导出
-- Nmap / service 枚举结果
+## 4. 主要输出
 
-### 当前触发线索
+- 服务暴露摘要
+- 可达性风险
+- 下一步检查建议
 
-- `port`
-- `service`
-- `ssh`
-- `http`
+## 5. 触发与路由
 
-### 当前输出重点
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-- 服务暴露
-- 协议与端口风险
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-### 当前限制
+## 6. 判断边界
 
-- 仍是轻量级触发
-- 没有做 banner、版本、默认口令或弱协议深度判断
+- 不直接代表漏洞成立
+- 需与 TLS、漏洞、资产语义联合判断
 
-### 迭代方向
+## 7. 训练与参考资产
 
-- 增加服务版本画像
-- 增加高危端口与弱协议专项规则
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-## English
+## 8. 当前限制
 
-### Basics
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-- Name: MegaETH Service Exposure Analysis
-- Module: EASM
-- Status: Active, heuristic implementation
-- Product Surface: Security Log Analysis
+## 9. 维护要求
 
-### Purpose
-
-Detects exposed services, ports, and protocols such as HTTP and SSH.
-
-### Typical Inputs
-
-- port-scan CSV
-- service exposure exports
-- Nmap or service enumeration results
-
-### Current Triggers
-
-- `port`
-- `service`
-- `ssh`
-- `http`
-
-### Current Outputs
-
-- service exposure
-- protocol and port risk
-
-### Current Limits
-
-- still lightweight and trigger-based
-- no deep judgment on banners, versions, default credentials, or weak protocols yet
-
-### Iteration Direction
-
-- add service version profiling
-- add dedicated rules for dangerous ports and weak protocols
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

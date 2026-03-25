@@ -1,84 +1,55 @@
-# `megaeth.cicd.pr_security_review`
+# Skill 规格说明：`megaeth.cicd.pr_security_review`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.cicd.pr_security_review`
+- 所属模块：`CI/CD`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`github_pr`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH PR 安全审查能力
-- 模块：CI/CD
-- 当前状态：已接入，启发式实现
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+审查拉取请求或代码变更中可能引入的高风险执行路径、命令调用与供应链风险。
 
-用于分析 PR、代码 diff、脚本片段和变更材料中的危险执行链、可疑命令调用与高风险代码模式。
+## 3. 典型输入
 
-### 典型输入
-
-- GitHub PR 文本
+- Pull request 文本
 - 代码 diff
-- shell / Python / YAML 片段
+- 仓库上下文
 
-### 当前触发线索
+## 4. 主要输出
 
-- `subprocess`
-- `curl`
-- `bash`
+- 危险执行链
+- 高风险代码片段
+- 复核建议
 
-### 当前输出重点
+## 5. 触发与路由
 
-- 危险执行流
-- 可疑 shell 调用
-- 需要人工复查的代码风险
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### 当前限制
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-- 仍以关键词启发式为主
-- 还没有做 AST、上下文依赖或仓库级语义分析
+## 6. 判断边界
 
-### 迭代方向
+- 不直接替代人工 Code Review
+- 不对未提供代码上下文的仓库做推断
 
-- 增加命令执行、下载执行、凭据滥用等更细的规则
-- 结合仓库上下文做变更级判断
+## 7. 训练与参考资产
 
-## English
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-### Basics
+## 8. 当前限制
 
-- Name: MegaETH PR Security Review
-- Module: CI/CD
-- Status: Active, heuristic implementation
-- Product Surface: Security Log Analysis
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-### Purpose
+## 9. 维护要求
 
-Analyzes pull requests, code diffs, and change materials for dangerous execution flow and risky code patterns.
-
-### Typical Inputs
-
-- GitHub PR text
-- code diffs
-- shell / Python / YAML snippets
-
-### Current Triggers
-
-- `subprocess`
-- `curl`
-- `bash`
-
-### Current Outputs
-
-- dangerous execution flow
-- suspicious shell usage
-- code-risk review hints
-
-### Current Limits
-
-- still mostly keyword-driven
-- no AST or repository-wide semantic review yet
-
-### Iteration Direction
-
-- add finer rules for download-and-execute, credential abuse, and command execution
-- incorporate repository context into change review
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

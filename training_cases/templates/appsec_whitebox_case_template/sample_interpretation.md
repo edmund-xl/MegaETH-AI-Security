@@ -1,56 +1,20 @@
-# Sample Interpretation Template
+# Whitebox AppSec 样本解释模板
 <!-- security-log-analysis mainline -->
 
-## 中文版
+## 1. 样本背景
 
-文件：
+- 样本来源：
+- 样本阶段：`whitebox_recon_assessment / whitebox_exploit_validation / whitebox_security_report`
+- 关联系统或服务：
 
-材料阶段：
-- `whitebox_recon_assessment / whitebox_exploit_validation / whitebox_security_report`
+## 2. 关键观察
 
-我认为正确的分类：
-- `source_type = appsec`
-- `event_type = `
-- `skills = `
+- 观察 1：
+- 观察 2：
+- 观察 3：
 
-我认为这份材料真正表达的是：
-- 这是不是已经确认的问题：
-- 风险级别：
-- 关键依据：
-- 哪些只是线索：
-- 哪些已经可以进入修复：
+## 3. 初步结论
 
-当前系统不对的地方：
-- 分类
-- Skill
-- 风险语义
-- 报告语言
-- 证据提炼
-
----
-
-## English Version
-
-File:
-
-Material stage:
-- `whitebox_recon_assessment / whitebox_exploit_validation / whitebox_security_report`
-
-Expected classification:
-- `source_type = appsec`
-- `event_type = `
-- `skills = `
-
-What this material actually represents:
-- is this already a confirmed issue:
-- risk level:
-- key evidence:
-- which parts are only leads:
-- which parts are ready for remediation:
-
-What is wrong in the current system:
-- classification
-- skill
-- risk semantics
-- report language
-- evidence extraction
+- 样本应被归类为：
+- 主要风险语义：
+- 需要系统重点学习的表达：

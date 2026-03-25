@@ -1,88 +1,55 @@
-# `megaeth.cicd.secret_detection`
+# Skill 规格说明：`megaeth.cicd.secret_detection`
 <!-- security-log-analysis mainline -->
 
-## 中文
+## 1. 基本信息
 
-### 基本信息
+- Skill ID：`megaeth.cicd.secret_detection`
+- 所属模块：`CI/CD`
+- 适用产品域：`安全日志分析`
+- 对应事件类型：`secret_exposure`
+- 当前执行模式：以规则主链为主，必要时可叠加受控增强
 
-- 中文名称：MegaETH 密钥与敏感信息检测能力
-- 模块：CI/CD
-- 当前状态：已接入，启发式实现
-- 适用产品域：安全日志分析
+## 2. 能力目的
 
-### 作用
+识别代码、配置和提交内容中的密钥、令牌与敏感凭证暴露。
 
-识别代码、配置、日志或文本中可能暴露的 AKIA、API key、private key、secret 等敏感凭据。
+## 3. 典型输入
 
-### 典型输入
-
-- 源码
+- 代码片段
 - 配置文件
-- CI/CD 输出
-- 文本型报告
+- 提交内容
 
-### 当前触发线索
+## 4. 主要输出
 
-- `akia`
-- `private key`
-- `api_key`
-- `secret`
+- 疑似秘密信息
+- 暴露位置
+- 处置建议
 
-### 当前输出重点
+## 5. 触发与路由
 
-- 潜在密钥暴露
-- 敏感凭据片段
-- 轮换与清理建议
+该 Skill 由 Planner 根据 `event_type` 与 `source_type` 路由命中。若训练案例或学习规则要求对路由进行校准，应同时更新：
 
-### 当前限制
+- `app/core/planner.py`
+- `app/skills/implementations.py`
+- 本 Skill 规格说明
+- 对应训练案例文档
 
-- 目前主要依赖关键词
-- 还没有接入更强的 secret scanner 或模式库
+## 6. 判断边界
 
-### 迭代方向
+- 命中结果需要人工确认
+- 不自动判断凭证是否已失效
 
-- 对接真实 secret scanner
-- 支持按凭据类型区分严重度和轮换优先级
+## 7. 训练与参考资产
 
-## English
+- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
 
-### Basics
+## 8. 当前限制
 
-- Name: MegaETH Secret Detection
-- Module: CI/CD
-- Status: Active, heuristic implementation
-- Product Surface: Security Log Analysis
+- 当前实现以本地规则与样本驱动为主
+- 输出质量受输入材料完整度影响
+- 重要边界应优先由案例和目标输出驱动收敛
 
-### Purpose
+## 9. 维护要求
 
-Detects potential AKIA strings, API keys, private keys, and other secret material in code, configs, logs, or free text.
-
-### Typical Inputs
-
-- source code
-- configuration files
-- CI/CD output
-- text reports
-
-### Current Triggers
-
-- `akia`
-- `private key`
-- `api_key`
-- `secret`
-
-### Current Outputs
-
-- potential secret exposure
-- credential fragments
-- rotation and cleanup suggestions
-
-### Current Limits
-
-- mostly keyword-based today
-- no stronger scanner or pattern library integrated yet
-
-### Iteration Direction
-
-- connect a real secret scanner
-- differentiate severity and rotation priority by credential type
+- 当分类、输出结构或风险语义发生变化时，必须同步更新本文件
+- 若新增真实样本，应在 `training_cases/` 中建立或更新对应案例文档

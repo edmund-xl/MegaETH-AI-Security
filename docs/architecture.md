@@ -1,69 +1,98 @@
-# MegaETH AI Security 架构说明 / Architecture Notes
+# 架构说明
 <!-- security-log-analysis mainline -->
 
-## 中文版
+## 1. 目的
 
-这份说明以当前仓库主运行路径为准：`app/` 里的安全分析服务与同目录静态前端。`backend/` 与旧的 `frontend/` 目前仍保留为历史/兼容实现，不作为当前最小可运行路径的主线。
+本文档提供系统的结构化架构视图，用于帮助开发、测试和交接快速理解当前主线。
 
-## 系统形态
+## 2. 系统上下文
 
-- `app/main.py`：FastAPI 入口与静态入口。
-- `app/core/`：`normalize -> planner -> skills -> risk -> report` 的主链。
-- `app/skills/`：安全能力库（Skill）。
-- `app/core/memory_service.py`/`app/utils`：分类记忆与持久化。
-- `app/integrations/`：Bitdefender、白盒应用安全等 MCP 接入。
-- `app/static/`：当前可直接使用的前端页面。
-- `configs/`：本地可调参数与实验配置。
-- `data/`：报告、输入样例、测试材料。
-- `tests/`：核心接口与流水线回归。
-- `docs/`：产品、方案、训练与发布文档。
+```mermaid
+flowchart LR
+    A["安全材料 / 平台导入"] --> B["输入与解析"]
+    B --> C["归一化"]
+    C --> D["Planner"]
+    D --> E["Skill 执行"]
+    E --> F["风险判断"]
+    F --> G["报告生成"]
+    G --> H["历史 / 调查 / 学习"]
+```
 
-## 一次分析循环
+## 3. 前后端关系
 
-- 1) 原始输入进入 `memory` 回放规则（有历史经验先补齐归一化线索）。
-- 2) `normalizer` 将输入转为 `NormalizedEvent`。
-- 3) `planner` 依据素材类型/来源/上下文输出待执行 `skills`。
-- 4) `skills` 产出 `findings` 并透过 `risk_engine` 计算风险分级。
-- 5) `report_engine` 生成统一结构的 `SecurityReport`。
-- 6) `history` 记录事件、报告、调查会话；`memory` 同步写入学习反馈。
+```mermaid
+flowchart TB
+    UI["静态前端 UI\n概览 / 输入 / 技能 / 连接 / 学习"] --> API["FastAPI 路由层"]
+    API --> CORE["核心分析层\nNormalizer / Planner / Skills / Risk / Report"]
+    CORE --> STORE["留存与学习层\nHistory / Memory / JSON Store"]
+    API --> INTEGRATION["外部接入层\nBitdefender / Whitebox AppSec"]
+```
 
-对外看板建议按这个顺序展示：`/health` -> `/pipeline/overview` -> `/skills` -> `/ingest/files` -> `/reports/recent`。
+## 4. 运行关键路径
 
-## 可见系统边界
+### 4.1 单次分析路径
 
-- 支持单文件、多文件、文本与二进制可解析材料的快速接入。
-- 支持分类纠偏：用户可以通过 `memory` 反馈让下一次输入更贴近实际归类。
-- 支持外部系统补充材料：Bitdefender、Whitebox 应用安全。
-- 支持近期结果回看，不依赖数据库即可在单机运行。
+```text
+用户上传材料
+-> 输入解析
+-> 归一化
+-> 分类
+-> Skill 执行
+-> 生成 Findings
+-> 生成安全报告
+-> 写入历史与学习反馈
+```
 
-## 当前阶段不做的事情
+### 4.2 平台导入路径
 
-- 不做分布式执行器。
-- 不做企业级权限、租户隔离与审计链。
-- 不把扫描结果直接接入生产自动处置；默认是半自动、可审计的分析流程。
+```text
+点击连接页导入
+-> 平台接口拉取
+-> 标准化为统一事件
+-> 进入与本地上传相同的分析链
+```
 
-## English
+## 5. 模块边界
 
-This document describes the current runnable stack in this repository: the FastAPI service in `app/` and static UI in `app/static/`.
+### 5.1 输入与接入层
 
-## System Shape
+职责：
 
-- `app/main.py`: FastAPI entry and static mount.
-- `app/core/`: analysis chain (`normalizer -> planner -> skills -> risk_engine -> report_engine`).
-- `app/skills/`: executable security capability units.
-- `app/core/memory_service.py` and `app/utils`: memory learning and event parsing helpers.
-- `app/integrations/`: MCP connectors.
-- `app/static/`: built-in UI shell.
+- 接收本地文件与文本
+- 发起平台导入
+- 产生原始输入对象
 
-## Runtime Loop
+### 5.2 归一化与分类层
 
-1) New input enters memory enrichment.
-2) Normalization into a typed event object.
-3) Planner selects skills.
-4) Skills generate findings and risk engine scores them.
-5) Report engine builds a structured security report.
-6) History stores outputs; memory stores learning feedback.
+职责：
 
-## Default Scope
+- 识别材料类型
+- 统一字段结构
+- 生成 `source_type` 与 `event_type`
+- 根据事件类型选择 Skill
 
-The default target is a research-first, operator-visible workflow with correction loops, not a fully automated production executor.
+### 5.3 执行与报告层
+
+职责：
+
+- 执行 Skill
+- 输出 Findings
+- 计算风险标签
+- 生成安全报告与下载内容
+
+### 5.4 留存与学习层
+
+职责：
+
+- 保存历史报告与调查记录
+- 保存学习反馈与规则
+- 为后续样本训练提供回写基础
+
+## 6. 运行边界
+
+当前主线必须遵守以下边界：
+
+- 只保留安全日志分析一个产品域
+- 不再引入其他顶级产品域
+- 修改共享前端文件时必须验证全部五个页面
+- 不使用其他项目材料污染当前运行态
