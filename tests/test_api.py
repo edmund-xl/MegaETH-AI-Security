@@ -8,6 +8,7 @@ from fastapi.testclient import TestClient
 from app.main import app
 from app.core.pipeline import SecurityPipeline
 from app.utils.store import REPORTS_FILE, prune_records
+from app.utils.file_ingest import parse_file_to_raw_event
 
 
 client = TestClient(app)
@@ -27,8 +28,104 @@ def make_xlsx_bytes(headers: list[str], rows: list[list[object]]) -> bytes:
     return buffer.getvalue()
 
 
+def make_csv_bytes(headers: list[str], rows: list[list[object]]) -> bytes:
+    lines = [",".join(headers)]
+    for row in rows:
+        lines.append(",".join(str(item) for item in row))
+    return ("\n".join(lines) + "\n").encode("utf-8")
+
+
 def test_health() -> None:
     assert client.get("/health").json() == {"status": "ok"}
+
+
+def test_easm_chinese_csvs_route_to_expected_single_event_types() -> None:
+    service_bytes = make_csv_bytes(
+        ["工件名称", "工件类型", "端口", "协议", "相关域名", "相关 IP"],
+        [["104.18.9.172_https_443_cloudflare", "服务", "443", "https", "token-api.megaeth.com", "104.18.9.172"]],
+    )
+    cert_bytes = make_csv_bytes(
+        ["工件名称", "工件类型", "证书ID", "颁发者名称", "证书过期状态", "相关域名"],
+        [["CloudFlare Origin Certificate", "证书", "id-1", "CloudFlare, Inc.", "无需采取任何操作", "token-api.megaeth.com"]],
+    )
+    dns_bytes = make_csv_bytes(
+        ["工件名称", "工件类型", "DNS记录类型", "域名服务器", "相关域名"],
+        [["megaeth.com_jake.ns.cloudflare.com", "DNS记录", "SOA", "jake.ns.cloudflare.com", "megaeth.com"]],
+    )
+    ip_bytes = make_csv_bytes(
+        ["工件名称", "工件类型", "相关 IP"],
+        [["104.18.0.0/20", "IP地址段", "104.18.9.172"]],
+    )
+
+    service_raw = parse_file_to_raw_event("EASM_service.csv", service_bytes)
+    cert_raw = parse_file_to_raw_event("EASM_cert.csv", cert_bytes)
+    dns_raw = parse_file_to_raw_event("EASM_dns.csv", dns_bytes)
+    ip_raw = parse_file_to_raw_event("EASM_ip.csv", ip_bytes)
+
+    assert service_raw.source_type == "easm" and service_raw.event_hint == "service_exposure"
+    assert cert_raw.source_type == "easm" and cert_raw.event_hint == "tls_analysis"
+    assert dns_raw.source_type == "easm" and dns_raw.event_hint == "external_asset"
+    assert ip_raw.source_type == "easm" and ip_raw.event_hint == "external_asset"
+
+
+def test_easm_multi_file_batch_generates_composite_asset_assessment() -> None:
+    service_bytes = make_csv_bytes(
+        ["asset", "ip", "port", "protocol", "provider"],
+        [
+            ["token-api.megaeth.com", "104.16.0.10", "80", "http", "CloudFlare Inc"],
+            ["token-api.megaeth.com", "34.120.1.10", "443", "https", "Google LLC"],
+            ["mainnet-dashboard.megaeth.com", "104.16.0.11", "443", "https", "CloudFlare Inc"],
+            ["mainnet-dashboard.megaeth.com", "34.120.1.11", "443", "https", "Google LLC"],
+            ["l1rpc.megaeth.com", "216.245.192.5", "80", "http", "Limestone Networks Inc."],
+            ["l1rpc.megaeth.com", "216.245.192.5", "443", "https", "Limestone Networks Inc."],
+        ],
+    )
+    dns_bytes = make_csv_bytes(
+        ["domain", "record_type", "value", "provider"],
+        [
+            ["verify.megaeth.com", "NS", "ns1.vercel-dns-3.com", "Amazon.com Inc."],
+        ],
+    )
+    cert_bytes = make_csv_bytes(
+        ["common_name", "issuer", "status"],
+        [
+            ["token-api.megaeth.com", "Cloudflare Origin Certificate", "active"],
+            ["verify.megaeth.com", "Let's Encrypt", "active"],
+            ["github.megaeth.com", "Unknown", "expired"],
+            ["perftest.megaeth.com", "Unknown", "expired"],
+        ],
+    )
+
+    response = client.post(
+        "/ingest/files",
+        files=[
+            ("files", ("services.csv", service_bytes, "text/csv")),
+            ("files", ("dns_records.csv", dns_bytes, "text/csv")),
+            ("files", ("certificates.csv", cert_bytes, "text/csv")),
+        ],
+    )
+    body = response.json()
+    assert response.status_code == 200
+    assert body["composite_generated"] is True
+    composite = next(item for item in body["results"] if item["normalized_event"]["event_type"] == "easm_asset_assessment")
+    assert composite["planner_preview"]["skills_to_execute"] == [
+        "megaeth.easm.asset_discovery",
+        "megaeth.easm.service_scan",
+        "megaeth.easm.tls_analysis",
+        "megaeth.easm.vulnerability_scan",
+        "megaeth.easm.external_intelligence",
+    ]
+    assert composite["report"]["report_title"] == "EASM 外部攻击面综合评估报告"
+    assert composite["report"]["report_template"] == "easm_asset_assessment_v1"
+    assessments = composite["normalized_event"]["normalized_data"]["asset_assessments"]
+    indexed = {item["asset"]: item for item in assessments}
+    assert indexed["token-api.megaeth.com"]["scores"]["severity"] == "High"
+    assert "cdn_and_direct_origin_coexist" in indexed["token-api.megaeth.com"]["tags"]
+    assert "potential_origin_exposure" in indexed["token-api.megaeth.com"]["tags"]
+    assert indexed["verify.megaeth.com"]["scores"]["severity"] == "Medium"
+    assert "third_party_dns_delegation" in indexed["verify.megaeth.com"]["tags"]
+    assert indexed["github.megaeth.com"]["scores"]["severity"] == "Low"
+    assert "historical_asset_hint" in indexed["github.megaeth.com"]["tags"]
 
 
 

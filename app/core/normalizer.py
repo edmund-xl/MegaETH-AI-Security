@@ -14,7 +14,7 @@ EVENT_TYPE_HINTS = {
     "host": {"发现名称": "host_integrity", "auditd": "host_integrity", "ssh": "systemd_service_change"},
     "host_risk_analytics": {"发现名称": "host_baseline_assessment", "风险评分": "host_baseline_assessment", "合规标准": "host_baseline_assessment"},
     "cloud": {"config": "cloud_config_change", "bucket": "cloud_config_change"},
-    "easm": {"port": "service_exposure", "tls": "tls_change"},
+    "easm": {"port": "service_exposure", "tls": "tls_analysis", "certificate": "tls_analysis", "easm_asset_assessment": "easm_asset_assessment"},
     "kms": {"sign": "kms_access"},
     "bitdefender": {"catalog": "integration_catalog", "report": "integration_catalog", "inventory": "endpoint_inventory"},
     "jumpserver": {"jumpserver_multi_source_audit": "jumpserver_multi_source_audit"},

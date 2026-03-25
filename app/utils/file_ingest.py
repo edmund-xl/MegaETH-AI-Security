@@ -11,6 +11,7 @@ from typing import Any
 from openpyxl import load_workbook
 from pypdf import PdfReader
 
+from app.core.easm_analysis import build_easm_composite_raw_event, detect_easm_dataset
 from app.models.event import RawEvent
 
 
@@ -102,6 +103,8 @@ def infer_source_type(filename: str, content: str, parser_profile: str | None = 
     lower_name = filename.lower()
     lower_content = content.lower()
     tabular_like = parser_profile in {"xlsx-tabular", "csv-tabular"}
+    if "easm" in lower_name:
+        return "easm"
     if parser_profile in {"text", "pdf-text", "json"} and (
         any(token in lower_name for token in PROJECT_DOC_FILENAME_TOKENS)
         or sum(1 for token in PROJECT_DOC_CONTENT_TOKENS if token in lower_content) >= 2
@@ -139,7 +142,29 @@ def infer_source_type(filename: str, content: str, parser_profile: str | None = 
         return "cloud"
     if any(token in lower_name for token in ("github", "pr", "commit")) or "pull_request" in lower_content:
         return "github"
-    if any(token in lower_name for token in ("nmap", "asset", "tls")) or any(token in lower_content for token in ("port", "certificate", "subdomain")):
+    if any(token in lower_name for token in ("nmap", "asset", "tls", "dns", "cert", "certificate", "asn", "cidr", "netblock", "exposure")) or any(
+        token in lower_content
+        for token in (
+            "port",
+            "certificate",
+            "subdomain",
+            "dns",
+            "record_type",
+            "issuer",
+            "common_name",
+            "asn",
+            "cidr",
+            "netblock",
+            "端口",
+            "协议",
+            "dns记录类型",
+            "证书id",
+            "颁发者名称",
+            "证书过期状态",
+            "asn 国家",
+            "asn 运营商",
+        )
+    ):
         return "easm"
     if "kms" in lower_name or "sign" in lower_content:
         return "kms"
@@ -148,6 +173,7 @@ def infer_source_type(filename: str, content: str, parser_profile: str | None = 
 
 def parse_file_to_raw_event(filename: str, data: bytes) -> RawEvent:
     suffix = Path(filename).suffix.lower()
+    event_hint = None
     if suffix == ".pdf" or data.startswith(b"%PDF-"):
         content = extract_pdf_text(data)
         payload = {"content": content, "parser_profile": "pdf-text", "filename": filename}
@@ -166,15 +192,31 @@ def parse_file_to_raw_event(filename: str, data: bytes) -> RawEvent:
     elif suffix == ".csv":
         content = _safe_decode(data)
         reader = csv.DictReader(io.StringIO(content))
-        rows = [dict(row) for row in reader]
+        normalized_headers = [_normalize_tabular_header(field) for field in (reader.fieldnames or [])]
+        rows = []
+        for raw_row in reader:
+            row = {}
+            for original, normalized in zip(reader.fieldnames or [], normalized_headers):
+                row[normalized] = raw_row.get(original, "")
+            rows.append(row)
+        source_type = infer_source_type(filename, content, "csv-tabular")
+        if source_type == "easm":
+            dataset_type = detect_easm_dataset(filename, normalized_headers, rows)
+            event_hint = {
+                "service": "service_exposure",
+                "certificate": "tls_analysis",
+                "dns": "external_asset",
+                "asn": "external_asset",
+                "ip_range": "external_asset",
+            }.get(dataset_type, "external_asset")
+        stored_rows = rows if source_type == "easm" else rows[:50]
         payload = {
-            "headers": list(reader.fieldnames or []),
-            "rows": rows[:50],
+            "headers": normalized_headers,
+            "rows": stored_rows,
             "row_count": len(rows),
             "parser_profile": "csv-tabular",
             "filename": filename,
         }
-        source_type = infer_source_type(filename, content, "csv-tabular")
     elif suffix in {".xlsx", ".xlsm"}:
         payload = extract_xlsx_payload(data, filename)
         preview = " ".join(payload.get("headers", [])) + "\n" + str(payload.get("content_preview") or "")
@@ -186,6 +228,7 @@ def parse_file_to_raw_event(filename: str, data: bytes) -> RawEvent:
     stem = Path(filename).stem
     return RawEvent(
         source_type=source_type,
+        event_hint=event_hint,
         asset_context={
             "asset_id": stem,
             "asset_name": stem,
@@ -203,7 +246,7 @@ def _string_value(value: Any) -> str:
 
 
 def _normalize_tabular_header(value: Any) -> str:
-    text = _string_value(value)
+    text = _string_value(value).lstrip("\ufeff").strip('"').strip("'")
     while text.startswith("*"):
         text = text[1:].strip()
     return text

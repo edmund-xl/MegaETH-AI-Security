@@ -9,7 +9,7 @@
 
 ### 2. 已落地案例
 
-当前正式案例包括 Host baseline 与 JumpServer 多源综合审计。
+当前正式案例包括 Host baseline、JumpServer 多源综合审计，以及 EASM 多层资产综合评估。
 
 ### 3. 模板案例
 
@@ -28,7 +28,7 @@ List the active training cases and templates and map them to their Skills.
 
 ### 2. Active Cases
 
-The currently landed cases are Host baseline and JumpServer multi-source audit review.
+The currently landed cases are Host baseline, JumpServer multi-source audit review, and EASM multi-layer asset assessment.
 
 ### 3. Template Cases
 

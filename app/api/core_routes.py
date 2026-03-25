@@ -7,7 +7,7 @@ from fastapi import APIRouter, File, UploadFile
 from app.api.shared import pipeline
 from app.models.event import EventEnvelope, NormalizedEvent, RawEvent
 from app.models.memory import ClassificationLearningRequest
-from app.utils.file_ingest import build_jumpserver_composite_raw_event, parse_file_to_raw_event
+from app.utils.file_ingest import build_easm_composite_raw_event, build_jumpserver_composite_raw_event, parse_file_to_raw_event
 
 
 router = APIRouter()
@@ -182,6 +182,36 @@ async def ingest_files(files: list[UploadFile] = File(...)):
                     "classification": composite_classification,
                 },
                 "report": composite_report.model_dump(mode="json"),
+            },
+        )
+    easm_composite_raw_event = build_easm_composite_raw_event(raw_events_for_batch)
+    if easm_composite_raw_event is not None:
+        composite_generated = True
+        easm_composite_raw_event, memory = pipeline.memory.apply_raw_event_memory(easm_composite_raw_event)
+        easm_composite_normalized = pipeline.normalizer.normalize(easm_composite_raw_event)
+        easm_composite_normalized = pipeline.memory.enrich_normalized_event(easm_composite_normalized, memory)
+        easm_composite_classification = pipeline.planner.classify(easm_composite_normalized)
+        easm_composite_skills, easm_composite_reason = pipeline.planner.plan(easm_composite_normalized)
+        easm_composite_envelope = EventEnvelope(
+            raw_event=easm_composite_raw_event,
+            normalized_event=easm_composite_normalized,
+            classification=easm_composite_classification,
+        )
+        pipeline.history.save_raw_event(easm_composite_raw_event)
+        pipeline.memory.learn_from_analysis(easm_composite_raw_event, easm_composite_normalized, easm_composite_skills)
+        easm_composite_report = pipeline.run(easm_composite_normalized, easm_composite_envelope)
+        results.insert(
+            0,
+            {
+                "filename": "EASM Composite Asset Assessment Batch",
+                "raw_event": easm_composite_raw_event.model_dump(mode="json"),
+                "normalized_event": easm_composite_normalized.model_dump(mode="json"),
+                "planner_preview": {
+                    "skills_to_execute": easm_composite_skills,
+                    "analysis_reason": easm_composite_reason,
+                    "classification": easm_composite_classification,
+                },
+                "report": easm_composite_report.model_dump(mode="json"),
             },
         )
     investigation = (

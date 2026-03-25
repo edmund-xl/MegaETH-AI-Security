@@ -614,7 +614,103 @@ class ReportEngine:
             "professional_judgment": "从主机安全视角看，这更像一份需要分批治理的高风险基线缺口清单，而不是误报。",
         }
 
+    def _easm_analysis(self, event: NormalizedEvent, findings: list[Finding]) -> dict[str, object]:
+        assessments = event.normalized_data.get("asset_assessments", []) if isinstance(event.normalized_data.get("asset_assessments"), list) else []
+        surface_summary = event.normalized_data.get("surface_summary", {}) if isinstance(event.normalized_data.get("surface_summary"), dict) else {}
+        layer_findings = event.normalized_data.get("layer_findings", []) if isinstance(event.normalized_data.get("layer_findings"), list) else []
+        high_assets = [item for item in assessments if str((item.get("scores") or {}).get("severity") or "") in {"High", "Critical"}]
+        historical_assets = [item for item in assessments if "historical_asset_hint" in item.get("tags", [])]
+        delegation_assets = [item for item in assessments if "third_party_dns_delegation" in item.get("tags", [])]
+        key_assets = high_assets[:5] if high_assets else assessments[:5]
+
+        structured_sections = [
+            {
+                "title": "综合结论",
+                "paragraphs": [
+                    (
+                        f"本批 EASM 样本共关联出 {len(assessments)} 个外部资产，当前重点风险集中在功能性域名的公网暴露、"
+                        "CDN 与直连源站并存、第三方 DNS/托管委派，以及证书层揭示的历史资产残留。"
+                    )
+                ],
+                "bullets": [],
+                "subsections": [],
+            },
+            {
+                "title": "主要依据",
+                "paragraphs": [],
+                "bullets": [
+                    f"当前样本覆盖 {surface_summary.get('asset_count', 0)} 个资产，层次分布为 {surface_summary.get('layer_counts', {})}。",
+                    *layer_findings[:4],
+                ],
+                "subsections": [],
+            },
+            {
+                "title": "重点资产评估",
+                "paragraphs": [],
+                "bullets": [
+                    f"{item.get('asset')}：{(item.get('scores') or {}).get('severity')}，标签 {', '.join(item.get('tags', [])[:4])}"
+                    for item in key_assets
+                ],
+                "subsections": [],
+            },
+        ]
+
+        return {
+            "report_title": "EASM 外部攻击面综合评估报告",
+            "report_template": "easm_asset_assessment_v1",
+            "assessment": "这批外部攻击面材料已经能够支撑按资产输出结构化风险评估，当前重点不是发现数量，而是找出功能性域名、源站暴露、第三方委派和历史资产残留之间的治理优先级。",
+            "likely_issue": bool(high_assets),
+            "verdict": "easm_asset_assessment",
+            "key_facts": [
+                f"系统已跨文件关联出 {len(assessments)} 个外部资产，其中高风险资产 {len(high_assets)} 个。",
+                f"当前至少有 {len(delegation_assets)} 个资产涉及第三方 DNS/托管委派，另有 {len(historical_assets)} 个资产只在证书层留下历史线索。",
+                f"重点资产包括：{', '.join(str(item.get('asset')) for item in key_assets[:5])}。",
+            ],
+            "probable_causes": [
+                "同一功能面同时暴露 CDN 边缘与直连源站，导致边界治理不清晰。",
+                "部分资产存在第三方委派或历史遗留托管痕迹，说明生命周期治理仍有缺口。",
+            ],
+            "why_flagged": "系统把服务、DNS、证书、IP 段和 ASN 数据做了跨文件关联，并按资产输出了事实与推断分离的外部攻击面评估结果。",
+            "report_gaps": [
+                "当前仍需补充更完整的真实原始 CSV 样本，持续校准字段映射与跨层关联逻辑。",
+                "当前结论仍偏向暴露面治理与边界复核，不能替代后续验证扫描或人工确认。",
+            ],
+            "quick_checks": [
+                "优先核实 API、Dashboard、RPC 等功能面资产是否存在直连源站暴露。",
+                "优先确认第三方 DNS/托管委派资产的所有权、必要性和下线路径。",
+                "对仅在证书层出现的历史资产继续核查 DNS、托管与证书清理状态。",
+            ],
+            "escalation_conditions": [
+                "如果后续验证确认直连源站可绕过 CDN/WAF，应升级为高优先级外部暴露问题。",
+                "如果功能性公网资产同时存在明文 HTTP、未限制回源或敏感接口，应继续升级处置。",
+            ],
+            "professional_judgment": "我的判断是：这批 EASM 材料已经足够作为资产治理和验证优先级排序的输入。当前最重要的是围绕高风险功能面资产构建后续验证计划，而不是把所有外部资产一视同仁。",
+            "structured_sections": structured_sections,
+        }
+
     def _generic_analysis(self, event: NormalizedEvent, findings: list[Finding]) -> dict[str, object]:
+        if event.source_type == "easm" or event.event_type in {"external_asset", "service_exposure", "tls_analysis", "easm_asset_assessment"}:
+            assessments = event.normalized_data.get("asset_assessments", []) if isinstance(event.normalized_data.get("asset_assessments"), list) else []
+            if event.event_type == "easm_asset_assessment" and assessments:
+                return self._easm_analysis(event, findings)
+            row_count = len(event.normalized_data.get("rows", [])) if isinstance(event.normalized_data.get("rows"), list) else int(event.normalized_data.get("row_count", 0) or 0)
+            return {
+                "report_title": "EASM 单源材料审查报告",
+                "report_template": "easm_single_source_review_v1",
+                "assessment": "这份材料属于外部攻击面单源输入，当前价值在于提供资产、端口、证书或 DNS 线索，适合纳入后续多文件关联，而不是单独给出过强结论。",
+                "likely_issue": any(f.risk_level >= 4 for f in findings),
+                "verdict": "easm_single_source_review",
+                "key_facts": [
+                    f"当前材料共包含 {row_count} 条记录，事件类型为 {event.event_type}。",
+                    "单源 EASM 输入更适合当作资产线索层，而不是最终综合评估结果。",
+                ],
+                "probable_causes": ["当前仅上传了单一层数据，尚不足以形成完整的跨层边界判断。"],
+                "why_flagged": "系统识别到这是 EASM 相关材料，因此保留为外部攻击面线索并等待进一步关联。",
+                "report_gaps": ["需要继续补充 DNS、证书、ASN、IP 段或服务层数据，才能形成更稳定的资产评估。"],
+                "quick_checks": ["建议把同一批外部资产材料一起上传，触发综合 EASM 评估。"],
+                "escalation_conditions": ["只有当多层数据形成一致边界信号时，才应升级为外部暴露治理项。"],
+                "professional_judgment": "单源 EASM 材料更适合作为后续综合分析输入，而不是独立结论。",
+            }
         if event.event_type == "integration_catalog":
             rows = event.normalized_data.get("rows", [])
             row_count = len(rows) if isinstance(rows, list) else 0
@@ -1011,6 +1107,8 @@ class ReportEngine:
     ) -> SecurityReport:
         if event.event_type == "host_baseline_assessment":
             summary = "本次分析识别出主机安全基线配置弱点，整体应按中风险治理。重点集中在文件系统隔离、临时目录配置、日志权限和不必要文件系统模块；若主机承担关键生产角色，风险应继续上调。"
+        elif event.event_type == "easm_asset_assessment":
+            summary = "本次分析输出 EASM 外部攻击面综合评估结果，重点是功能性域名、源站暴露、第三方委派与历史资产残留的治理优先级。"
         elif event.event_type == "jumpserver_multi_source_audit":
             summary = ""
         elif event.event_type == "login_auth_review":

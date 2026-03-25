@@ -41,7 +41,7 @@
 
 ### 7. 训练与参考资产
 
-- 当前暂无正式案例，后续新增样本时应同步建立案例文档。
+- 当前正式对应案例为 `training_cases/case_003_easm_multilayer/README.md`。
 
 ### 8. 当前限制
 
@@ -94,7 +94,7 @@ This Skill is routed by the Planner using `event_type` and `source_type`. When a
 
 ### 7. Training and Reference Assets
 
-- No formal case is linked yet. Future real samples should create or update a case document.
+- The formal linked case is `training_cases/case_003_easm_multilayer/README.md`.
 
 ### 8. Current Limits
 

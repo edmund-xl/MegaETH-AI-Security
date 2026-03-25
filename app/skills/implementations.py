@@ -43,6 +43,100 @@ class Skill:
         data = event.normalized_data
         blob = " ".join(str(v).lower() for v in data.values())
         findings: list[Finding] = []
+        easm_assessments = data.get("asset_assessments", []) if isinstance(data.get("asset_assessments"), list) else []
+        if event.event_type == "easm_asset_assessment" and easm_assessments:
+            high_assets = [item for item in easm_assessments if str((item.get("scores") or {}).get("severity") or "") in {"High", "Critical"}]
+            delegation_assets = [item for item in easm_assessments if "third_party_dns_delegation" in item.get("tags", [])]
+            historical_assets = [item for item in easm_assessments if "historical_asset_hint" in item.get("tags", [])]
+            origin_assets = [
+                item for item in easm_assessments
+                if "potential_origin_exposure" in item.get("tags", []) or "cdn_and_direct_origin_coexist" in item.get("tags", [])
+            ]
+            if self.skill_id == "megaeth.easm.asset_discovery":
+                findings.append(
+                    self._finding(
+                        event,
+                        4 if high_assets else 3,
+                        "external_surface_inventory",
+                        f"EASM 多文件关联后共识别 {len(easm_assessments)} 个外部资产，其中高风险资产 {len(high_assets)} 个。",
+                        evidence=[{"top_assets": [item.get("asset") for item in easm_assessments[:8]]}],
+                        recommendations=[
+                            "优先对功能性域名、历史资产和跨层重复出现的资产建立治理清单。",
+                            "把证书层、DNS 层和服务层交叉出现的资产作为长期跟踪对象。",
+                        ],
+                    )
+                )
+                return findings
+            if self.skill_id == "megaeth.easm.service_scan" and origin_assets:
+                findings.append(
+                    self._finding(
+                        event,
+                        4,
+                        "origin_exposure_risk",
+                        f"外部攻击面中发现 {len(origin_assets)} 个资产同时具备 CDN 与直连源站信号，存在潜在源站暴露风险。",
+                        evidence=[{"origin_exposure_assets": [item.get("asset") for item in origin_assets[:8]]}],
+                        recommendations=[
+                            "优先验证是否仅允许 CDN 回源，确认直连公网 IP 是否仍然必要。",
+                            "复核 API、Dashboard 和 RPC 命名资产的源站隔离策略。",
+                        ],
+                    )
+                )
+                return findings
+            if self.skill_id == "megaeth.easm.tls_analysis":
+                cert_assets = [item for item in easm_assessments if item.get("providers") or item.get("evidence")]
+                if cert_assets:
+                    findings.append(
+                        self._finding(
+                            event,
+                            3 if historical_assets else 4,
+                            "tls_and_certificate_signal",
+                            f"证书层与服务层交叉后识别出 {len(cert_assets)} 个资产存在证书生命周期或 Origin Certificate 相关信号。",
+                            evidence=[{"historical_assets": [item.get("asset") for item in historical_assets[:8]]}],
+                            recommendations=[
+                                "确认历史证书对应资产是否已完成 DNS、托管与证书侧清理。",
+                                "对 Cloudflare Origin Certificate 相关资产复核是否存在绕过 CDN 的路径。",
+                            ],
+                        )
+                    )
+                    return findings
+            if self.skill_id == "megaeth.easm.vulnerability_scan":
+                exposed_assets = [
+                    item for item in easm_assessments
+                    if "public_http_enabled" in item.get("tags", []) or "public_https_enabled" in item.get("tags", [])
+                ]
+                if exposed_assets:
+                    findings.append(
+                        self._finding(
+                            event,
+                            4 if high_assets else 3,
+                            "internet_reachable_functional_surface",
+                            f"共有 {len(exposed_assets)} 个资产具备公网协议暴露信号，功能性资产需要优先核实暴露必要性。",
+                            evidence=[{"exposed_assets": [item.get("asset") for item in exposed_assets[:8]]}],
+                            recommendations=[
+                                "优先下钻 RPC、API、Dashboard 等功能面资产，确认是否需要公网直接暴露。",
+                                "关闭不必要的明文 HTTP，或为必要暴露资产补强鉴权与访问控制。",
+                            ],
+                        )
+                    )
+                    return findings
+            if self.skill_id == "megaeth.easm.external_intelligence" and (delegation_assets or historical_assets):
+                findings.append(
+                    self._finding(
+                        event,
+                        3,
+                        "boundary_and_lifecycle_signal",
+                        f"外部情报层识别出 {len(delegation_assets)} 个第三方委派资产，以及 {len(historical_assets)} 个历史资产线索。",
+                        evidence=[
+                            {"delegation_assets": [item.get("asset") for item in delegation_assets[:6]]},
+                            {"historical_assets": [item.get("asset") for item in historical_assets[:6]]},
+                        ],
+                        recommendations=[
+                            "确认第三方 DNS/托管委派是否仍然必要，并补齐资产所有权与生命周期记录。",
+                            "把历史资产线索纳入 stale asset 治理与下线核查范围。",
+                        ],
+                    )
+                )
+                return findings
         if self.skill_id == "megaeth.cicd.pr_security_review" and any(token in blob for token in ("subprocess", "curl", "bash")):
             findings.append(self._finding(event, 4, "dangerous_code", "Potential dangerous execution flow found in supplied code or PR content."))
         elif self.skill_id == "megaeth.cicd.secret_detection" and any(token in blob for token in ("akia", "private key", "api_key", "secret")):
