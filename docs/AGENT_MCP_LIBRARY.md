@@ -48,7 +48,7 @@
 当前主线的标准执行链如下：
 
 ```text
-ingest -> normalize -> plan -> skill -> risk -> report -> retain
+ingest -> normalize -> plan -> single-source skill / composite aggregator -> risk -> report -> retain
 ```
 
 各阶段职责如下：
@@ -76,6 +76,7 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - 选择事件类型
 - 选择 Skill
 - 必要时生成综合事件
+- 判断当前输入是走单文件直达链还是多文件综合链
 
 #### 4.4 skill
 
@@ -86,15 +87,21 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - 结构化判断
 - 报告片段输入
 
-#### 4.5 risk
+#### 4.5 composite aggregator
+
+负责：
+
+- 在多文件批次中建立跨文件上下文
+- 生成综合事件
+- 为综合 Skill 提供完整输入
+#### 4.6 risk
 
 负责：
 
 - 风险分
 - 风险标签
 - 严重性和优先级收口
-
-#### 4.6 report
+#### 4.7 report
 
 负责：
 
@@ -102,8 +109,7 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - Markdown 导出
 - 段落结构统一
 - 模型增强段落收口
-
-#### 4.7 retain
+#### 4.8 retain
 
 负责：
 
@@ -185,12 +191,39 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 
 - Host baseline 材料 -> Host baseline Skills
 - JumpServer 单文件 -> 对应单文件 Skill
-- JumpServer 多文件 -> 单文件 Skills + 多源综合 Skill
+- JumpServer 多文件 -> 单文件 Skills + 聚合器 + 多源综合 Skill
 - Whitebox 材料 -> Whitebox AppSec Skills
 - EASM 单文件 -> 对应 EASM 单样本 Skill
-- EASM 多文件 -> 单样本 Skills + `easm_asset_assessment`
+- EASM 多文件 -> 单样本 Skills + 聚合器 + `easm_asset_assessment`
 
-### 7. 模型增强边界
+### 7. 单文件直达链与多文件综合链
+
+当前主线至少包含两类执行路径：
+
+#### 7.1 单文件直达链
+
+```text
+single file -> normalize -> plan -> single-source skill -> findings -> report
+```
+
+适用于：
+
+- Host baseline
+- JumpServer 单文件
+- Whitebox 单阶段输入
+- EASM 单文件
+
+#### 7.2 多文件综合链
+
+```text
+multi-file batch -> normalize -> plan -> composite aggregator -> composite event -> composite skill -> report
+```
+
+适用于：
+
+- JumpServer 多文件综合审计
+- EASM 多文件综合评估
+### 8. 模型增强边界
 
 当前系统允许受控模型增强，但边界严格受限。
 
@@ -206,8 +239,7 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - 取代事实抽取
 - 改写字段 schema
 - 决定数据去重或主键逻辑
-
-### 8. 当前已接入的代表性增强场景
+### 9. 当前已接入的代表性增强场景
 
 当前已接入的代表性场景包括：
 
@@ -219,8 +251,27 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - 规则拥有事实
 - 模型增强语言
 - 失败时回退到规则版
+### 10. JumpServer 与 EASM 的当前执行现实
 
-### 9. 当前仓库中的“Agent / MCP”现实
+#### 10.1 JumpServer
+
+当前 JumpServer 的执行现实是：
+
+- 单文件按登录、命令、文件传输、管理平面分别走单文件 Skill
+- 多文件同批次输入会经过聚合器
+- 聚合后形成多源综合事件
+- 综合报告中的高层判断可由 Gemini 增强
+
+#### 10.2 EASM
+
+当前 EASM 的执行现实是：
+
+- 服务、DNS、TLS、ASN、IP 等文件可以独立分析
+- 多文件同批次输入会经过聚合器
+- 聚合后形成 `easm_asset_assessment`
+- 综合报告中的 `assessment / professional_judgment` 可由 Gemini 增强
+
+### 11. 当前仓库中的“Agent / MCP”现实
 
 尽管历史文档曾使用过更广的 `Agent / MCP` 说法，但在当前主线里，真正保留下来的现实是：
 
@@ -233,8 +284,7 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - 接入面负责输入
 - 主分析链负责分类与 Skill 执行
 - 模型增强只作为报告层补充
-
-### 10. 接入与执行治理规则
+### 12. 接入与执行治理规则
 
 新增输入源或执行能力时，必须同步完成：
 
@@ -246,8 +296,7 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - 导出验证
 - 测试
 - 文档
-
-### 11. 当前已知风险
+### 13. 当前已知风险
 
 当前接入与执行链的高风险点包括：
 
@@ -256,8 +305,9 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - 综合输入没有正确落到综合 Skill
 - 页面与导出结构不一致
 - 能力变更没有同步更新文档
-
-### 12. 结论
+- 聚合器没有正确形成综合事件
+- 模型增强越界到事实层
+### 14. 结论
 
 当前接入与执行能力体系的正确理解方式是：
 
@@ -266,6 +316,7 @@ ingest -> normalize -> plan -> skill -> risk -> report -> retain
 - Skill 负责领域能力
 - 模型只增强允许增强的段落
 - 所有变化都必须通过训练、测试和文档沉淀下来
+- 当前主线同时支持单文件直达执行链与多文件综合执行链
 
 ---
 
