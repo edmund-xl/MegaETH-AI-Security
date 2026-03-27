@@ -386,6 +386,15 @@ History 与 Learning 负责：
 - 前端为静态工作台
 - 后端为 FastAPI
 - 主要持久化仍为本地 JSON 和压缩归档
+- 长期运行成本主要依靠摘要接口与轻缓存控制
+
+当前已经落地的性能约束包括：
+
+- 历史主数据文件带硬上限与保留窗口
+- `/history` 只返回数量和最近时间等摘要，不再返回完整历史数组
+- JSON 文件读取带进程内缓存，未变化文件不会被重复解析
+- `training_cases/` 到 Skill 的映射带缓存，避免概览和技能页反复扫描目录
+- 学习页只请求仍然可见的反馈面板数据，不再请求已移除的规则面板
 
 这意味着当前系统适合：
 
@@ -545,6 +554,15 @@ The system remains local-first and file-backed:
 - static frontend workbench
 - FastAPI backend
 - local JSON and compressed archives as the primary persistence model
+- long-running cost is controlled mainly through summary endpoints and lightweight caches
+
+The performance controls already in place include:
+
+- bounded retention and hard caps for primary history files
+- `/history` returns counts and latest timestamps instead of full history arrays
+- JSON file reads use in-process caching so unchanged files are not repeatedly parsed
+- the `training_cases/` to Skill index is cached to avoid rescanning on overview and skills requests
+- the learning view only requests the still-visible feedback panel instead of querying a removed rules panel
 
 It is suitable for:
 

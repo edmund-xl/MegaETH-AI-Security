@@ -22,6 +22,7 @@
 - 默认端口：`8011`
 - 健康检查：`/health`
 - 主要概览接口：`/pipeline/overview`
+- 历史摘要接口：`/history`
 - 主要测试入口：`tests/test_api.py`
 
 ### 4. 当前已确认能力
@@ -81,7 +82,19 @@ EASM 当前已经具备：
 - 能力变化必须同步更新文档
 - 本地主线与 GitHub 主线保持一致
 
-### 9. 当前交接结论
+### 9. 当前性能基线
+
+当前性能基线已经明确包含：
+
+- 历史数据有硬上限与保留窗口
+- `/history` 返回摘要而非完整历史数组
+- JSON 文件读取带进程内缓存
+- Skill 训练案例索引带缓存
+- 学习页不会再为已删除的规则面板发起请求
+
+这意味着当前主线适合长期本地运行，但尚不等同于数据库级无限扩展架构。
+
+### 10. 当前交接结论
 
 如果今天开始接手项目，应默认理解：
 
@@ -116,6 +129,7 @@ The current local runtime baseline is:
 - default port: `8011`
 - health endpoint: `/health`
 - overview endpoint: `/pipeline/overview`
+- history summary endpoint: `/history`
 - regression entry: `tests/test_api.py`
 
 ### 4. Confirmed Capabilities
@@ -175,7 +189,19 @@ Current maintenance must preserve:
 - document updates alongside capability changes
 - alignment between local mainline and GitHub mainline
 
-### 9. Status Summary
+### 9. Performance Baseline
+
+The current performance baseline explicitly includes:
+
+- bounded retention and hard caps for history data
+- `/history` returns summary data instead of full history arrays
+- JSON file reads use an in-process cache
+- the Skill training-case index is cached
+- the learning view no longer requests data for the removed rules panel
+
+This means the current mainline is suitable for sustained local use, but it is not yet a database-backed architecture designed for unbounded growth.
+
+### 10. Status Summary
 
 Anyone taking over the project today should assume:
 

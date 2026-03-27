@@ -186,7 +186,25 @@ curl http://127.0.0.1:8011/health
 PORT=8011 ./stop.sh
 ```
 
-### 9. 目录结构
+### 9. 性能与长期运行说明
+
+当前系统仍然是本地优先、JSON 文件驱动的实现，但已经做了几层明确的性能约束，避免随着历史数据增长自然退化：
+
+- 历史主数据文件带数量上限和保留窗口
+- `/history` 只返回摘要，不再把完整历史数组传给前端
+- JSON 读取带进程内缓存，未变化文件不会被重复解析
+- Skill 训练案例索引带缓存，避免反复全量扫描 `training_cases/`
+- 学习页不再为已删除的“学习规则”面板发起无意义请求
+
+这意味着当前系统适合长期作为本地分析工作台持续运行。需要明确的是，当前稳定性来自“文件驱动 + 有界历史 + 摘要接口 + 轻缓存”的组合，而不是来自数据库级无限扩展能力。
+
+如果后续样本量、报告量或历史保留要求显著上升，下一步应优先升级：
+
+- `reports / history / memory` 的持久化层
+- 列表与详情分离的接口模型
+- 更适合持续增长的数据库存储
+
+### 10. 目录结构
 
 ```text
 MegaETH-AI-Security/
@@ -203,7 +221,7 @@ MegaETH-AI-Security/
 └── requirements.txt
 ```
 
-### 10. 文档导航
+### 11. 文档导航
 
 核心文档入口如下：
 
@@ -217,7 +235,7 @@ MegaETH-AI-Security/
 - [当前状态](docs/STATUS.md)
 - [交接文档](docs/HANDOFF.md)
 
-### 11. 开发与变更要求
+### 12. 开发与变更要求
 
 每次有效能力变更，至少必须同步以下内容：
 
@@ -233,7 +251,7 @@ MegaETH-AI-Security/
 - 分类边界要求
 - 报告结构要求
 
-### 12. 维护边界
+### 13. 维护边界
 
 后续维护必须遵守以下边界：
 
@@ -423,7 +441,25 @@ Expected response:
 PORT=8011 ./stop.sh
 ```
 
-### 9. Repository Structure
+### 9. Performance and Long-Running Behavior
+
+The current system is still a local-first, JSON-backed implementation, but it already applies explicit performance constraints so the runtime does not naturally degrade as history grows:
+
+- history data files have bounded retention and record caps
+- `/history` returns summary data instead of full history arrays
+- JSON reads use in-process caching so unchanged files are not repeatedly parsed
+- Skill training-case indexing is cached to avoid rescanning `training_cases/` on each overview or skills request
+- the learning view no longer issues pointless requests for the removed rules panel
+
+This means the current system is suitable for sustained local use as an analysis workbench. The stability comes from bounded file-backed storage, summary-oriented endpoints, and lightweight caches rather than from unbounded database-scale architecture.
+
+If sample volume, report volume, or retention requirements grow materially, the next upgrades should prioritize:
+
+- persistent storage for `reports / history / memory`
+- separating summary and detail API shapes
+- database-backed storage designed for steady growth
+
+### 10. Repository Structure
 
 ```text
 MegaETH-AI-Security/
@@ -440,7 +476,7 @@ MegaETH-AI-Security/
 └── requirements.txt
 ```
 
-### 10. Documentation Index
+### 11. Documentation Index
 
 - [System Design](docs/SYSTEM_DESIGN.md)
 - [Architecture](docs/architecture.md)
@@ -452,7 +488,7 @@ MegaETH-AI-Security/
 - [Status](docs/STATUS.md)
 - [Handoff](docs/HANDOFF.md)
 
-### 11. Development Rules
+### 12. Development Rules
 
 Every meaningful capability change must update:
 
@@ -468,7 +504,7 @@ Sample-driven training should ideally include:
 - classification boundaries
 - report-structure expectations
 
-### 12. Maintenance Boundaries
+### 13. Maintenance Boundaries
 
 Ongoing maintenance must preserve these boundaries:
 

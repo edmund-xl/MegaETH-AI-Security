@@ -180,7 +180,24 @@ PYTHONPATH=. .venv/bin/pytest tests/test_api.py -q
 node --check app/static/app.js
 ```
 
-### 14. 运行维护规则
+### 14. 性能与运行稳定性检查
+
+当前主线的长期运行稳定性主要依靠以下机制：
+
+- 历史文件有硬上限与保留窗口
+- `/history` 只返回摘要，不返回完整历史数组
+- JSON 文件读取带进程内缓存
+- Skill 训练案例索引带缓存
+- 学习页只加载仍然可见的反馈面板
+
+当系统出现“越跑越慢”的怀疑时，优先检查：
+
+1. `data/` 是否被手工放大或破坏了保留规则
+2. `/history` 是否仍返回摘要结构
+3. `training_cases/` 是否被扩展到异常大的 README 扫描面
+4. 前端是否重新引入了无意义请求
+
+### 15. 运行维护规则
 
 运行维护必须遵守：
 
@@ -190,7 +207,7 @@ node --check app/static/app.js
 - 静态资源改动必须同步提升 JS/CSS 版本
 - 能力变化必须同步更新文档
 
-### 15. 结论
+### 16. 结论
 
 当前运行手册最重要的原则是：
 
@@ -338,7 +355,24 @@ Frontend syntax check:
 node --check app/static/app.js
 ```
 
-### 14. Operational Rules
+### 14. Performance and Runtime Stability Checks
+
+Long-running stability in the current mainline depends on the following controls:
+
+- history files have bounded retention and hard caps
+- `/history` returns summary data instead of full history arrays
+- JSON reads use an in-process cache
+- the Skill training-case index is cached
+- the learning view only loads the still-visible feedback panel
+
+When the system appears slower over time, check these first:
+
+1. whether `data/` has been manually enlarged or retention behavior has been broken
+2. whether `/history` still returns summary-shaped data
+3. whether `training_cases/` has grown into an unexpectedly large README scan surface
+4. whether the frontend has reintroduced unnecessary requests
+
+### 15. Operational Rules
 
 Operational maintenance must preserve:
 
@@ -348,7 +382,7 @@ Operational maintenance must preserve:
 - synchronized JS/CSS cache-busting
 - documentation updates alongside capability changes
 
-### 15. Summary
+### 16. Summary
 
 The most important operational rule is:
 
