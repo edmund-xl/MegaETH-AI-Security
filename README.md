@@ -234,6 +234,7 @@ MegaETH-AI-Security/
 - [运行手册](docs/runbook.md)
 - [当前状态](docs/STATUS.md)
 - [交接文档](docs/HANDOFF.md)
+- [CI/CD 日志采集规范](docs/CICD_LOG_COLLECTION_SPEC.md)
 
 ### 12. 开发与变更要求
 
@@ -487,6 +488,7 @@ MegaETH-AI-Security/
 - [Runbook](docs/runbook.md)
 - [Status](docs/STATUS.md)
 - [Handoff](docs/HANDOFF.md)
+- [CI/CD Log Collection Specification](docs/CICD_LOG_COLLECTION_SPEC.md)
 
 ### 12. Development Rules
 
