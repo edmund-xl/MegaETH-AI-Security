@@ -33,6 +33,7 @@
 
 - `node --check app/static/app.js`
 - `pytest tests/test_api.py -q`
+- `python3 scripts/audit_docs.py`
 - 关键样本烟测
 
 ### 5. 文档与同步
@@ -76,6 +77,7 @@ Before release, complete at least:
 
 - `node --check app/static/app.js`
 - `pytest tests/test_api.py -q`
+- `python3 scripts/audit_docs.py`
 - a smoke run on representative samples
 
 ### 5. Documentation and Sync

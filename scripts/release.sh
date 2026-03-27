@@ -32,6 +32,7 @@ done
 mkdir -p "${ARCHIVE_DIR}"
 
 "${ROOT_DIR}/.venv/bin/python" -m pytest -q
+"${ROOT_DIR}/scripts/audit_docs.py"
 
 BACKUP_PATH="$("${ROOT_DIR}/scripts/backup.sh")"
 
