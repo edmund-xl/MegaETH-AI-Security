@@ -2782,6 +2782,7 @@ async function loadSkills() {
 }
 
 async function loadMemoryRules() {
+  if (!document.getElementById("memory-rules-output")) return;
   renderMemoryRules(await request("/memory/rules"));
 }
 
