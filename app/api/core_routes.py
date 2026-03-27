@@ -65,7 +65,7 @@ def memory_rules():
 
 @router.get("/memory/feedback")
 def memory_feedback():
-    return pipeline.memory.list_feedback()
+    return pipeline.memory.feedback_summary()
 
 
 @router.post("/memory/learn/classification")

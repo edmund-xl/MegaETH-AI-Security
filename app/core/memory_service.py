@@ -22,6 +22,22 @@ class MemoryService:
     def list_feedback(self) -> list[dict[str, Any]]:
         return self.store.list_records(MEMORY_FEEDBACK_FILE, limit=200)
 
+    def feedback_summary(self) -> list[dict[str, Any]]:
+        items = self.store.list_records(MEMORY_FEEDBACK_FILE, limit=30)
+        return [
+            {
+                "feedback_id": item.get("feedback_id"),
+                "name": item.get("name"),
+                "filename": item.get("filename"),
+                "expected_source_type": item.get("expected_source_type"),
+                "expected_event_type": item.get("expected_event_type"),
+                "preferred_skills": item.get("preferred_skills") or [],
+                "notes": item.get("notes") or "",
+                "created_at": item.get("created_at"),
+            }
+            for item in items
+        ]
+
     def _tokenize(self, value: str) -> list[str]:
         token = []
         tokens: list[str] = []

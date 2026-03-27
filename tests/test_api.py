@@ -414,3 +414,18 @@ def test_recent_reports_endpoint_returns_summary_shape() -> None:
     assert "skills_selected" in sample
     assert "findings" not in sample
     assert "structured_sections" not in sample
+
+
+def test_memory_feedback_endpoint_returns_summary_shape() -> None:
+    body = client.get("/memory/feedback").json()
+    if not body:
+        return
+    sample = body[0]
+    assert "feedback_id" in sample
+    assert "filename" in sample
+    assert "expected_source_type" in sample
+    assert "expected_event_type" in sample
+    assert "preferred_skills" in sample
+    assert "created_at" in sample
+    assert "raw_event" not in sample
+    assert "payload" not in sample
