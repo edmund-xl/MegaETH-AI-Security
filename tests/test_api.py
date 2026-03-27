@@ -401,3 +401,16 @@ def test_history_endpoint_returns_summary_shape() -> None:
     assert "investigations_count" in body
     assert "events" not in body
     assert "reports" not in body
+
+
+def test_recent_reports_endpoint_returns_summary_shape() -> None:
+    body = client.get("/reports/recent").json()
+    if not body:
+        return
+    sample = body[0]
+    assert "report_title" in sample
+    assert "summary" in sample
+    assert "finding_count" in sample
+    assert "skills_selected" in sample
+    assert "findings" not in sample
+    assert "structured_sections" not in sample

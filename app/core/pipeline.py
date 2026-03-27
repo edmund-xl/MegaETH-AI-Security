@@ -170,10 +170,32 @@ class SecurityPipeline:
 
     def recent(self) -> list[dict]:
         if self.recent_reports:
-            return [report.model_dump(mode="json") for report in self.recent_reports]
+            return [self._report_summary(report.model_dump(mode="json")) for report in self.recent_reports]
         reports = self.history.list_reports()
         ordered = sorted(reports, key=lambda item: item.get("generated_at", ""), reverse=True)
-        return self._dedupe_recent_reports(ordered)[:30]
+        return [self._report_summary(report) for report in self._dedupe_recent_reports(ordered)[:30]]
+
+    def _report_summary(self, report: dict) -> dict:
+        findings = report.get("findings") or []
+        return {
+            "event_id": report.get("event_id"),
+            "event_type": report.get("event_type"),
+            "source_type": report.get("source_type"),
+            "report_title": report.get("report_title"),
+            "report_template": report.get("report_template"),
+            "summary": report.get("summary"),
+            "assessment": report.get("assessment"),
+            "professional_judgment": report.get("professional_judgment"),
+            "verdict": report.get("verdict"),
+            "skills_selected": report.get("skills_selected") or [],
+            "top_risk_level": report.get("top_risk_level"),
+            "top_risk_label": report.get("top_risk_label"),
+            "overall_risk_score": report.get("overall_risk_score"),
+            "generated_at": report.get("generated_at"),
+            "created_at": report.get("created_at"),
+            "execution_mode": report.get("execution_mode"),
+            "finding_count": len(findings),
+        }
 
     def _dedupe_recent_reports(self, reports: list[dict]) -> list[dict]:
         deduped: list[dict] = []

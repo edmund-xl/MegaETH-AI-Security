@@ -2404,13 +2404,13 @@ function localizedRecentReportTitle(report) {
 }
 
 function localizedRecentReportCopy(report) {
+  const findingCount = Number(report.finding_count ?? ((report.findings || []).length || 0));
   if (uiState.language === "zh") {
     return report.professional_judgment || report.assessment || report.summary || "暂无摘要。";
   }
-  const findings = (report.findings || []).length;
   const risk = String(report.top_risk_label || "info").toLowerCase();
   const mode = executionModeLabel(report.execution_mode || "rule_only");
-  const generic = `This report is currently classified as ${risk} risk, with ${findings} finding(s), generated via ${mode}.`;
+  const generic = `This report is currently classified as ${risk} risk, with ${findingCount} finding(s), generated via ${mode}.`;
   const byEvent = {
     login_auth_review: `This login audit highlights authentication outcomes and surrounding access context. Treat it as access evidence, not proof of compromise by itself. ${generic}`,
     jumpserver_command_review: `This command audit focuses on privileged execution, service control, remote operations, downloads, and binary execution patterns. ${generic}`,
@@ -2448,7 +2448,7 @@ function renderReports(reports) {
     [
       [uiState.language === "zh" ? "风险级别" : "Risk level", report.top_risk_label || "info"],
       [uiState.language === "zh" ? "风险分数" : "Risk score", String(report.overall_risk_score ?? 0)],
-      [uiState.language === "zh" ? "发现数量" : "Finding count", String((report.findings || []).length)],
+      [uiState.language === "zh" ? "发现数量" : "Finding count", String(report.finding_count ?? (report.findings || []).length ?? 0)],
       [uiState.language === "zh" ? "报告时间" : "Reported at", formatTime(report.generated_at || report.created_at)],
     ].forEach(([label, value]) => {
       const tile = el("div", "kpi-tile");
