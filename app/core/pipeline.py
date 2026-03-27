@@ -32,6 +32,7 @@ class SecurityPipeline:
         self.report_engine = ReportEngine(self.agent_model_binding)
         self.recent_reports: deque[SecurityReport] = deque(maxlen=30)
         self.metrics = {"events_processed": 0, "findings_generated": 0, "last_event_at": None}
+        self._training_index_cache: tuple[float, dict[str, list[str]]] | None = None
         self._restore_runtime_state()
 
     def _restore_runtime_state(self) -> None:
@@ -77,12 +78,17 @@ class SecurityPipeline:
 
     def _training_case_index(self) -> dict[str, list[str]]:
         case_root = Path(__file__).resolve().parents[2] / "training_cases"
+        readmes = sorted(case_root.glob("case_*/README.md"))
+        cache_key = max((path.stat().st_mtime for path in readmes), default=0.0)
+        if self._training_index_cache and self._training_index_cache[0] == cache_key:
+            return self._training_index_cache[1]
         skill_to_cases: dict[str, list[str]] = {}
-        for readme in sorted(case_root.glob("case_*/README.md")):
+        for readme in readmes:
             case_id = readme.parent.name
             content = readme.read_text(encoding="utf-8")
             for skill_id in sorted(set(re.findall(r"`(megaeth\.[^`]+)`", content))):
                 skill_to_cases.setdefault(skill_id, []).append(case_id)
+        self._training_index_cache = (cache_key, skill_to_cases)
         return skill_to_cases
 
     def skill_matrix(self) -> dict[str, list[dict]]:

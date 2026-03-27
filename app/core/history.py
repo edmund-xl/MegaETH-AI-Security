@@ -274,3 +274,23 @@ class HistoryService:
     def list_investigations(self) -> list[dict]:
         items = self.store.list_records(INVESTIGATIONS_FILE, limit=30)
         return [self._normalize_investigation(item) for item in items]
+
+    def summary(self) -> dict:
+        events = self.store.summary(EVENTS_FILE)
+        raw_events = self.store.summary(RAW_EVENTS_FILE)
+        reports = self.store.summary(REPORTS_FILE)
+        investigations = self.store.summary(INVESTIGATIONS_FILE)
+        latest_event = (events.get("latest") or {}).get("normalized_event", {})
+        latest_raw = raw_events.get("latest") or {}
+        latest_report = reports.get("latest") or {}
+        latest_investigation = investigations.get("latest") or {}
+        return {
+            "events_count": events.get("count", 0),
+            "raw_events_count": raw_events.get("count", 0),
+            "reports_count": reports.get("count", 0),
+            "investigations_count": investigations.get("count", 0),
+            "latest_event_at": latest_event.get("timestamp") or (events.get("latest") or {}).get("created_at"),
+            "latest_raw_event_at": latest_raw.get("timestamp") or latest_raw.get("created_at"),
+            "latest_report_at": latest_report.get("generated_at") or latest_report.get("created_at"),
+            "latest_investigation_at": latest_investigation.get("created_at"),
+        }

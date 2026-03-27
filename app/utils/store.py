@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from copy import deepcopy
 from pathlib import Path
 from typing import Any
 from datetime import datetime, timedelta, timezone
@@ -25,6 +26,8 @@ FILE_CONFIG: dict[Path, dict[str, Any]] = {
     MEMORY_FEEDBACK_FILE: {"timestamp_paths": ["created_at"], "limit": 200},
 }
 
+_READ_CACHE: dict[Path, tuple[int, int, list[dict[str, Any]]]] = {}
+
 
 def ensure_dir() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -35,7 +38,13 @@ def read_json(path: Path) -> list[dict[str, Any]]:
     if not path.exists():
         return []
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        stat = path.stat()
+        cached = _READ_CACHE.get(path)
+        if cached and cached[0] == stat.st_mtime_ns and cached[1] == stat.st_size:
+            return deepcopy(cached[2])
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        _READ_CACHE[path] = (stat.st_mtime_ns, stat.st_size, payload)
+        return deepcopy(payload)
     except json.JSONDecodeError:
         return []
 
@@ -43,6 +52,8 @@ def read_json(path: Path) -> list[dict[str, Any]]:
 def write_json(path: Path, payload: list[dict[str, Any]]) -> None:
     ensure_dir()
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    stat = path.stat()
+    _READ_CACHE[path] = (stat.st_mtime_ns, stat.st_size, deepcopy(payload))
 
 
 def _parse_datetime(value: str | None) -> datetime | None:
@@ -98,3 +109,14 @@ class JsonFileStore:
         if data != original:
             write_json(path, data)
         return data[:limit]
+
+    def summary(self, path: Path) -> dict[str, Any]:
+        original = read_json(path)
+        data = prune_records(path, original)
+        if data != original:
+            write_json(path, data)
+        latest = data[0] if data else None
+        return {
+            "count": len(data),
+            "latest": latest,
+        }

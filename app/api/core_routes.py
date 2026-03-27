@@ -55,12 +55,7 @@ def investigations():
 
 @router.get("/history")
 def history():
-    return {
-        "events": pipeline.history.list_events(),
-        "raw_events": pipeline.history.list_raw_events(),
-        "reports": pipeline.history.list_reports(),
-        "investigations": pipeline.history.list_investigations(),
-    }
+    return pipeline.history.summary()
 
 
 @router.get("/memory/rules")

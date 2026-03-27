@@ -486,6 +486,11 @@ const uiState = {
   memoryFeedback: [],
   bitdefender: null,
   language: "zh",
+  loadedViews: {
+    overview: false,
+    skills: false,
+    memory: false,
+  },
 };
 
 const expandedSkillModules = new Set();
@@ -788,6 +793,24 @@ function setView(view) {
   localStorage.setItem(storageKeys.activeView, view);
   if (window.location.hash !== `#${view}`) {
     window.history.replaceState(null, "", `#${view}`);
+  }
+  ensureViewData(view);
+}
+
+async function ensureViewData(view) {
+  if (view === "overview" && !uiState.loadedViews.overview) {
+    uiState.loadedViews.overview = true;
+    await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory()]);
+    return;
+  }
+  if (view === "skills" && !uiState.loadedViews.skills) {
+    uiState.loadedViews.skills = true;
+    await loadSkills();
+    return;
+  }
+  if (view === "memory" && !uiState.loadedViews.memory) {
+    uiState.loadedViews.memory = true;
+    await Promise.all([loadMemoryRules(), loadMemoryFeedback()]);
   }
 }
 
@@ -2532,19 +2555,22 @@ function renderHistory(data) {
   uiState.history = data;
   const root = document.getElementById("history-output");
   root.innerHTML = "";
-  const reports = data.reports || [];
-  const events = data.events || [];
-  const rawEvents = data.raw_events || [];
-  const investigations = data.investigations || [];
+  const reportsCount = Number(data.reports_count ?? ((data.reports || []).length || 0));
+  const eventsCount = Number(data.events_count ?? ((data.events || []).length || 0));
+  const rawEventsCount = Number(data.raw_events_count ?? ((data.raw_events || []).length || 0));
+  const investigationsCount = Number(data.investigations_count ?? ((data.investigations || []).length || 0));
+  const latestEventAt = data.latest_event_at || data.events?.[0]?.normalized_event?.timestamp || data.events?.[0]?.created_at;
+  const latestRawEventAt = data.latest_raw_event_at || data.raw_events?.[0]?.timestamp || data.raw_events?.[0]?.created_at;
+  const latestReportAt = data.latest_report_at || data.reports?.[0]?.generated_at || data.reports?.[0]?.created_at;
   const card = el("article", "history-card");
   card.appendChild(el("h4", "", t("ui").historySummaryTitle));
   card.appendChild(el("p", "card-copy", t("ui").historySummaryCopy));
   const meta = el("div", "meta-grid");
   [
-    [uiState.language === "zh" ? "标准化事件" : "Normalized events", String(events.length)],
-    [uiState.language === "zh" ? "原始输入" : "Raw inputs", String(rawEvents.length)],
-    [uiState.language === "zh" ? "报告记录" : "Reports", String(reports.length)],
-    [uiState.language === "zh" ? "调查会话" : "Investigations", String(investigations.length)],
+    [uiState.language === "zh" ? "标准化事件" : "Normalized events", String(eventsCount)],
+    [uiState.language === "zh" ? "原始输入" : "Raw inputs", String(rawEventsCount)],
+    [uiState.language === "zh" ? "报告记录" : "Reports", String(reportsCount)],
+    [uiState.language === "zh" ? "调查会话" : "Investigations", String(investigationsCount)],
   ].forEach(([label, value]) => {
     const item = el("div", "meta-item");
     item.appendChild(el("span", "meta-label", label));
@@ -2553,9 +2579,9 @@ function renderHistory(data) {
   });
   card.appendChild(meta);
   const compact = el("div", "compact-meta");
-  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近事件：${formatTime(events[0]?.normalized_event?.timestamp || events[0]?.created_at)}` : `Latest event: ${formatTime(events[0]?.normalized_event?.timestamp || events[0]?.created_at)}`));
-  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近输入：${formatTime(rawEvents[0]?.timestamp || rawEvents[0]?.created_at)}` : `Latest intake: ${formatTime(rawEvents[0]?.timestamp || rawEvents[0]?.created_at)}`));
-  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近报告：${formatTime(reports[0]?.generated_at || reports[0]?.created_at)}` : `Latest report: ${formatTime(reports[0]?.generated_at || reports[0]?.created_at)}`));
+  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近事件：${formatTime(latestEventAt)}` : `Latest event: ${formatTime(latestEventAt)}`));
+  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近输入：${formatTime(latestRawEventAt)}` : `Latest intake: ${formatTime(latestRawEventAt)}`));
+  compact.appendChild(el("span", "compact-stat", uiState.language === "zh" ? `最近报告：${formatTime(latestReportAt)}` : `Latest report: ${formatTime(latestReportAt)}`));
   card.appendChild(compact);
   root.appendChild(card);
 }
@@ -2799,7 +2825,10 @@ async function importBitdefender(endpoint, statusCopy) {
     document.getElementById("intake-status").textContent = uiState.language === "zh" ? "Bitdefender 数据已导入平台并完成分析。" : "Bitdefender data has been imported into the platform and analyzed.";
     setView("intake");
   }
-  await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory(), loadMemoryRules(), loadMemoryFeedback()]);
+  await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory()]);
+  if (uiState.loadedViews.memory) {
+    await Promise.all([loadMemoryRules(), loadMemoryFeedback()]);
+  }
   renderBitdefender(uiState.bitdefender);
 }
 
@@ -2817,7 +2846,6 @@ async function previewNormalize() {
   renderNormalizeOutput(data);
   document.getElementById("intake-status").textContent = uiState.language === "zh" ? "归一化预览已生成。" : "Normalization preview is ready.";
   setHealth(healthText("healthy"), "idle");
-  await Promise.all([loadMemoryRules(), loadMemoryFeedback()]);
   return data;
 }
 
@@ -2862,7 +2890,10 @@ async function analyzeRaw() {
       }
       document.getElementById("intake-status").textContent = uploadStatusText(data);
       setHealth(healthText("healthy"), "idle");
-      await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory(), loadMemoryRules(), loadMemoryFeedback()]);
+      await Promise.all([loadOverview(), loadReports(), loadInvestigations(), loadHistory()]);
+      if (uiState.loadedViews.memory) {
+        await Promise.all([loadMemoryRules(), loadMemoryFeedback()]);
+      }
       return;
     }
     const rawText = document.getElementById("raw-input").value.trim();
@@ -2883,7 +2914,10 @@ async function analyzeRaw() {
     renderReport(report);
     document.getElementById("intake-status").textContent = uiState.language === "zh" ? "分析已完成。" : "Analysis completed.";
     setHealth(healthText("healthy"), "idle");
-    await Promise.all([loadOverview(), loadReports(), loadHistory(), loadMemoryRules(), loadMemoryFeedback()]);
+    await Promise.all([loadOverview(), loadReports(), loadHistory()]);
+    if (uiState.loadedViews.memory) {
+      await Promise.all([loadMemoryRules(), loadMemoryFeedback()]);
+    }
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     document.getElementById("intake-status").textContent =
@@ -3024,11 +3058,5 @@ renderFileRuns(null);
 document.getElementById("intake-status").textContent = t("ui").ready;
 applyLanguage();
 loadHealth();
-loadOverview();
-loadReports();
-loadInvestigations();
-loadHistory();
-loadSkills();
-loadMemoryRules();
-loadMemoryFeedback();
+setView(currentViewFromLocation());
 window.addEventListener("hashchange", () => setView(currentViewFromLocation()));

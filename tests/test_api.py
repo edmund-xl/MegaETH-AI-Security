@@ -391,3 +391,13 @@ def test_store_prunes_history_older_than_two_days() -> None:
     }
     pruned = prune_records(REPORTS_FILE, [fresh, stale])
     assert [item["event_id"] for item in pruned] == ["evt-fresh"]
+
+
+def test_history_endpoint_returns_summary_shape() -> None:
+    body = client.get("/history").json()
+    assert "events_count" in body
+    assert "raw_events_count" in body
+    assert "reports_count" in body
+    assert "investigations_count" in body
+    assert "events" not in body
+    assert "reports" not in body
